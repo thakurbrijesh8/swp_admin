@@ -129,7 +129,7 @@ class Utility_lib {
         $endDate = new DateTime(date('d-m-Y'));
         while ($startDate <= $endDate) {
             $timestamp = strtotime($startDate->format('d-m-Y'));
-            if (isset($hdl_array[$working_days][$timestamp])) {
+            if (isset($hdl_array[$timestamp])) {
                 $total_holiday += 1;
             } else {
                 $total_working_days += 1;
