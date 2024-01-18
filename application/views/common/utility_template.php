@@ -75,6 +75,9 @@
 <?php $this->load->view('common/m_other_doc_list'); ?>
 </script>
 <script type="text/x-handlebars-template" id="m_other_doc_item_view_template">
-    <?php $this->load->view('common/m_other_doc_item_view'); ?>
+<?php $this->load->view('common/m_other_doc_item_view'); ?>
+</script>
+<script type="text/x-handlebars-template" id="feedback_rating_template">
+<?php $this->load->view('common/feedback_rating'); ?>
 </script>
 <!--------------------------------  Template definitions end -------------------------------------------->

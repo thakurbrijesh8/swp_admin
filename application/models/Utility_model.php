@@ -218,6 +218,15 @@ class Utility_model extends CI_Model {
         return $resc->result_array();
     }
 
+    function get_details_for_feedback_rating($qm_data, $module_id) {
+        $this->db->select($qm_data['key_id_text'] . " AS module_id, rating, feedback, fr_datetime");
+        $this->db->where($qm_data['key_id_text'], $module_id);
+        $this->db->where_in('status', array(VALUE_FIVE, VALUE_SIX));
+        $this->db->where('is_delete != ' . IS_DELETE);
+        $this->db->from($qm_data['tbl_text']);
+        $resc = $this->db->get();
+        return $resc->row_array();
+    }
 }
 
 /*

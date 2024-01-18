@@ -39,6 +39,7 @@
             var mDocItemViewTemplate = Handlebars.compile($('#m_doc_item_view_template').html());
             var mOtherDocListTemplate = Handlebars.compile($('#m_other_doc_list_template').html());
             var mOtherDocItemViewTemplate = Handlebars.compile($('#m_other_doc_item_view_template').html());
+            var feedbackRatingTemplate = Handlebars.compile($('#feedback_rating_template').html());
             var iconSpinnerTemplate = spinnerTemplate({'type': 'light', 'extra_class': 'spinner-border-small'});
             var IS_DEACTIVE = <?php echo IS_DEACTIVE ?>;
             var IS_DELETE = <?php echo IS_DELETE ?>;
@@ -268,6 +269,8 @@
             var diuVillagesArray = <?php echo json_encode($this->config->item('diu_village_array')); ?>;
             var dnhVillagesArray = <?php echo json_encode($this->config->item('dnh_village_array')); ?>;
             var moduleDocArray = <?php echo json_encode($this->config->item('module_doc_array')); ?>;
+
+            var ratingArray = <?php echo json_encode($this->config->item('rating_array')); ?>;
 
             var tempStateData = [];
             var tempDistrictData = [];

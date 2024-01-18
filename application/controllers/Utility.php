@@ -230,7 +230,6 @@ class Utility extends CI_Controller {
 
             $ex_data = $this->utility_model->get_user_data_for_query_management($temp_access_data['key_id_text'], $module_id, $temp_access_data['tbl_text']);
 
-
             $query_movements = '';
             $qm_data = $this->utility_model->get_result_data_by_ids('module_id', $module_id, 'query', 'module_type', $module_type, 'query_id', 'ASC');
             if (!empty($qm_data)) {
@@ -428,12 +427,12 @@ class Utility extends CI_Controller {
                     return;
                 }
             }
-    //        if ($ex_module_data['status'] == VALUE_FOUR || $ex_module_data['status'] == VALUE_EIGHT) {
-    //            
-    //        } else {
-    //            echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-    //            return;
-    //        }
+            //        if ($ex_module_data['status'] == VALUE_FOUR || $ex_module_data['status'] == VALUE_EIGHT) {
+            //            
+            //        } else {
+            //            echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+            //            return;
+            //        }
             $update_data = array();
             $update_data['status'] = VALUE_SEVEN;
             $update_data['updated_by'] = $session_user_id;
@@ -928,6 +927,49 @@ class Utility extends CI_Controller {
         }
     }
 
+    function get_basic_details_for_feedback_rating() {
+        try {
+            if (!is_ajax()) {
+                header("Location:" . base_url() . "login");
+                return false;
+            }
+            if (!is_authenticated()) {
+                echo json_encode(get_logout_array());
+                return false;
+            }
+            $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
+            $module_type = get_from_post('module_type');
+            $module_id = get_from_post('module_id');
+            if (!is_post() || $session_user_id == null || !$session_user_id || !$module_type || $module_type == NULL ||
+                    !$module_id || $module_id == NULL) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $query_module_array = $this->config->item('query_module_array');
+            if (!isset($query_module_array[$module_type])) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $qm_data = $query_module_array[$module_type];
+            $this->db->trans_start();
+            $ex_data = $this->utility_model->get_details_for_feedback_rating($qm_data, $module_id);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
+            if (empty($ex_data)) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return;
+            }
+            $success_array = get_success_array();
+            $success_array['fr_data'] = $ex_data;
+            echo json_encode($success_array);
+        } catch (\Exception $e) {
+            echo json_encode(get_error_array($e->getMessage()));
+            return false;
+        }
+    }
 }
 
 /*

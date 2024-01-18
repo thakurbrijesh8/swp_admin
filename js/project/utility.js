@@ -2426,3 +2426,79 @@ function isJSON(str) {
     }
     return true;
 }
+
+function showFeedbackRating(btnObj, moduleType, moduleId) {
+    if (!tempIdInSession || tempIdInSession == null) {
+        loginPage();
+        return false;
+    }
+    if (!moduleType || moduleType == null || moduleType == VALUE_ZERO || !moduleId || moduleId == null || moduleId == VALUE_ZERO) {
+        showError(invalidAccessValidationMessage);
+        return false;
+    }
+    var ogBtnHTML = btnObj.html();
+    var ogBtnOnclick = btnObj.attr('onclick');
+    btnObj.html(iconSpinnerTemplate);
+    btnObj.attr('onclick', '');
+    $.ajax({
+        type: 'POST',
+        url: 'utility/get_basic_details_for_feedback_rating',
+        data: $.extend({}, {'module_type': moduleType, 'module_id': moduleId}, getTokenData()),
+        error: function (textStatus, errorThrown) {
+            generateNewCSRFToken();
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            if (textStatus.status === 403) {
+                loginPage();
+                return false;
+            }
+            if (!textStatus.statusText) {
+                loginPage();
+                return false;
+            }
+            showError(textStatus.statusText);
+        },
+        success: function (response) {
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            var parseData = JSON.parse(response);
+            if (parseData.is_logout === true) {
+                loginPage();
+                return false;
+            }
+            setNewToken(parseData.temp_token);
+            if (parseData.success === false) {
+                showError(parseData.message);
+                return false;
+            }
+            var frData = parseData.fr_data;
+            frData.module_type = moduleType;
+            frData.application_number = regNoRenderer(moduleType, frData.module_id);
+            if (frData.rating == VALUE_ZERO) {
+                frData.show_submit_btn = true;
+            }
+            showPopup();
+            $('.swal2-popup').css('width', '30em');
+            $('#popup_container').html(feedbackRatingTemplate(frData));
+            generateBoxes('radio', ratingArray, 'rating', 'fr', frData.rating);
+        }
+    });
+}
+
+function getRating(rating) {
+    if (rating == VALUE_ZERO) {
+        return '';
+    }
+    var returnData = '<hr>';
+    $.each(ratingArray, function (index, value) {
+        returnData += '<span class="fa fa-star' + (rating >= value ? ' text-warning' : '') + '"></span>';
+    });
+    return returnData;
+}
+
+function getFRContainer(rating, frDateTime) {
+    return '<div>' + getRating(rating) + '</div>';
+//            + '<div>' + (frDateTime != "0000-00-00 00:00:00" ? dateTo_DD_MM_YYYY_HH_II_SS(frDateTime) : '') + '</div>'
+}

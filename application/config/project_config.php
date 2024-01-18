@@ -19,10 +19,8 @@ define("ENCRYPTION_KEY", "!@#$%^&*");
 
 define('PASSWORD_REGEX', '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!#$@%_+\-=<>]).{8,16}$/');
 
-
 define('API_ENCRYPTION_KEY', 'sgAD#@$@^^&fAB%^*(*&&^%$');
 define('API_ACCESS_KEY', '%#d@AE$#Idgqw$$^jhhh');
-
 
 // Logs Table
 define('TBL_LOGS_LOGIN_LOGOUT', 'sa_logs_login_details');
@@ -35,7 +33,6 @@ define('DEFAULT_PASSWORD', 'Admin@1819');
 define('TALUKA_DAMAN', 1);
 define('TALUKA_DIU', 2);
 define('TALUKA_DNH', 3);
-
 
 $config['taluka_array'] = array(
     TALUKA_DAMAN => 'Daman',
@@ -2057,4 +2054,12 @@ $config['module_doc_array'] = array(
             'is_require' => VALUE_ZERO, 'name' => 'Declaration'
         ),
     ),
+);
+
+$config['rating_array'] = array(
+    VALUE_ONE => VALUE_ONE,
+    VALUE_TWO => VALUE_TWO,
+    VALUE_THREE => VALUE_THREE,
+    VALUE_FOUR => VALUE_FOUR,
+    VALUE_FIVE => VALUE_FIVE
 );
