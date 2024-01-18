@@ -133,6 +133,9 @@ Repairer.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return repairerActionTemplate(rowData);
     },
     loadRepairerData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -158,10 +161,13 @@ Repairer.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_TWO, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            else
-                return regNoRenderer(VALUE_TWO, data);
+            var returnData = '';
+            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
+                returnData = regNoRenderer(VALUE_TWO, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
+            } else {
+                returnData = regNoRenderer(VALUE_TWO, data);
+            }
+            return returnData + getFRContainer(full.rating, full.fr_datetime);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWO);

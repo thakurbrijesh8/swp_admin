@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-<div class="card-footer text-right pr-2 pb-2">
+<div class="card-footer text-left pr-2 pb-2">
     <button type="button" class="btn btn-sm btn-danger" style="padding: 2px 7px; margin-top: 1px;"
             onclick="Swal.close();"><i class="fas fa-times"></i>&nbsp; Close</button>
 </div>
