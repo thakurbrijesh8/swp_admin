@@ -82,6 +82,6 @@
     </div>
     <hr class="m-b-1rem mt-3">
     <div class="form-group">
-        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
     </div>
 </div>

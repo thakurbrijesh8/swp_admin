@@ -192,7 +192,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_wc" class="btn btn-sm btn-success" onclick="WC.listview.askForSubmitWC({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('wc');">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('wc');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

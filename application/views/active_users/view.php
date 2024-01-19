@@ -28,6 +28,6 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
-        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();">Close</button>
+        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();"><i class="fas fa-times"></i> Close</button>
     </div>
 </div>

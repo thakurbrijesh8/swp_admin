@@ -33,7 +33,7 @@
         <i class="fas fa-rupee-sign" style="margin-right: 2px;"></i> Confirm Payment</button>
     <button type="button" class="btn btn-sm btn-success" id="approve_btn_for_app_{{sublessee_id}}" onclick="Sublessee.listview.askForApproveApplication('{{sublessee_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_approve_btn}}">
-        <i class="fas fa-file-pdf" style="margin-right: 2px;"></i>Approve</button>
+        <i class="fas fa-file-pdf" style="margin-right: 2px;"></i> Approve</button>
     <button type="button" class="btn btn-sm btn-danger" id="reject_btn_for_app_{{sublessee_id}}"
             onclick="Sublessee.listview.askForRejectApplication('{{sublessee_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_reject_btn}}">

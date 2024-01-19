@@ -243,8 +243,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <!-- <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('boileract');">Close</button> -->
-                        <button type="button" class="btn btn-sm btn-danger" onclick="BoilerAct.listview.loadBoilerActData();">Close</button>
+                        <!-- <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('boileract');"><i class="fas fa-times"></i> Close</button> -->
+                        <button type="button" class="btn btn-sm btn-danger" onclick="BoilerAct.listview.loadBoilerActData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

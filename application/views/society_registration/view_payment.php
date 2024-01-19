@@ -48,6 +48,6 @@
     <div id="fb_container_for_{{module_type}}" style="display: none;"></div>
     <div id="ph_container_for_{{module_type}}" style="display: none;"></div>
     <div class="form-group">
-        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
     </div>
 </div>

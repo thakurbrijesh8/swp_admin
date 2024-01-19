@@ -69,9 +69,9 @@
         <div class="form-group">
             {{#if show_submit_upload_btn}}
             <button type="button" id="submit_btn_for_society_registration_upload_letter" class="btn btn-sm btn-success" onclick="SocietyRegistration.listview.uploadLetter();"
-                    style="margin-right: 5px;">Submit</button>
+                    style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
             {{/if}}
-            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>

@@ -141,7 +141,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_zone" class="btn btn-sm btn-success" onclick="Zone.listview.askForSubmitZone({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Zone.listview.loadZoneData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Zone.listview.loadZoneData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

@@ -150,7 +150,7 @@
                     </div>
                     <hr class="m-b-5px">
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="BOCW.listview.loadBOCWData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="BOCW.listview.loadBOCWData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

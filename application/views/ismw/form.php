@@ -180,7 +180,7 @@
                     <div class="form-group">
                         <button type="button" id="draft_btn_for_ismw" class="btn btn-sm btn-nic-blue" onclick="ISMW.listview.submitISMW({{VALUE_ONE}});" style="margin-right: 5px;">Save as a Draft</button>
                         <button type="button" id="submit_btn_for_ismw" class="btn btn-sm btn-success" onclick="ISMW.listview.askForSubmitISMW({{VALUE_TWO}});" style="margin-right: 5px;"     >Submit Application</button>
-                        <button typee="button" class="btn btn-sm btn-danger" onclick="ISMW.listview.loadISMWData();">Close</button>
+                        <button typee="button" class="btn btn-sm btn-danger" onclick="ISMW.listview.loadISMWData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

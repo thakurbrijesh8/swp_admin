@@ -197,8 +197,8 @@
                     <hr class="m-b-1rem">  
                     <div class="form-group">
                         <!-- <button type="button" id="draft_btn_for_inspection" class="btn btn-sm btn-nic-blue" onclick="Inspection.listview.submitInspection({{VALUE_ONE}});" style="margin-right: 5px;">Save as a Draft</button> -->
-                        <button type="button" id="submit_btn_for_inspection" class="btn btn-sm btn-success" onclick="Inspection.listview.submitInspection({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Inspection.listview.loadInspectionData();">Close</button>
+                        <button type="button" id="submit_btn_for_inspection" class="btn btn-sm btn-success" onclick="Inspection.listview.submitInspection({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Inspection.listview.loadInspectionData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

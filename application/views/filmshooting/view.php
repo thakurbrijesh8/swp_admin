@@ -319,7 +319,7 @@
 
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="FilmShooting.listview.loadFilmShootingData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="FilmShooting.listview.loadFilmShootingData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

@@ -55,8 +55,8 @@
         <hr class="m-b-1rem">
         <div class="form-group">
             <button type="button" id="submit_btn_for_dealer_renewal_approve" class="btn btn-sm btn-success" onclick="DealerRenewal.listview.approveApplication();"
-                    style="margin-right: 5px;">Approve</button>
-            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+                    style="margin-right: 5px;"><i class="fas fa-check-double"></i> Approve</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>

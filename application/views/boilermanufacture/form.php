@@ -325,8 +325,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_manufacturer" class="btn btn-sm btn-success" onclick="BoilerManufacture.listview.submitBoilerManufacture({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="BoilerManufacture.listview.loadBoilerManufactureData();">Close</button>
+                        <button type="button" id="submit_btn_for_manufacturer" class="btn btn-sm btn-success" onclick="BoilerManufacture.listview.submitBoilerManufacture({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="BoilerManufacture.listview.loadBoilerManufactureData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

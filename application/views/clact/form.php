@@ -178,7 +178,7 @@
             <div class="form-group">
                 <!--<button type="button" id="draft_btn_for_clact" class="btn btn-sm btn-nic-blue" onclick="CLACT.listview.submitCLACT({{VALUE_ONE}});" style="margin-right: 5px;">Save as Draft</button>-->
                 <button type="button" id="submit_btn_for_clact" class="btn btn-sm btn-success" onclick="CLACT.listview.askForSubmitCLACT({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('clact');">Close</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('clact');"><i class="fas fa-times"></i> Close</button>
             </div>
         </div>
     </form>

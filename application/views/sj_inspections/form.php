@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-12">
                             {{#if show_btns}}
-                            <button type="button" id="submit_btn_for_sji" class="btn btn-sm btn-success" onclick="SJInspections.listview.submitSJInspections($(this));" style="margin-right: 5px;">Submit</button>
+                            <button type="button" id="submit_btn_for_sji" class="btn btn-sm btn-success" onclick="SJInspections.listview.submitSJInspections($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
                             {{/if}}
                             <button type="button" class="btn btn-sm btn-danger" onclick="SJInspections.listview.loadSJInspectionsData();">Back</button>
                         </div>

@@ -350,7 +350,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_hotelregi" class="btn btn-sm btn-success" onclick="Hotelregi.listview.askForSubmitHotelregi({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('hotelregi');">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('hotelregi');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

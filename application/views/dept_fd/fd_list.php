@@ -36,6 +36,6 @@
     </div>
 </div>
 <div class="card-footer p-2 text-left">
-    <button type="button" class="btn btn-sm btn-success" onclick="DeptFD.listview.submitDFDItems($(this));">Submit</button>
-    <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+    <button type="button" class="btn btn-sm btn-success" onclick="DeptFD.listview.submitDFDItems($(this));"><i class="fas fa-save"></i> Submit</button>
+    <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
 </div>

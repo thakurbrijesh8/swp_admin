@@ -36,7 +36,7 @@
         <div class="form-group">
             <button type="button" id="submit_btn_for_boiler_act_reject" class="btn btn-sm btn-danger" onclick="BoilerAct.listview.rejectApplication();"
                     style="margin-right: 5px;">Reject</button>
-            <button type="button" class="btn btn-sm btn-default" onclick="Swal.close();">Close</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>

@@ -125,8 +125,8 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button type="button" id="submit_btn_for_service" class="btn btn-sm btn-success" onclick="Service.listview.submitService($(this));" style="margin-right: 5px;">Submit</button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="Service.listview.loadServiceData();">Close</button>
+                    <button type="button" id="submit_btn_for_service" class="btn btn-sm btn-success" onclick="Service.listview.submitService($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="Service.listview.loadServiceData();"><i class="fas fa-times"></i> Close</button>
                 </div>
             </div>
         </div>

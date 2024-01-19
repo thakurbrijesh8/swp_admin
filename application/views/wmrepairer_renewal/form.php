@@ -312,8 +312,8 @@
 
 
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_repairer" class="btn btn-sm btn-success" onclick="RepairerRenewal.listview.submitRepairerRenewal({{VALUE_ONE}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="RepairerRenewal.listview.loadRepairerRenewalData();">Close</button>
+                        <button type="button" id="submit_btn_for_repairer" class="btn btn-sm btn-success" onclick="RepairerRenewal.listview.submitRepairerRenewal({{VALUE_ONE}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="RepairerRenewal.listview.loadRepairerRenewalData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

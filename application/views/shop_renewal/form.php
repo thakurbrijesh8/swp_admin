@@ -161,7 +161,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_shoprenewal" class="btn btn-sm btn-success" onclick="ShopRenewal.listview.askForSubmitShopRenewal({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="ShopRenewal.listview.loadShopRenewalData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="ShopRenewal.listview.loadShopRenewalData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

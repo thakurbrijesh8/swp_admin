@@ -118,8 +118,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 mb-3">
-                    <button type="button" id="submit_btn_for_employee" class="btn btn-sm btn-success" onclick="Employee.listview.submitEmployee($(this));" style="margin-right: 5px;">Submit</button>
-                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();">Close</button>
+                    <button type="button" id="submit_btn_for_employee" class="btn btn-sm btn-success" onclick="Employee.listview.submitEmployee($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();"><i class="fas fa-times"></i> Close</button>
                 </div>
             </div>
             <div class="row">

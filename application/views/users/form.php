@@ -68,8 +68,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_users" class="btn btn-sm btn-success" onclick="Users.listview.submitUsers($(this));" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Users.listview.loadUsersData();">Close</button>
+                        <button type="button" id="submit_btn_for_users" class="btn btn-sm btn-success" onclick="Users.listview.submitUsers($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Users.listview.loadUsersData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                     <div class="form-group m-b-0" style="color: red;">
                         <h5 class="f-w-b m-b-0" style="font-size: 16px;">Password Policy</h5>

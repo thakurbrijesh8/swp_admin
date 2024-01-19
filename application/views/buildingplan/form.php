@@ -272,8 +272,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_buildingplan" class="btn btn-sm btn-success" onclick="BuildingPlan.listview.submitBuildingPlan({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="BuildingPlan.listview.loadBuildingPlanData();">Close</button>
+                        <button type="button" id="submit_btn_for_buildingplan" class="btn btn-sm btn-success" onclick="BuildingPlan.listview.submitBuildingPlan({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="BuildingPlan.listview.loadBuildingPlanData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

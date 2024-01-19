@@ -161,7 +161,7 @@
                     <div class="row">
                         <div class="col-12">
                             {{#if show_btns}}
-                            <button type="button" id="submit_btn_for_ci" class="btn btn-sm btn-success" onclick="CInspections.listview.submitCInspections($(this));" style="margin-right: 5px;">Submit</button>
+                            <button type="button" id="submit_btn_for_ci" class="btn btn-sm btn-success" onclick="CInspections.listview.submitCInspections($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
                             {{/if}}
                             <button type="button" class="btn btn-sm btn-danger" onclick="CInspections.listview.loadCInspectionsData();">Back</button>
                         </div>

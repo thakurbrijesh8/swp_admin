@@ -53,8 +53,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <button type="button" id="submit_btn_for_department" class="btn btn-sm btn-success" onclick="Department.listview.submitDepartment($(this));" style="margin-right: 5px;">Submit</button>
-                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();">Close</button>
+                    <button type="button" id="submit_btn_for_department" class="btn btn-sm btn-success" onclick="Department.listview.submitDepartment($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close" onclick="resetModel();"><i class="fas fa-times"></i> Close</button>
                 </div>
             </div>
         </form>

@@ -63,8 +63,8 @@
         <hr class="m-b-1rem">
         <div class="form-group">
             <button type="button" id="submit_btn_for_shop_approve" class="btn btn-sm btn-success" onclick="Shop.listview.approveApplication();"
-                    style="margin-right: 5px;">Approve</button>
-            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+                    style="margin-right: 5px;"><i class="fas fa-check-double"></i> Approve</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>
@@ -146,7 +146,7 @@
     <hr class="m-b-5px">
     <div class="form-group">
         <button type="button" class="btn btn-sm btn-success" onclick="Shop.listview.labourDeptApproveForShop($(this), '{{s_id}}');"
-                style="margin-right: 5px;">Approve</button>
+                style="margin-right: 5px;"><i class="fas fa-check-double"></i> Approve</button>
                 <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" style="margin-right: 5px;" onclick="resetModel();">Cancel</button>
     </div>
 </form>-->

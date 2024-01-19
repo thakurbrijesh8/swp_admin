@@ -205,7 +205,7 @@
 
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('psfregistration');">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('psfregistration');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

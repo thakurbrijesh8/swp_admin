@@ -405,7 +405,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_dealer" class="btn btn-sm btn-success" onclick="Dealer.listview.submitDealer({{VALUE_TWO}});" style="margin-right: 5px;">Submit </button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Dealer.listview.loadDealerData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Dealer.listview.loadDealerData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

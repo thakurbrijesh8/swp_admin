@@ -36,7 +36,7 @@
     <button type="button" class="btn btn-sm btn-success" id="approve_btn_for_app_{{bocw_id}}"
             onclick="BOCW.listview.askForApproveApplication('{{bocw_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_approve_btn}}">
-        <i class="fas fa-file-pdf" style="margin-right: 2px;"></i>Approve</button>
+        <i class="fas fa-file-pdf" style="margin-right: 2px;"></i> Approve</button>
     <button type="button" class="btn btn-sm btn-danger" id="reject_btn_for_app_{{bocw_id}}"
             onclick="BOCW.listview.askForRejectApplication('{{bocw_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_reject_btn}}">

@@ -158,8 +158,8 @@
                     </div>
                     <hr class="m-b-5px">
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_bocw" class="btn btn-sm btn-success" onclick="BOCW.listview.submitBOCW({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="BOCW.listview.loadBOCWData();">Close</button>
+                        <button type="button" id="submit_btn_for_bocw" class="btn btn-sm btn-success" onclick="BOCW.listview.submitBOCW({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="BOCW.listview.loadBOCWData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

@@ -179,7 +179,7 @@
 
                      <hr class="m-b-1rem"> 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Property.listview.loadPropertyData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Property.listview.loadPropertyData();"><i class="fas fa-times"></i> Close</button>
 
                         <button type="button" id="submit_btn_for_incentive" class="btn btn-sm btn-success pull-right" onclick="Property.listview.editOrViewAppointment($('#submit_btn_for_property'), '{{property_id}}', false);" style="margin-right: 5px;">Next  <span class="fas fa-hand-point-right"></span></button>
 

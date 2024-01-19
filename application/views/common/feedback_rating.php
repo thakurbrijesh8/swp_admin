@@ -25,5 +25,5 @@
 </div>
 <div class="card-footer text-left pl-2 pb-2">
     <button type="button" class="btn btn-sm btn-danger" style="padding: 2px 7px; margin-top: 1px;"
-            onclick="Swal.close();"><i class="fas fa-times"></i>&nbsp; Close</button>
+            onclick="Swal.close();"><i class="fas fa-times"></i>&nbsp; <i class="fas fa-times"></i> Close</button>
 </div>

@@ -56,7 +56,7 @@
             <button type="button" id="submit_btn_for_construction_upload_challan" class="btn btn-sm btn-success" onclick="Construction.listview.uploadChallan();"
                     style="margin-right: 5px;">Request For Payment</button>
             {{/if}}
-            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>

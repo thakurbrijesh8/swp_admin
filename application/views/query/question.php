@@ -45,7 +45,7 @@
         </div>
         <div class="timeline-footer" style="padding-top: 0px;">
             <a class="btn btn-success btn-sm" id="submit_btn_for_query"
-               onclick="askForSubmitQueryDetails();">Submit</a>
+               onclick="askForSubmitQueryDetails();"><i class="fas fa-save"></i> Submit</a>
         </div>
     </div>
 </div>

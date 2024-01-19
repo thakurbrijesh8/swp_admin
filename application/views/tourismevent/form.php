@@ -137,7 +137,7 @@
                     <hr class="m-b-1rem"> 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_tourismevent" class="btn btn-sm btn-success" onclick="Tourismevent.listview.askForSubmitTourismevent({{VALUE_TWO}});" style="margin-right: 5px;"     >Submit Application</button>
-                        <button typee="button" class="btn btn-sm btn-danger" onclick="Tourismevent.listview.loadTourismeventData();">Close</button>
+                        <button typee="button" class="btn btn-sm btn-danger" onclick="Tourismevent.listview.loadTourismeventData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

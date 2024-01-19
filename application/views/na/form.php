@@ -455,7 +455,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_na" class="btn btn-sm btn-success" onclick="Na.listview.askForSubmitNa({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>
@@ -689,7 +689,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_na" class="btn btn-sm btn-success" onclick="Na.listview.askForSubmitNa({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

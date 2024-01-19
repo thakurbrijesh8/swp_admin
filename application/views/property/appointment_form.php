@@ -56,7 +56,7 @@
                         
                         <button type="button" id="draft_btn_for_property" class="btn btn-sm btn-success" onclick="Property.listview.askForSubmitProperty({{VALUE_TWO}});"  style="margin-right: 5px;">Submit Application</button>
                         
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Property.listview.loadPropertyData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Property.listview.loadPropertyData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

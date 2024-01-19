@@ -137,7 +137,7 @@
 
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Zone.listview.loadZoneData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Zone.listview.loadZoneData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

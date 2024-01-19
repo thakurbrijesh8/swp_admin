@@ -110,7 +110,7 @@
                     <hr class="m-b-1rem"> 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_travelagent" class="btn btn-sm btn-success" onclick="TravelAgent.listview.askForSubmitTravelAgent({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="TravelAgent.listview.loadTravelAgentData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="TravelAgent.listview.loadTravelAgentData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

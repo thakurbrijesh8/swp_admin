@@ -166,7 +166,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_migrantworkersrenewal" class="btn btn-sm btn-success" onclick="MigrantworkersRenewal.listview.askForSubmitMigrantworkersRenewal({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="MigrantworkersRenewal.listview.loadMigrantworkersRenewalData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="MigrantworkersRenewal.listview.loadMigrantworkersRenewalData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

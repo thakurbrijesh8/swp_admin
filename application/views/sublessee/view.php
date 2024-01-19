@@ -229,7 +229,7 @@
                     </div>
                     <hr class="m-b-1rem"> 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Sublessee.listview.loadSublesseeData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Sublessee.listview.loadSublesseeData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

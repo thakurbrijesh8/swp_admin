@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="button" id="submit_btn_for_change_password" class="btn btn-sm btn-success" onclick="Users.listview.changePassword($(this));" style="margin-right: 5px;">Submit</button>
+                                <button type="button" id="submit_btn_for_change_password" class="btn btn-sm btn-success" onclick="Users.listview.changePassword($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
                                 <button type="button" class="btn btn-sm btn-default" onclick="Users.listview.resetChangePasswordForm();">Clear</button>
                             </div>
                             <div class="form-group m-b-0" style="color: red;">

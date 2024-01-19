@@ -136,7 +136,7 @@
                     </div>
                     <hr class="m-b-1rem"> 
                     <div class="form-group">
-                        <button typee="button" class="btn btn-sm btn-danger" onclick="Tourismevent.listview.loadTourismeventData();">Close</button>
+                        <button typee="button" class="btn btn-sm btn-danger" onclick="Tourismevent.listview.loadTourismeventData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

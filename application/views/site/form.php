@@ -165,7 +165,7 @@
                      
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_site" class="btn btn-sm btn-success" onclick="Site.listview.askForSubmitSite({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Site.listview.loadSiteData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Site.listview.loadSiteData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

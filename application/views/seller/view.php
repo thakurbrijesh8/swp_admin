@@ -367,7 +367,7 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('seller');">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('seller');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

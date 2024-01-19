@@ -45,7 +45,7 @@
                     onclick="VPUsers.listview.updateEmailVPUsers($(this));">
                 <i class="fas fa-save"></i> &nbsp; Update</button>
 
-                <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fa fa-times"></i> &nbsp; Close</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fa fa-times"></i> &nbsp; <i class="fas fa-times"></i> Close</button>
         </div>
     </div>
 </form>

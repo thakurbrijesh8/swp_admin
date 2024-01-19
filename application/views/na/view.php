@@ -451,7 +451,7 @@
                         </div>
                         <hr class="m-b-1rem"> 
                         <div class="form-group">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();">Close</button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();"><i class="fas fa-times"></i> Close</button>
                         </div>
                     </div>
             </form>
@@ -690,7 +690,7 @@
                     </div>
                     <hr class="m-b-1rem"> 
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="Na.listview.loadNaData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

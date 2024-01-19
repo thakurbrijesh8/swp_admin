@@ -280,7 +280,7 @@
 
                     <div class="form-group">
                         <button type="button" id="submit_btn_for_cinema" class="btn btn-sm btn-success" onclick="Cinema.listview.askForSubmitCinema({{VALUE_TWO}});" style="margin-right: 5px;">Submit Application</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('cinema');">Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('cinema');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

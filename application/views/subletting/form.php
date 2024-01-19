@@ -390,8 +390,8 @@
                      <hr class="m-b-1rem"> 
 
                    <div class="form-group">
-                        <button type="button" id="submit_btn_for_wmregistration" class="btn btn-sm btn-success" onclick="Subletting.listview.submitSubletting({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('subletting');">Close</button>
+                        <button type="button" id="submit_btn_for_wmregistration" class="btn btn-sm btn-success" onclick="Subletting.listview.submitSubletting({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('subletting');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

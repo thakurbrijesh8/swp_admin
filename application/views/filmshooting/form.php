@@ -330,8 +330,8 @@
 
                     <div class="form-group"><!-- 
                         <button type="button" id="draft_btn_for_filmshooting" class="btn btn-sm btn-nic-blue" onclick="FilmShooting.listview.submitFilmShooting({{VALUE_ONE}});" style="margin-right: 5px;">Save as a Draft</button> -->
-                        <button type="button" id="submit_btn_for_filmshooting" class="btn btn-sm btn-success" onclick="FilmShooting.listview.submitFilmShooting({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="FilmShooting.listview.loadFilmShootingData();">Close</button>
+                        <button type="button" id="submit_btn_for_filmshooting" class="btn btn-sm btn-success" onclick="FilmShooting.listview.submitFilmShooting({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="FilmShooting.listview.loadFilmShootingData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>

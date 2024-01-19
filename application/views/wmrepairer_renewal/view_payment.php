@@ -33,7 +33,7 @@
      </div>
      <hr class="m-b-1rem">
      <div class="form-group">
-         <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+         <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
      </div>
  </div> -->
 
@@ -50,6 +50,6 @@
     <div id="ph_container_for_{{module_type}}" style="display: none;"></div>
     <hr class="m-b-1rem">
     <div class="form-group">
-        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">Close</button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
     </div>
 </div>

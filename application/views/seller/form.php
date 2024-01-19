@@ -415,8 +415,8 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" id="submit_btn_for_seller" class="btn btn-sm btn-success" onclick="Seller.listview.submitSeller({{VALUE_TWO}});" style="margin-right: 5px;">Submit</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('seller');">Close</button>
+                        <button type="button" id="submit_btn_for_seller" class="btn btn-sm btn-success" onclick="Seller.listview.submitSeller({{VALUE_TWO}});" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showTableContainer('seller');"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
             </form>
