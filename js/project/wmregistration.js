@@ -130,13 +130,7 @@ Wmregistration.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            var returnData = '';
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
-                returnData = regNoRenderer(VALUE_ONE, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            } else {
-                returnData = regNoRenderer(VALUE_ONE, data);
-            }
-            return returnData + getFRContainer(full.rating, full.fr_datetime);
+            return getAppNoWithRating(VALUE_ONE, data, full);
         };
         var queryMovementString = function (json) {
             var qmData = json.query_movements;

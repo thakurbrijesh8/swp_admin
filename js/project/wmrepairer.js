@@ -161,13 +161,7 @@ Repairer.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            var returnData = '';
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
-                returnData = regNoRenderer(VALUE_TWO, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            } else {
-                returnData = regNoRenderer(VALUE_TWO, data);
-            }
-            return returnData + getFRContainer(full.rating, full.fr_datetime);
+            return getAppNoWithRating(VALUE_TWO, data, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWO);

@@ -2502,3 +2502,13 @@ function getFRContainer(rating, frDateTime) {
     return '<div>' + getRating(rating) + '</div>';
 //            + '<div>' + (frDateTime != "0000-00-00 00:00:00" ? dateTo_DD_MM_YYYY_HH_II_SS(frDateTime) : '') + '</div>'
 }
+
+function getAppNoWithRating(moduleType, moduleId, full) {
+    var returnData = '';
+    if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
+        returnData = regNoRenderer(moduleType, moduleId) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
+    } else {
+        returnData = regNoRenderer(moduleType, moduleId);
+    }
+    return returnData + getFRContainer(full.rating, full.fr_datetime);
+}
