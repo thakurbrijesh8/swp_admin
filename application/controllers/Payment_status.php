@@ -74,11 +74,11 @@ class Payment_status extends CI_Controller {
                 $return_data = explode('|', $response);
                 if (!empty($return_data)) {
                     $status = isset($return_data[2]) ? $return_data[2] : '';
-                    if ($status == 'FAIL' || $status == 'ABORT' || $status == 'PENDING' || $status == 'BOOKED' || $status == 'INPROGRESS' || $status == 'SUCCESS') {
+                    if ($status == 'FAIL' || $status == 'ABORT' || $status == 'PENDING' || $status == 'BOOKED' || $status == 'INPROGRESS' || $status == 'SUCCESS' || $status == 'REFUND') {
                         $dv_data['dv_status'] = VALUE_TWO;
                         $dv_data['dv_return'] = $response;
                         $dv_data['dv_reference_id'] = isset($return_data[1]) ? $return_data[1] : '';
-                        $dv_data['dv_pg_status'] = ($status == 'FAIL' || $status == 'ABORT') ? VALUE_THREE : ($status == 'PENDING' ? VALUE_FOUR : ($status == 'BOOKED' ? VALUE_FIVE : ($status == 'INPROGRESS' ? VALUE_SIX : ($status == 'SUCCESS' ? VALUE_TWO : VALUE_THREE))));
+                        $dv_data['dv_pg_status'] = ($status == 'FAIL' || $status == 'ABORT' || $status == 'REFUND') ? VALUE_THREE : ($status == 'PENDING' ? VALUE_FOUR : ($status == 'BOOKED' ? VALUE_FIVE : ($status == 'INPROGRESS' ? VALUE_SIX : ($status == 'SUCCESS' ? VALUE_TWO : VALUE_THREE))));
                         $dv_data['dv_order_number'] = isset($return_data[6]) ? $return_data[6] : '';
                         $dv_data['dv_amount'] = isset($return_data[7]) ? $return_data[7] : '';
                         $dv_data['dv_message'] = isset($return_data[8]) ? $return_data[8] : '';
