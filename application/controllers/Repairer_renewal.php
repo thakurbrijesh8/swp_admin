@@ -57,7 +57,7 @@ class Repairer_renewal extends CI_Controller {
             } else {
                 $success_array['recordsFiltered'] = $success_array['recordsTotal'];
             }
-            $success_array['query_movements'] = $this->utility_lib->get_query_movement_string($success_array['repair9er_renewal_data'], VALUE_FOURTEEN);
+            $success_array['query_movements'] = $this->utility_lib->get_query_movement_string($success_array['repairer_renewal_data'], VALUE_FOURTEEN);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 $success_array['repairer_renewal_data'] = array();
