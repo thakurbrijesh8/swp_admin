@@ -2,11 +2,11 @@
     {{#if show_edit_btn}}
     <button type="button" class="btn btn-sm btn-success" onclick="MigrantworkersRenewal.listview.editOrViewMigrantworkersRenewal($(this),'{{migrantworkers_renewal_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i>Edit</button>
+        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
     <button type="button" class="btn btn-sm btn-primary" onclick="MigrantworkersRenewal.listview.editOrViewMigrantworkersRenewal($(this),'{{migrantworkers_renewal_id}}', false);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-eye" style="margin-right: 2px;"></i>View</button>
+        <i class="fas fa-eye" style="margin-right: 2px;"></i> View</button>
     {{#if show_form_one_btn}}
     <button type="button" class="btn btn-sm btn-danger" 
             onclick="MigrantworkersRenewal.listview.generateForm('{{migrantworkers_renewal_id}}');"
@@ -15,7 +15,7 @@
     {{#if show_rv_query_btn}}
     <button type="button" class="btn btn-sm btn-warning" id="query_btn_for_wm_{{migrantworkers_renewal_id}}" onclick="MigrantworkersRenewal.listview.getQueryData('{{migrantworkers_renewal_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-question" style="margin-right: 5px;"></i>Raise / View Query</button>
+        <i class="fas fa-question" style="margin-right: 5px;"></i> Raise / View Query</button>
     {{/if}}
     {{#if show_upload_challan_btn}}
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{migrantworkers_renewal_id}}"

@@ -18,7 +18,7 @@
     <button type="button" class="btn btn-sm btn-warning" id="query_btn_for_app_{{establishment_id}}"
             onclick="CLACT.listview.getQueryData('{{establishment_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-question" style="margin-right: 5px;"></i>Raise / View Query</button>
+        <i class="fas fa-question" style="margin-right: 5px;"></i> Raise / View Query</button>
     {{/if}}
     {{#if show_upload_challan_btn}}
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{establishment_id}}"

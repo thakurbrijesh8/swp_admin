@@ -2,11 +2,11 @@
     {{#if show_edit_btn}}
     <button type="button" class="btn btn-sm btn-success" onclick="BuildingPlan.listview.editOrViewBuildingPlan($(this),'{{buildingplan_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i>Edit</button>
+        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
     <button type="button" class="btn btn-sm btn-primary" onclick="BuildingPlan.listview.editOrViewBuildingPlan($(this),'{{buildingplan_id}}', false);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-eye" style="margin-right: 2px;"></i>View</button>
+        <i class="fas fa-eye" style="margin-right: 2px;"></i> View</button>
     {{#if show_form_one_btn}}
     <button type="button" class="btn btn-sm btn-danger" 
             onclick="BuildingPlan.listview.generateForm1('{{buildingplan_id}}');"
@@ -16,7 +16,7 @@
     <button type="button"BuildingPlan class="btn btn-sm btn-warning" id="query_btn_for_app_{{buildingplan_id}}"
             onclick="BuildingPlan.listview.getQueryData('{{buildingplan_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-question" style="margin-right: 5px;"></i>Raise / View Query</button>
+        <i class="fas fa-question" style="margin-right: 5px;"></i> Raise / View Query</button>
     {{/if}}
     {{#if show_upload_challan_btn}}
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{buildingplan_id}}"

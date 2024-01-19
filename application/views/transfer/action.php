@@ -2,11 +2,11 @@
     {{#if show_edit_btn}}
     <button type="button" class="btn btn-sm btn-success" onclick="Transfer.listview.editOrViewTransfer($(this),'{{transfer_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i>Edit</button>
+        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
     <button type="button" class="btn btn-sm btn-primary" onclick="Transfer.listview.editOrViewTransfer($(this),'{{transfer_id}}', false);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-eye" style="margin-right: 2px;"></i>View</button>
+        <i class="fas fa-eye" style="margin-right: 2px;"></i> View</button>
     {{#if show_form_one_btn}}
     <button type="button" class="btn btn-sm btn-danger" 
             onclick="Transfer.listview.generateForm1('{{transfer_id}}');"
@@ -14,7 +14,7 @@
     {{/if}}
     <button type="button" class="btn btn-sm btn-warning" id="query_btn_for_transfer_{{transfer_id}}" onclick="Transfer.listview.getQueryData('{{transfer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-question" style="margin-right: 5px;"></i>Raise / View Query</button>
+        <i class="fas fa-question" style="margin-right: 5px;"></i> Raise / View Query</button>
     {{#if show_upload_challan_btn}}
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{transfer_id}}"
             onclick="Transfer.listview.openUploadChallan('{{transfer_id}}');"
