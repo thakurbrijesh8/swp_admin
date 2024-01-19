@@ -36,7 +36,7 @@
         <div class="form-group">
             <button type="button" id="submit_btn_for_incentives_reject" class="btn btn-sm btn-danger" 
                     onclick="Ips.listview.rejectApplication($(this));"
-                    style="margin-right: 5px;">Reject</button>
+                    style="margin-right: 5px;"><i class="fas fa-times-circle"></i> Reject</button>
             <button type="button" class="btn btn-sm btn-default" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
         </div>
     </div>
