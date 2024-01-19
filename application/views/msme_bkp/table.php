@@ -10,7 +10,7 @@
                 <thead>
                     <tr class="bg-light-gray">
                         <th class="text-center" style="width: 30px;">No.</th>
-                        <th class="text-center" style="width: 30px;">Application Number</th>
+                        <th class="text-center" style="width: 100px;">Application Number</th>
                         <?php if (is_admin() || is_view_all_district_user()) { ?>
                             <th class="text-center" style="min-width: 80px;">District</th>
                         <?php } ?>
