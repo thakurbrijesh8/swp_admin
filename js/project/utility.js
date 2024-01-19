@@ -2503,10 +2503,10 @@ function getFRContainer(rating, frDateTime) {
 //            + '<div>' + (frDateTime != "0000-00-00 00:00:00" ? dateTo_DD_MM_YYYY_HH_II_SS(frDateTime) : '') + '</div>'
 }
 
-function getAppNoWithRating(moduleType, moduleId, full) {
+function getAppNoWithRating(moduleType, moduleId, district, full) {
     var returnData = '';
     if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
-        returnData = regNoRenderer(moduleType, moduleId) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
+        returnData = regNoRenderer(moduleType, moduleId) + '<hr>' + (talukaArray[district] ? talukaArray[district] : '');
     } else {
         returnData = regNoRenderer(moduleType, moduleId);
     }

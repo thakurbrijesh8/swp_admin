@@ -101,6 +101,9 @@ TravelagentRenewal.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return travelagentRenewalActionTemplate(rowData);
     },
     loadTravelagentRenewalData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -126,10 +129,7 @@ TravelagentRenewal.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_TWENTYTHREE, data) + '<hr>' + (talukaArray[full.area_of_agency] ? talukaArray[full.area_of_agency] : '');
-            else
-                return regNoRenderer(VALUE_TWENTYTHREE, data);
+            return getAppNoWithRating(VALUE_TWENTYTHREE, data, full.area_of_agency, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWENTYTHREE);

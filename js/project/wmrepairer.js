@@ -161,7 +161,7 @@ Repairer.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            return getAppNoWithRating(VALUE_TWO, data, full);
+            return getAppNoWithRating(VALUE_TWO, data, full.district, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWO);

@@ -130,7 +130,7 @@ Wmregistration.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            return getAppNoWithRating(VALUE_ONE, data, full);
+            return getAppNoWithRating(VALUE_ONE, data, full.district, full);
         };
         var queryMovementString = function (json) {
             var qmData = json.query_movements;

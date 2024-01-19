@@ -268,6 +268,9 @@ Landallotment.listView = Backbone.View.extend({
         if (rowData.status == VALUE_FIVE) {
             rowData.show_download_certificate_btn = true;
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return landallotmentActionTemplate(rowData);
     },
     loadLandallotmentData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -293,10 +296,7 @@ Landallotment.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_TWENTYFIVE, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            else
-                return regNoRenderer(VALUE_TWENTYFIVE, data);
+            return getAppNoWithRating(VALUE_TWENTYFIVE, data, full.district, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWENTYFIVE);

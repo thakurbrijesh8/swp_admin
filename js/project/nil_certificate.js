@@ -70,6 +70,9 @@ NilCertificate.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return nilCertificateActionTemplate(rowData);
     },
     loadNilCertificateData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -98,12 +101,7 @@ NilCertificate.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            var tString = '';
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
-                tString = regNoRenderer(VALUE_SIXTYONE, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            } else {
-                tString = regNoRenderer(VALUE_SIXTYONE, data);
-            }
+            var tString = getAppNoWithRating(VALUE_SIXTYONE, data, full.district, full);
             var villageData = full.district == VALUE_ONE ? damanVillagesArray : (full.district == VALUE_TWO ? diuVillagesArray : (full.district == VALUE_THREE ? dnhVillagesArray : []));
             tString += '<hr>' + (villageData[full.village_dmc_ward] ? villageData[full.village_dmc_ward] : '');
             return tString;

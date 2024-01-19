@@ -1,13 +1,13 @@
 <div class="text-center">
-{{#if show_edit_btn}}
-<button type="button" class="btn btn-sm btn-success" onclick="Dealer.listview.editOrViewDealer($(this),'{{dealer_id}}',true);"
-        style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-    <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
-{{/if}}
-<button type="button" class="btn btn-sm btn-primary" onclick="Dealer.listview.editOrViewDealer($(this),'{{dealer_id}}',false);"
-        style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-    <i class="fas fa-eye" style="margin-right: 2px;"></i> View</button>
-{{#if show_form_one_btn}}
+    {{#if show_edit_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="Dealer.listview.editOrViewDealer($(this),'{{dealer_id}}', true);"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
+    {{/if}}
+    <button type="button" class="btn btn-sm btn-primary" onclick="Dealer.listview.editOrViewDealer($(this),'{{dealer_id}}', false);"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-eye" style="margin-right: 2px;"></i> View</button>
+    {{#if show_form_one_btn}}
     <button type="button" class="btn btn-sm btn-danger" 
             onclick="Dealer.listview.generateForm1('{{dealer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;"><i class="fas fa-file-pdf" style="margin-right: 2px;"></i> Form-1</button>
@@ -44,4 +44,9 @@
             onclick="Dealer.listview.generateCertificate('{{dealer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_THREE,'{{dealer_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

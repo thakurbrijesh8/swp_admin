@@ -44,4 +44,9 @@
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
     {{/if}}
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_TWENTYFIVE,'{{landallotment_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

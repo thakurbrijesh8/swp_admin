@@ -34,4 +34,9 @@
        href="certificate/forest/{{final_certificate}}"
        style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate"></i> &nbsp; Download Certificate</a>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_FIFTYNINE,'{{tree_cutting_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

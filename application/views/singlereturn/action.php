@@ -29,8 +29,8 @@
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-info-circle" style="margin-right: 2px;"></i> View Payment</button>
     {{/if}}
-    
-         <button type="button" class="btn btn-sm btn-warning" id="confirm_payment_btn_for_app_{{singlereturn_id}}"
+
+    <button type="button" class="btn btn-sm btn-warning" id="confirm_payment_btn_for_app_{{singlereturn_id}}"
             onclick="askForConfirmPayment('{{module_type}}', '{{singlereturn_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_payment_confirm_btn}}">
         <i class="fas fa-rupee-sign" style="margin-right: 2px;"></i> Confirm Payment</button>
@@ -45,4 +45,9 @@
             onclick="SingleReturn.listview.generateCertificate('{{singlereturn_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_THIRTYNINE,'{{singlereturn_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

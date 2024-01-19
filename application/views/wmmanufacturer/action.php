@@ -32,7 +32,7 @@
             onclick="askForConfirmPayment('{{module_type}}', '{{manufacturer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_payment_confirm_btn}}">
         <i class="fas fa-rupee-sign" style="margin-right: 2px;"></i> Confirm Payment</button>
-           <button type="button" class="btn btn-sm btn-success" id="approve_btn_for_app_{{manufacturer_id}}" onclick="Manufacturer.listview.askForApproveApplication('{{manufacturer_id}}');"
+    <button type="button" class="btn btn-sm btn-success" id="approve_btn_for_app_{{manufacturer_id}}" onclick="Manufacturer.listview.askForApproveApplication('{{manufacturer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_approve_btn}}">
         <i class="fas fa-file-pdf" style="margin-right: 2px;"></i> Approve</button>
     <button type="button" class="btn btn-sm btn-danger" id="reject_btn_for_app_{{manufacturer_id}}"
@@ -43,4 +43,9 @@
             onclick="Manufacturer.listview.generateCertificate('{{manufacturer_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_FOUR,'{{manufacturer_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

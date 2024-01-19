@@ -77,6 +77,9 @@ SocietyRegistration.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return societyRegistrationActionTemplate(rowData);
     },
     loadSocietyRegistrationData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -109,13 +112,7 @@ SocietyRegistration.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            var tString = '';
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD) {
-                tString = regNoRenderer(VALUE_SIXTY, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            } else {
-                tString = regNoRenderer(VALUE_SIXTY, data);
-            }
-            return tString;
+            return getAppNoWithRating(VALUE_SIXTY, data, full.district, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_SIXTY);
@@ -530,7 +527,7 @@ SocietyRegistration.listView = Backbone.View.extend({
                 if (societyRegistrationData.letter != '' && societyRegistrationData.letter_status == VALUE_TWO) {
                     societyRegistrationData.show_remove_upload_btn = false;
                     societyRegistrationData.show_submit_upload_btn = false;
-                } else if (societyRegistrationData.letter != '' && societyRegistrationData.letter_status == VALUE_ONE) {                    
+                } else if (societyRegistrationData.letter != '' && societyRegistrationData.letter_status == VALUE_ONE) {
                     societyRegistrationData.show_remove_upload_btn = true;
                     societyRegistrationData.show_submit_upload_btn = true;
                 } else if (societyRegistrationData.letter == '' && societyRegistrationData.letter_status == VALUE_ZERO) {
@@ -599,7 +596,7 @@ SocietyRegistration.listView = Backbone.View.extend({
                 removeDocument('letter', 'society_registration_upload_letter');
                 SocietyRegistration.listview.listPage();
                 $('#status_' + societyRegistrationId).html(socRegUlStatusArray[VALUE_ZERO]);
-                
+
             }
         });
     },
@@ -691,7 +688,7 @@ SocietyRegistration.listView = Backbone.View.extend({
 
             }});
     },
-    
+
     askForApproveApplication: function (societyRegistrationId) {
         if (!societyRegistrationId) {
             showError(invalidAccessValidationMessage);

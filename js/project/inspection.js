@@ -92,6 +92,9 @@ Inspection.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return inspectionActionTemplate(rowData);
     },
     loadInspectionData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -117,10 +120,7 @@ Inspection.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_TWENTYSEVEN, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            else
-                return regNoRenderer(VALUE_TWENTYSEVEN, data);
+            return getAppNoWithRating(VALUE_TWENTYSEVEN, data, full.district, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_TWENTYSEVEN);

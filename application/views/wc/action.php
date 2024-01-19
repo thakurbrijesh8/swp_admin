@@ -39,8 +39,13 @@
             onclick="WC.listview.askForRejectApplication('{{wc_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_reject_btn}}">
         <i class="fas fa-times-circle" style="margin-right: 2px;"></i> Reject</button>
-         <button type="button" class="btn btn-sm btn-nic-blue" id="download_certificate_btn_for_app_{{wc_id}}"
+    <button type="button" class="btn btn-sm btn-nic-blue" id="download_certificate_btn_for_app_{{wc_id}}"
             onclick="WC.listview.generateCertificate('{{wc_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_FIVE,'{{wc_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>

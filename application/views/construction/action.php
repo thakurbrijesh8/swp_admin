@@ -41,11 +41,16 @@
             onclick="Construction.listview.askForRejectApplication('{{construction_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_reject_btn}}">
         <i class="fas fa-times-circle" style="margin-right: 2px;"></i> Reject</button>
-        <a class="btn btn-sm btn-nic-blue" target="_blank"
+    <a class="btn btn-sm btn-nic-blue" target="_blank"
        id="download_certificate_btn_for_app_{{construction_id}}"
        href="certificate/pda/{{final_certificate}}"
        style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</a>
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_TWENTYSIX,'{{construction_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
+    {{/if}}
 </div>
 
 

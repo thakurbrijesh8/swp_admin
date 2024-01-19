@@ -113,6 +113,9 @@ Hotelregi.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return hotelregiActionTemplate(rowData);
     },
     loadHotelregiData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -141,10 +144,7 @@ Hotelregi.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_SIX, data) + '<hr>' + (talukaArray[full.name_of_tourist_area] ? talukaArray[full.name_of_tourist_area] : '');
-            else
-                return regNoRenderer(VALUE_SIX, data);
+            return getAppNoWithRating(VALUE_SIX, data, full.name_of_tourist_area, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_SIX);

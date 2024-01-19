@@ -162,6 +162,9 @@ SingleReturn.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
         return singleReturnActionTemplate(rowData);
     },
     loadSingleReturnData: function (sDistrict, sStatus, sAppTimingStatus) {
@@ -187,10 +190,7 @@ SingleReturn.listView = Backbone.View.extend({
             }
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            if (tempTypeInSession == TEMP_TYPE_A || tempTypeInSession == TEMP_TYPE_VDD)
-                return regNoRenderer(VALUE_THIRTYNINE, data) + '<hr>' + (talukaArray[full.district] ? talukaArray[full.district] : '');
-            else
-                return regNoRenderer(VALUE_THIRTYNINE, data);
+            return getAppNoWithRating(VALUE_THIRTYNINE, data, full.district, full);
         };
         var dateTimeDaysRenderer = function (data, type, full, meta) {
             return dateTimeDays(data, full, VALUE_THIRTYNINE);
