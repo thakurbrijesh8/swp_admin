@@ -526,7 +526,7 @@ $config['csrf_exclude_uris'] = array('utility/generate_new_token', 'utility/get_
     'ips/get_incentives_data', 'tree_cutting/get_tree_cutting_data', 'tree_cutting/generate_tree_cutting_excel',
     'society_registration/get_society_registration_data', 'society_registration/generate_society_registration_excel',
     'vp_users/get_deleted_users_data', 'nil_certificate/get_nil_certificate_data', 'nil_certificate/generate_nil_certificate_excel',
-    'cfr/get_cfr_data', 'business/get_business_data', 'ips/generate_incentives_excel','utility/get_head_wise_report_data');
+    'cfr/get_cfr_data', 'business/get_business_data', 'ips/generate_incentives_excel');
 
 
 /*
