@@ -22,12 +22,12 @@
     ),
     'mpdf/mpdf' => 
     array (
-      'pretty_version' => 'v8.0.11',
-      'version' => '8.0.11.0',
+      'pretty_version' => 'v8.0.10',
+      'version' => '8.0.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'af17afbbfa0b6ce76defc8da5d02a73d54f94c64',
+      'reference' => '1333a962cd2f7ae1a127b7534b7734b58179186f',
     ),
     'mpdf/qrcode' => 
     array (
