@@ -83,7 +83,7 @@ class Login extends CI_Controller {
 
     function logout() {
         $this->_destroy_session();
-        header("Location:" . base_url() . "main");
+        header("Location:" . base_url() . "login");
     }
 
     /**
@@ -97,9 +97,13 @@ class Login extends CI_Controller {
 //                $this->utility_lib->logout_log($temp_logged_id);
 //            }
 //        }
+//        $this->session->unset_userdata('temp_id_for_eodbsws_admin');
+//        $this->session->unset_userdata('name');
+//        $this->session->unset_userdata('temp_type_for_eodbsws_admin');
+//        $this->session->unset_userdata('temp_district_for_eodbsws_admin');
+//        $this->session->unset_userdata('temp_logged');
         $this->session->sess_destroy();
     }
-
 }
 
 /*

@@ -17,6 +17,10 @@ class Main extends CI_Controller {
         $this->load->view('common/backbone_footer');
     }
 
+    function page_not_found() {
+        $this->load->view('404');
+    }
+
     function _total_type_basic_array($type, &$success_array) {
         $success_array['total_' . $type . '_draft_app'] = 0;
         $success_array['total_' . $type . '_submitted_app'] = 0;
@@ -229,7 +233,6 @@ class Main extends CI_Controller {
 //            $success_array['dept_wise_app_details'][$module_type] = $dashboard_array;
 //        }
     }
-
 }
 
 /*
