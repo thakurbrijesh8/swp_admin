@@ -170,7 +170,7 @@
                             <label>16. Hydraulically Tested On<span style="color: red;">*</span></label>
                             <div class="input-group date">
                                 <input type="text" name="hydraulically_tested_on" id="hydraulically_tested_on" class="form-control date_picker" placeholder="dd-mm-yyyy" data-date-format="DD-MM-YYYY"
-                                       value="{{boilerActRenewal_data.hydraulically_tested_on}}" onblur="checkValidation('bocw', 'hydraulically_tested_on', hydrulicallyTestedOnValidationMessage);">
+                                       value="{{boilerActRenewal_data.hydraulically_tested_on_text}}" onblur="checkValidation('bocw', 'hydraulically_tested_on', hydrulicallyTestedOnValidationMessage);">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <span class="error-message error-message-boiler-act-renewal-hydraulically_tested_on"></span>

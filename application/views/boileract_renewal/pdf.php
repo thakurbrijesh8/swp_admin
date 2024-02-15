@@ -183,7 +183,7 @@
                 <td class="first-column" style="height: 30px;">15</td>
                 <td class="second-column">Hydraulically Tested On</td>
                 <td class="third-column">
-                    <?php echo $boileract_renewal_data['hydraulically_tested_on']; ?>
+                    <?php echo convert_to_new_date_format($boileract_renewal_data['hydraulically_tested_on']); ?>
                 </td>
                 </td>
             </tr>

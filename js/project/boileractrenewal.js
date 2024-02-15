@@ -224,6 +224,7 @@ BoilerActRenewal.listView = Backbone.View.extend({
         var that = this;
         if (isEdit) {
             var formData = parseData.boiler_act_renewal_data;
+            formData.hydraulically_tested_on_text = formData.hydraulically_tested_on != '0000-00-00' ? dateTo_DD_MM_YYYY(formData.hydraulically_tested_on) : '';
             BoilerActRenewal.router.navigate('edit_boileract_renewal_form');
         } else {
             var formData = {};
@@ -350,6 +351,7 @@ BoilerActRenewal.listView = Backbone.View.extend({
         }
         //templateData.boilerActRenewal_data = boilerActRenewalData;
         var formData = parseData.boiler_act_renewal_data;
+        formData.hydraulically_tested_on_text = formData.hydraulically_tested_on != '0000-00-00' ? dateTo_DD_MM_YYYY(formData.hydraulically_tested_on) : '';
         BoilerActRenewal.router.navigate('view_boileract_renewal_form');
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
         $('#boiler_act_renewal_form_and_datatable_container').html(boilerActRenewalViewTemplate(formData));
