@@ -1,6 +1,6 @@
 <hr>
 <div class="f-w-b">
-    Fees Details <span style="color: red;">*</label>
+    Fees Details <span style="color: red;">*</span>
 </div>
 <div class="table-responsive">
     <table class="table table-bordered table-hover m-b-5px">

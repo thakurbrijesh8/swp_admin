@@ -413,6 +413,9 @@ Dashboard.listView = Backbone.View.extend({
         var opMessageRenderer = function (data, type, full, meta) {
             return pgMessage(data, full.fees_payment_id);
         };
+        var tdtRenderer = function (data, type, full, meta) {
+            return full.op_transaction_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(full.op_transaction_datetime) : (full.op_start_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(full.op_start_datetime) : '-');
+        };
         var actionRenderer = function (data, type, full, meta) {
             return ophActionTemplate({'fees_payment_id': data});
         };
@@ -430,7 +433,7 @@ Dashboard.listView = Backbone.View.extend({
                 {data: 'module_type', 'render': deptNameRenderer},
                 {data: 'module_type', 'render': serviceNameRenderer},
                 {data: 'module_id', 'class': 'text-center f-w-b', 'render': tempRegNoRenderer},
-                {data: 'op_transaction_datetime', 'class': 'text-center', 'render': dateTimeRenderer},
+                {data: '', 'class': 'text-center', 'render': tdtRenderer},
                 {data: 'total_fees', 'class': 'text-right', 'render': feeRenderer},
                 {data: 'reference_id', 'class': 'text-center'},
                 {data: 'op_status', 'class': 'text-center', 'render': pgStatusRenderer},
@@ -504,7 +507,7 @@ Dashboard.listView = Backbone.View.extend({
         fpData.department_name = getDeptName(fpData.module_type);
         fpData.service_name = getServiceName(fpData.module_type);
         fpData.service_name = getServiceName(fpData.module_type);
-        fpData.transaction_datetime_text = fpData.op_transaction_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(fpData.op_transaction_datetime) : '-';
+        fpData.transaction_datetime_text = fpData.op_transaction_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(fpData.op_transaction_datetime) : (fpData.op_start_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(fpData.op_start_datetime) : '-');
         fpData.payment_status_text = pgStatus(fpData.op_status, fpData.fees_payment_id);
         $('#popup_container').html(dvListTemplate(fpData));
         var tempDVCnt = 1;
@@ -670,7 +673,7 @@ Dashboard.listView = Backbone.View.extend({
 //        if (totalORP != totalFPORP) {
 //            $('#total_online_payment_received_for_hwr').html('<span class="text-danger">' + totalORP + '<span>');
 //        } else {
-            $('#total_online_payment_received_for_hwr').html(totalORP);
+        $('#total_online_payment_received_for_hwr').html(totalORP);
 //        }
         $('#hwr_datatable').DataTable({
             ordering: false, paging: false, info: false, searching: false,

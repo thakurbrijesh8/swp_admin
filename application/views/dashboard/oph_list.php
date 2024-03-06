@@ -28,7 +28,7 @@
                                         <th class="text-center" style="min-width: 120px;">Payment<br>Reference Number</th>
                                         <th class="text-center" style="min-width: 120px;">Payment Status</th>
                                         <th class="text-center" style="min-width: 150px;">Message</th>
-                                        <th class="text-center" style="min-width: 80px;">Action</th>
+                                        <th class="text-center" style="min-width: 100px;">Action</th>
                                     </tr>
                                     <tr>
                                         <th></th>

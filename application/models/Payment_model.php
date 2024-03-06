@@ -153,7 +153,7 @@ class Payment_model extends CI_Model {
         $this->db->join('fees_payment AS fp', 'fp.module_type=fb.module_type AND fp.module_id=fb.module_id AND '
                 . 'fp.op_status = ' . VALUE_TWO . ' AND fp.is_delete!=' . VALUE_ONE);
         $this->db->join('dept_fd AS dfd', 'dfd.dept_fd_id=fb.dept_fd_id');
-        $this->db->order_by('fp.op_transaction_datetime, fb.module_id', 'ASC');
+        $this->db->order_by('fp.op_transaction_datetime', 'DESC');
         $resc = $this->db->get();
         return $resc->result_array();
     }

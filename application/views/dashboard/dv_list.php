@@ -80,8 +80,8 @@
             <tbody id="dv_item_container"></tbody>
         </table>
     </div>
-    <hr class="m-b-1rem mt-3">
-    <div class="form-group">
-        <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();"><i class="fas fa-times"></i> Close</button>
-    </div>
+</div>
+<div class="card-footer text-right pr-2">
+    <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">
+        <i class="fas fa-times"></i>&nbsp; Close</button>
 </div>

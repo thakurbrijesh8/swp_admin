@@ -1,6 +1,6 @@
 <hr>
 <div class="f-w-b mt-1 mb-1">
-    Online Payment History <span style="color: red;">*</label>
+    Online Payment History <span style="color: red;">*</span>
 </div>
 <div class="table-responsive mb-3">
     <table class="table table-bordered table-hover m-b-5px">

@@ -57,6 +57,7 @@ class Payment_status extends CI_Controller {
 
         $ch = curl_init(PG_DV_URL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 50000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_SSLVERSION, 6);
@@ -74,11 +75,14 @@ class Payment_status extends CI_Controller {
                 $return_data = explode('|', $response);
                 if (!empty($return_data)) {
                     $status = isset($return_data[2]) ? $return_data[2] : '';
-                    if ($status == 'FAIL' || $status == 'ABORT' || $status == 'PENDING' || $status == 'BOOKED' || $status == 'INPROGRESS' || $status == 'SUCCESS' || $status == 'REFUND' || $status == 'No Records Found' || $status == 'EXPIRED') {
+                    if ($status == 'No Records Found') {
+                        $status = 'FAIL';
+                    }
+                    if ($status == 'FAIL' || $status == 'ABORT' || $status == 'PENDING' || $status == 'BOOKED' || $status == 'INPROGRESS' || $status == 'SUCCESS' || $status == 'REFUND' || $status == 'EXPIRED') {
                         $dv_data['dv_status'] = VALUE_TWO;
                         $dv_data['dv_return'] = $response;
                         $dv_data['dv_reference_id'] = isset($return_data[1]) ? $return_data[1] : '';
-                        $dv_data['dv_pg_status'] = ($status == 'FAIL' || $status == 'ABORT' || $status == 'REFUND' || $status == 'No Records Found' || $status == 'EXPIRED') ? VALUE_THREE : ($status == 'PENDING' ? VALUE_FOUR : ($status == 'BOOKED' ? VALUE_FIVE : ($status == 'INPROGRESS' ? VALUE_SIX : ($status == 'SUCCESS' ? VALUE_TWO : VALUE_THREE))));
+                        $dv_data['dv_pg_status'] = ($status == 'FAIL' || $status == 'ABORT' || $status == 'REFUND' || $status == 'EXPIRED') ? VALUE_THREE : ($status == 'PENDING' ? VALUE_FOUR : ($status == 'BOOKED' ? VALUE_FIVE : ($status == 'INPROGRESS' ? VALUE_SIX : ($status == 'SUCCESS' ? VALUE_TWO : VALUE_THREE))));
                         $dv_data['dv_order_number'] = isset($return_data[6]) ? $return_data[6] : '';
                         $dv_data['dv_amount'] = isset($return_data[7]) ? $return_data[7] : '';
                         $dv_data['dv_message'] = isset($return_data[8]) ? $return_data[8] : '';
@@ -124,6 +128,17 @@ class Payment_status extends CI_Controller {
                 $fp_update['is_auto_dv_done'] = VALUE_ONE;
             }
             if ($check_payment_fp['op_status'] != $dv_data['dv_pg_status']) {
+                if (isset($dv_data['dv_return'])) {
+                    $return_data = explode('|', $dv_data['dv_return']);
+                    if (!empty($return_data)) {
+                        $fp_update['reference_id'] = isset($return_data[13]) ? $return_data[13] : '';
+                        $fp_update['op_end_datetime'] = isset($return_data[11]) ? $return_data[11] : '';
+                        $fp_update['op_bank_code'] = isset($return_data[9]) ? $return_data[9] : '';
+                        $fp_update['op_bank_reference_number'] = isset($return_data[10]) ? $return_data[10] : '';
+                        $fp_update['op_transaction_datetime'] = $fp_update['op_end_datetime'];
+                        $fp_update['op_mid'] = isset($return_data[0]) ? $return_data[0] : '';
+                    }
+                }
                 $fp_update['op_status'] = $dv_data['dv_pg_status'];
                 $fp_update['op_message'] = $dv_data['dv_message'];
                 $update_fp = true;

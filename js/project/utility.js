@@ -2176,8 +2176,8 @@ function loadPH(moduleType, moduleId, phDetails) {
     $.each(phDetails, function (index, phd) {
         phd.module_type = moduleType;
         phd.ph_cnt = tempCnt;
-        phd.transaction_datetime = phd.op_start_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(phd.op_start_datetime) : '';
-        phd.status_text = pgStatusTextArray[phd.op_status] ? pgStatusTextArray[phd.op_status] : pgStatusTextArray[VALUE_ZERO];
+        phd.transaction_datetime = phd.op_transaction_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(phd.op_transaction_datetime) : (phd.op_start_datetime != '0000-00-00 00:00:00' ? dateTo_DD_MM_YYYY_HH_II_SS(phd.op_start_datetime) : '');
+        phd.status_text = pgStatus(phd.op_status, phd.fees_payment_id);
         $('#ph_item_container_for_' + moduleType).append(phItemTemplate(phd));
         tempCnt++;
     });
@@ -2194,7 +2194,7 @@ var pgStatusRenderer = function (data, type, full, meta) {
 };
 
 function pgStatus(data, feePaymentId) {
-    return '<div class="pg_status_' + feePaymentId + '">' + (pgStatusTextArray[data] ? pgStatusTextArray[data] : '') + '</div>';
+    return '<div class="pg_status_' + feePaymentId + '">' + (pgStatusTextArray[data] ? pgStatusTextArray[data] : pgStatusTextArray[VALUE_ZERO]) + '</div>';
 }
 
 function pgMessage(data, feePaymentId) {
@@ -2246,7 +2246,6 @@ function checkPaymentDV(btnObj, feesPaymentId) {
             setNewToken(parseData.temp_token);
             if (parseData.success === false) {
                 showError(parseData.message);
-                $('html, body').animate({scrollTop: '0px'}, 0);
                 return false;
             }
             var totalExCnt = returnCounter('dv-cnt');
@@ -2258,6 +2257,7 @@ function checkPaymentDV(btnObj, feesPaymentId) {
             resetCounter('dv-cnt');
             if (parseData.is_updated_fp) {
                 $('.pg_status_' + feesPaymentId).html(pgStatus(parseData.updated_op_status, feesPaymentId));
+                $('.pg_message_' + feesPaymentId).html(parseData.updated_op_message);
             }
         }
     });
@@ -2268,7 +2268,7 @@ function loadDVRow(dv) {
     dv.dv_start_datetime_text = dateTo_DD_MM_YYYY_HH_II_SS(dv.dv_start_datetime);
     dv.dv_status_text = dvStatusTextArray[dv.dv_status] ? dvStatusTextArray[dv.dv_status] : '';
     dv.dv_pg_status_text = dv.dv_pg_status != VALUE_ZERO ? (pgStatusTextArray[dv.dv_pg_status] ? pgStatusTextArray[dv.dv_pg_status] : '') : '';
-    $('#dv_item_container').append(dvItemTemplate(dv));
+    $('#dv_item_container').prepend(dvItemTemplate(dv));
 }
 
 function getCheckboxValue(columValue, arrayValue) {
