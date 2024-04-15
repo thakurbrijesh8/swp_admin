@@ -25,6 +25,8 @@
         onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_FIVE}},{{VALUE_ONE}});">{{ot_approved_app}}</td>
     <td class="text-center bg-light-green f-w-b f-s-16px cursor-pointer" style="{{show_border_top}}"
         onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_SIX}},{{VALUE_ONE}});">{{ot_rejected_app}}</td>
+    <td class="text-center bg-light-green f-w-b f-s-16px cursor-pointer" style="{{show_border_top}}"
+        onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_ELEVEN}},{{VALUE_ONE}});">{{ot_withdraw_app}}</td>
     <!--<td class="text-center bg-light-red f-w-b f-s-16px">{{delay_draft_app}}</td>-->
     <td class="text-center bg-light-red f-w-b f-s-16px cursor-pointer" style="{{show_border_top}}"
         onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_TWO}},{{VALUE_TWO}});">{{delay_submitted_app}}</td>
@@ -44,4 +46,6 @@
         onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_FIVE}},{{VALUE_TWO}});">{{delay_approved_app}}</td>
     <td class="text-center bg-light-red f-w-b f-s-16px cursor-pointer" style="{{show_border_top}}"
         onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_SIX}},{{VALUE_TWO}});">{{delay_rejected_app}}</td>
+    <td class="text-center bg-light-red f-w-b f-s-16px cursor-pointer" style="{{show_border_top}}"
+        onclick="Dashboard.listview.changeRouter({{module_type}},{{district}},{{VALUE_ELEVEN}},{{VALUE_TWO}});">{{delay_withdraw_app}}</td>
 </tr>

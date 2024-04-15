@@ -54,14 +54,14 @@ SocietyRegistration.listView = Backbone.View.extend({
         } else {
             rowData.show_download_passbook_btn = false;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
         rowData.status = parseInt(rowData.status);
         if (rowData.status == VALUE_FOUR || rowData.status == VALUE_FIVE || rowData.status == VALUE_SEVEN || rowData.status == VALUE_EIGHT) {
             rowData.show_download_fees_paid_challan_btn = true;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -79,6 +79,9 @@ SocietyRegistration.listView = Backbone.View.extend({
         }
         if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
             rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return societyRegistrationActionTemplate(rowData);
     },
@@ -313,7 +316,7 @@ SocietyRegistration.listView = Backbone.View.extend({
                 }
                 var societyRegistrationData = parseData.society_registration_data;
                 showPopup();
-                if (societyRegistrationData.status != VALUE_FOUR && societyRegistrationData.status != VALUE_FIVE && societyRegistrationData.status != VALUE_SIX && societyRegistrationData.status != VALUE_SEVEN && societyRegistrationData.status != VALUE_EIGHT) {
+                if (societyRegistrationData.status != VALUE_FOUR && societyRegistrationData.status != VALUE_FIVE && societyRegistrationData.status != VALUE_SIX && societyRegistrationData.status != VALUE_SEVEN && societyRegistrationData.status != VALUE_EIGHT && societyRegistrationData.status != VALUE_ELEVEN) {
                     societyRegistrationData.show_remove_upload_btn = true;
                 }
                 if (societyRegistrationData.payment_type == VALUE_ONE) {

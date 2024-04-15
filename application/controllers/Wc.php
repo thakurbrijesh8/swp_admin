@@ -128,61 +128,61 @@ class Wc extends CI_Controller {
                 echo json_encode(get_error_array($validation_message));
                 return false;
             }
-    //
-    //        if ($_FILES['seal_and_stamp_for_wc']['name'] != '') {
-    //            $main_path = 'documents/wc';
-    //            // if (!is_dir($main_path)) {
-    //            //     mkdir($main_path);
-    //            //     chmod("$main_path", 0755);
-    //            // }
-    //            $documents_path = 'documents';
-    //            if (!is_dir($documents_path)) {
-    //                mkdir($documents_path);
-    //                chmod($documents_path, 0777);
-    //            }
-    //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'wc';
-    //            if (!is_dir($module_path)) {
-    //                mkdir($module_path);
-    //                chmod($module_path, 0777);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_wc']['name']);
-    //            $filename = 'wc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_wc']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $wc_data['signature'] = $filename;
-    //        }
-    //        if ($_FILES['receipt_of_last_years_house_tax_for_wc']['name'] != '') {
-    //            $main_path = 'documents/wc';
-    //            // if (!is_dir($main_path)) {
-    //            //     mkdir($main_path);
-    //            //     chmod("$main_path", 0755);
-    //            // }
-    //            $documents_path = 'documents';
-    //            if (!is_dir($documents_path)) {
-    //                mkdir($documents_path);
-    //                chmod($documents_path, 0777);
-    //            }
-    //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'wc';
-    //            if (!is_dir($module_path)) {
-    //                mkdir($module_path);
-    //                chmod($module_path, 0777);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['receipt_of_last_years_house_tax_for_wc']['name']);
-    //            $filename = 'wc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //            if (!move_uploaded_file($_FILES['receipt_of_last_years_house_tax_for_wc']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $wc_data['receipt_of_last_years_house_tax'] = $filename;
-    //        }
+            //
+            //        if ($_FILES['seal_and_stamp_for_wc']['name'] != '') {
+            //            $main_path = 'documents/wc';
+            //            // if (!is_dir($main_path)) {
+            //            //     mkdir($main_path);
+            //            //     chmod("$main_path", 0755);
+            //            // }
+            //            $documents_path = 'documents';
+            //            if (!is_dir($documents_path)) {
+            //                mkdir($documents_path);
+            //                chmod($documents_path, 0777);
+            //            }
+            //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'wc';
+            //            if (!is_dir($module_path)) {
+            //                mkdir($module_path);
+            //                chmod($module_path, 0777);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_wc']['name']);
+            //            $filename = 'wc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_wc']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $wc_data['signature'] = $filename;
+            //        }
+            //        if ($_FILES['receipt_of_last_years_house_tax_for_wc']['name'] != '') {
+            //            $main_path = 'documents/wc';
+            //            // if (!is_dir($main_path)) {
+            //            //     mkdir($main_path);
+            //            //     chmod("$main_path", 0755);
+            //            // }
+            //            $documents_path = 'documents';
+            //            if (!is_dir($documents_path)) {
+            //                mkdir($documents_path);
+            //                chmod($documents_path, 0777);
+            //            }
+            //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'wc';
+            //            if (!is_dir($module_path)) {
+            //                mkdir($module_path);
+            //                chmod($module_path, 0777);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['receipt_of_last_years_house_tax_for_wc']['name']);
+            //            $filename = 'wc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //            if (!move_uploaded_file($_FILES['receipt_of_last_years_house_tax_for_wc']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $wc_data['receipt_of_last_years_house_tax'] = $filename;
+            //        }
 
             $this->db->trans_start();
             //$wc_data['user_id'] = $user_id;
@@ -377,11 +377,13 @@ class Wc extends CI_Controller {
                     $this->load->model('payment_model');
                     $ph_data = $this->payment_model->get_payment_history(VALUE_FIVE, $wc_id);
                 }
-                 if ($wc_data['status'] != VALUE_FOUR && $wc_data['status'] != VALUE_FIVE &&
+                if ($wc_data['status'] != VALUE_FOUR && $wc_data['status'] != VALUE_FIVE &&
                         $wc_data['status'] != VALUE_SIX && $wc_data['status'] != VALUE_SEVEN &&
                         $wc_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $wc_data['show_remove_upload_btn'] = true;
+                        if ($wc_data['status'] != VALUE_ELEVEN) {
+                            $wc_data['show_remove_upload_btn'] = true;
+                        }
                         $wc_data['show_dropdown'] = true;
                         $wc_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FIVE, 'dept_fd');
                     }
@@ -717,7 +719,6 @@ class Wc extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

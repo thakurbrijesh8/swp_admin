@@ -589,7 +589,9 @@ class Factorylicense extends CI_Controller {
                         $factory_license_data['status'] != VALUE_SIX && $factory_license_data['status'] != VALUE_SEVEN &&
                         $factory_license_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $factory_license_data['show_remove_upload_btn'] = true;
+                        if ($factory_license_data['status'] != VALUE_ELEVEN) {
+                            $factory_license_data['show_remove_upload_btn'] = true;
+                        }
                         $factory_license_data['show_dropdown'] = true;
                         $factory_license_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYFIVE, 'dept_fd');
                     }
@@ -820,7 +822,6 @@ class Factorylicense extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -987,7 +988,6 @@ class Factorylicense extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

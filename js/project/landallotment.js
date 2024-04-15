@@ -239,20 +239,20 @@ Landallotment.listView = Backbone.View.extend({
             return landallotmentActionTemplate(rowData);
         }
         rowData.show_rv_query_btn = true;
-        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX) {
+        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_edit_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE) {
             rowData.show_form_one_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_TWO && rowData.status != VALUE_THREE && rowData.status != VALUE_SIX) {
             rowData.show_download_fees_paid_challan_btn = true;
             rowData.LANDALLOTMENT_DOC_PATH = LANDALLOTMENT_DOC_PATH;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -270,6 +270,9 @@ Landallotment.listView = Backbone.View.extend({
         }
         if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
             rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return landallotmentActionTemplate(rowData);
     },
@@ -1798,7 +1801,7 @@ Landallotment.listView = Backbone.View.extend({
                 }
                 var landallotmentData = parseData.landallotment_data;
                 showPopup();
-                if (landallotmentData.status != VALUE_FOUR && landallotmentData.status != VALUE_FIVE && landallotmentData.status != VALUE_SIX && landallotmentData.status != VALUE_SEVEN && landallotmentData.status != VALUE_EIGHT) {
+                if (landallotmentData.status != VALUE_FOUR && landallotmentData.status != VALUE_FIVE && landallotmentData.status != VALUE_SIX && landallotmentData.status != VALUE_SEVEN && landallotmentData.status != VALUE_EIGHT && landallotmentData.status != VALUE_ELEVEN) {
                     landallotmentData.show_remove_upload_btn = true;
                 }
                 if (landallotmentData.payment_type == VALUE_ONE) {

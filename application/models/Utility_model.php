@@ -227,6 +227,25 @@ class Utility_model extends CI_Model {
         $resc = $this->db->get();
         return $resc->row_array();
     }
+
+    function get_details_for_withdraw_application($qm_data, $module_id) {
+        $this->db->select('*, ' . $qm_data['key_id_text'] . " AS module_id");
+        $this->db->where($qm_data['key_id_text'], $module_id);
+        $this->db->where('is_delete != ' . IS_DELETE);
+        $this->db->from($qm_data['tbl_text']);
+        $resc = $this->db->get();
+        return $resc->row_array();
+    }
+
+    function get_details_for_ips_incentives_withdraw_application($qm_data, $module_id) {
+        $this->db->select('ii.*, i.*, ' . 'ii.' . $qm_data['key_id_text'] . " AS module_id");
+        $this->db->where('ii.' . $qm_data['key_id_text'], $module_id);
+        $this->db->where('ii.is_delete != ' . IS_DELETE);
+        $this->db->from($qm_data['tbl_text'] . ' AS ii');
+        $this->db->join('ips AS i', 'i.ips_id = ii.ips_id');
+        $resc = $this->db->get();
+        return $resc->row_array();
+    }
 }
 
 /*

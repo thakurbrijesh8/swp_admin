@@ -309,7 +309,9 @@ class Migrantworkers_renewal extends CI_Controller {
                         $migrantworkers_renewal_data['status'] != VALUE_SIX && $migrantworkers_renewal_data['status'] != VALUE_SEVEN &&
                         $migrantworkers_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $migrantworkers_renewal_data['show_remove_upload_btn'] = true;
+                        if ($migrantworkers_renewal_data['status'] != VALUE_ELEVEN) {
+                            $migrantworkers_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $migrantworkers_renewal_data['show_dropdown'] = true;
                         $migrantworkers_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTYFIVE, 'dept_fd');
                     }
@@ -470,7 +472,7 @@ class Migrantworkers_renewal extends CI_Controller {
             $update_data = array();
             $update_data['registration_number'] = get_from_post('registration_number_for_migrantworkers_renewal_approve');
             $update_data['valid_upto'] = get_from_post('valid_upto_for_migrantworkers_renewal_approve');
-    //        $update_data['challan_number'] = get_from_post('challan_number_for_migrantworkers_renewal_approve');
+            //        $update_data['challan_number'] = get_from_post('challan_number_for_migrantworkers_renewal_approve');
             $update_data['remarks'] = get_from_post('remarks_for_migrantworkers_renewal_approve');
             if (!$update_data['registration_number']) {
                 echo json_encode(get_error_array(ESTABLISHMENT_REGISTRATION_NO_MESSAGE));
@@ -480,10 +482,10 @@ class Migrantworkers_renewal extends CI_Controller {
                 echo json_encode(get_error_array(DATE_MESSAGE));
                 return false;
             }
-    //        if (!$update_data['challan_number']) {
-    //            echo json_encode(get_error_array(SHOP_CHALLAN_NO_MESSAGE));
-    //            return false;
-    //        }
+            //        if (!$update_data['challan_number']) {
+            //            echo json_encode(get_error_array(SHOP_CHALLAN_NO_MESSAGE));
+            //            return false;
+            //        }
             if (!$update_data['remarks']) {
                 echo json_encode(get_error_array(ESTABLISHMENT_REMARK_MESSAGE));
                 return false;
@@ -629,12 +631,10 @@ class Migrantworkers_renewal extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'migrantworkers' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('migrantworkers_renewal_id', $migrantworkers_renewal_id, 'migrantworkers_renewal', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -688,7 +688,6 @@ class Migrantworkers_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

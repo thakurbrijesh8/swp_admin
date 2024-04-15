@@ -70,20 +70,20 @@ BuildingPlan.listView = Backbone.View.extend({
             return buildingPlanActionTemplate(rowData);
         }
         rowData.show_rv_query_btn = true;
-        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX) {
+        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_edit_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE) {
             rowData.show_form_one_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
         rowData.status = parseInt(rowData.status);
         if (rowData.status == VALUE_FOUR || rowData.status == VALUE_FIVE || rowData.status == VALUE_SEVEN || rowData.status == VALUE_EIGHT) {
             rowData.show_download_fees_paid_challan_btn = true;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -101,6 +101,9 @@ BuildingPlan.listView = Backbone.View.extend({
         }
         if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
             rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return buildingPlanActionTemplate(rowData);
     },
@@ -716,7 +719,7 @@ BuildingPlan.listView = Backbone.View.extend({
                 }
                 var buildingPlanData = parseData.building_plan_data;
                 showPopup();
-                if (buildingPlanData.status != VALUE_FOUR && buildingPlanData.status != VALUE_FIVE && buildingPlanData.status != VALUE_SIX && buildingPlanData.status != VALUE_SEVEN && buildingPlanData.status != VALUE_EIGHT) {
+                if (buildingPlanData.status != VALUE_FOUR && buildingPlanData.status != VALUE_FIVE && buildingPlanData.status != VALUE_SIX && buildingPlanData.status != VALUE_SEVEN && buildingPlanData.status != VALUE_EIGHT && buildingPlanData.status != VALUE_ELEVEN) {
                     buildingPlanData.show_remove_upload_btn = true;
                 }
                 if (buildingPlanData.payment_type == VALUE_ONE) {

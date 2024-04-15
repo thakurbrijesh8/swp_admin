@@ -373,7 +373,9 @@ class Repairer_renewal extends CI_Controller {
                         $repairer_renewal_data['status'] != VALUE_SIX && $repairer_renewal_data['status'] != VALUE_SEVEN &&
                         $repairer_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $repairer_renewal_data['show_remove_upload_btn'] = true;
+                        if ($repairer_renewal_data['status'] != VALUE_ELEVEN) {
+                            $repairer_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $repairer_renewal_data['show_dropdown'] = true;
                         $repairer_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTEEN, 'dept_fd');
                     }
@@ -704,7 +706,6 @@ class Repairer_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

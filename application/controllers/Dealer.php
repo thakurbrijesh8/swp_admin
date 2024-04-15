@@ -338,7 +338,9 @@ class Dealer extends CI_Controller {
                         $dealer_data['status'] != VALUE_SIX && $dealer_data['status'] != VALUE_SEVEN &&
                         $dealer_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $dealer_data['show_remove_upload_btn'] = true;
+                        if ($dealer_data['status'] != VALUE_ELEVEN) {
+                            $dealer_data['show_remove_upload_btn'] = true;
+                        }
                         $dealer_data['show_dropdown'] = true;
                         $dealer_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THREE, 'dept_fd');
                     }
@@ -669,7 +671,6 @@ class Dealer extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

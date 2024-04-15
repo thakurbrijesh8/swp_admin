@@ -97,23 +97,23 @@ class Migrantworkers extends CI_Controller {
                 echo json_encode(get_error_array(ONE_CONTRACTOR_MESSAGE));
                 return false;
             }
-    //        if ($_FILES['seal_and_stamp_for_migrantworkers']['name'] != '') {
-    //            $main_path = 'documents/migrantworkers';
-    //            if (!is_dir($main_path)) {
-    //                mkdir($main_path);
-    //                chmod("$main_path", 0755);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_migrantworkers']['name']);
-    //            $filename = 'migrantworkers_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_migrantworkers']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $migrantworkers_data['mw_sign_of_principal_employer'] = $filename;
-    //        }
+            //        if ($_FILES['seal_and_stamp_for_migrantworkers']['name'] != '') {
+            //            $main_path = 'documents/migrantworkers';
+            //            if (!is_dir($main_path)) {
+            //                mkdir($main_path);
+            //                chmod("$main_path", 0755);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_migrantworkers']['name']);
+            //            $filename = 'migrantworkers_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_migrantworkers']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $migrantworkers_data['mw_sign_of_principal_employer'] = $filename;
+            //        }
             $this->db->trans_start();
             $migrantworkers_data['status'] = $module_type;
             if (!$mw_id || $mw_id == NULL) {
@@ -353,7 +353,9 @@ class Migrantworkers extends CI_Controller {
                         $migrantworkers_data['status'] != VALUE_SIX && $migrantworkers_data['status'] != VALUE_SEVEN &&
                         $migrantworkers_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $migrantworkers_data['show_remove_upload_btn'] = true;
+                        if ($migrantworkers_data['status'] != VALUE_ELEVEN) {
+                            $migrantworkers_data['show_remove_upload_btn'] = true;
+                        }
                         $migrantworkers_data['show_dropdown'] = true;
                         $migrantworkers_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYFOUR, 'dept_fd');
                     }
@@ -436,10 +438,10 @@ class Migrantworkers extends CI_Controller {
             $migrantworkers_data = array();
             if ($_FILES['challan_for_migrantworkers_upload_challan']['name'] != '') {
                 $main_path = 'documents/migrantworkers/';
-    //            if (!is_dir($main_path)) {
-    //                mkdir($main_path);
-    //                chmod("$main_path", 0755);
-    //            }
+                //            if (!is_dir($main_path)) {
+                //                mkdir($main_path);
+                //                chmod("$main_path", 0755);
+                //            }
                 $documents_path = 'documents';
                 if (!is_dir($documents_path)) {
                     mkdir($documents_path);
@@ -695,7 +697,6 @@ class Migrantworkers extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

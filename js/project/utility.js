@@ -1349,10 +1349,10 @@ function raiseAnotherQuery(moduleType, moduleId) {
 function loadQueryManagementModule(parseData, templateData, tmpData) {
     documentRowCnt = 1;
     var moduleData = parseData.module_data;
-    if ((moduleData.status != VALUE_FIVE && moduleData.status != VALUE_SIX) && (moduleData.query_status == VALUE_ONE || moduleData.query_status == VALUE_TWO)) {
+    if ((moduleData.status != VALUE_FIVE && moduleData.status != VALUE_SIX && moduleData.status != VALUE_ELEVEN) && (moduleData.query_status == VALUE_ONE || moduleData.query_status == VALUE_TWO)) {
         tmpData.show_resolve_query_btn = true;
     }
-    if ((moduleData.status != VALUE_FIVE && moduleData.status != VALUE_SIX) && (moduleData.query_status == VALUE_TWO || moduleData.query_status == VALUE_THREE)) {
+    if ((moduleData.status != VALUE_FIVE && moduleData.status != VALUE_SIX && moduleData.status != VALUE_ELEVEN) && (moduleData.query_status == VALUE_TWO || moduleData.query_status == VALUE_THREE)) {
         tmpData.show_raise_query_btn = true;
     }
     $('#model_title').html('Query Management');
@@ -2511,4 +2511,214 @@ function getAppNoWithRating(moduleType, moduleId, district, full) {
         returnData = regNoRenderer(moduleType, moduleId);
     }
     return returnData + getFRContainer(full.rating, full.fr_datetime);
+}
+
+function askForWithdrawApplication(btnObj, moduleType, moduleId) {
+    if (!tempIdInSession || tempIdInSession == null) {
+        loginPage();
+        return false;
+    }
+    if (!moduleType || moduleType == null || moduleType == VALUE_ZERO || !moduleId || moduleId == null || moduleId == VALUE_ZERO) {
+        showError(invalidAccessValidationMessage);
+        return false;
+    }
+    var ogBtnHTML = btnObj.html();
+    var ogBtnOnclick = btnObj.attr('onclick');
+    btnObj.html(iconSpinnerTemplate);
+    btnObj.attr('onclick', '');
+    $.ajax({
+        type: 'POST',
+        url: 'utility/get_basic_details_for_withdraw_application',
+        data: $.extend({}, {'module_type': moduleType, 'module_id': moduleId}, getTokenData()),
+        error: function (textStatus, errorThrown) {
+            generateNewCSRFToken();
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            if (textStatus.status === 403) {
+                loginPage();
+                return false;
+            }
+            if (!textStatus.statusText) {
+                loginPage();
+                return false;
+            }
+            showError(textStatus.statusText);
+        },
+        success: function (response) {
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            var parseData = JSON.parse(response);
+            if (parseData.is_logout === true) {
+                loginPage();
+                return false;
+            }
+            setNewToken(parseData.temp_token);
+            if (parseData.success === false) {
+                showError(parseData.message);
+                return false;
+            }
+            var waData = parseData.wa_data;
+            waData.module_type = moduleType;
+            waData.application_number = regNoRenderer(moduleType, waData.module_id);
+            if (moduleType == VALUE_THIRTYTHREE) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.s_name;
+            } else if (moduleType == VALUE_FOURTYTWO) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.name_of_shop;
+            } else if (moduleType == VALUE_THIRTYONE) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.establishment_name;
+            } else if (moduleType == VALUE_THIRTYTWO) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.name_location_of_est;
+            } else if (moduleType == VALUE_THIRTYFOUR) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.mw_name_of_establishment;
+            } else if (moduleType == VALUE_FOURTYFIVE) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.name_of_establishment;
+            } else if (moduleType == VALUE_THIRTYNINE) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.esta_name;
+            } else if (moduleType == VALUE_FOURTYTHREE || moduleType == VALUE_FOURTYSIX) {
+                waData.title = 'Name of the Establishment';
+                waData.establishment_name = waData.establi_name;
+            } else if (moduleType == VALUE_THIRTYFIVE || moduleType == VALUE_FOURTYONE) {
+                waData.title = 'Name of the Factory';
+                waData.establishment_name = waData.name_of_factory;
+            } else if (moduleType == VALUE_THIRTYSIX) {
+                waData.title = 'Name of the Factory';
+                waData.establishment_name = waData.factory_name;
+            } else if (moduleType == VALUE_THIRTYSEVEN || moduleType == VALUE_FOURTYFOUR) {
+                waData.title = 'Owner Name';
+                waData.establishment_name = waData.owner_name;
+            } else if (moduleType == VALUE_THIRTYEIGHT) {
+                waData.title = 'Name of the Firm';
+                waData.establishment_name = waData.name_of_firm;
+            } else if (moduleType == VALUE_FIVE || moduleType == VALUE_ONE || moduleType == VALUE_FOURTYEIGHT ||
+                    moduleType == VALUE_FIFTY || moduleType == VALUE_EIGHT || moduleType == VALUE_FOURTY ||
+                    moduleType == VALUE_TWENTYSEVEN || moduleType == VALUE_SIXTYONE || moduleType == VALUE_TWENTYFIVE) {
+                waData.title = 'Name of the Applicant';
+                waData.establishment_name = waData.name_of_applicant;
+            } else if (moduleType == VALUE_TWO || moduleType == VALUE_FOURTEEN) {
+                waData.title = 'Name of the Repairer';
+                waData.establishment_name = waData.name_of_repairer;
+            } else if (moduleType == VALUE_THREE || moduleType == VALUE_FIFTEEN) {
+                waData.title = 'Name of the Dealer';
+                waData.establishment_name = waData.name_of_dealer;
+            } else if (moduleType == VALUE_FOUR || moduleType == VALUE_SIXTEEN) {
+                waData.title = 'Name of the Manufacturer';
+                waData.establishment_name = waData.name_of_manufacturer;
+            } else if (moduleType == VALUE_FOURTYNINE) {
+                waData.title = 'Name of the User';
+                waData.establishment_name = waData.user_name;
+            } else if (moduleType == VALUE_SIX || moduleType == VALUE_TWENTY) {
+                waData.title = 'Name of the Hotel';
+                waData.establishment_name = waData.name_of_hotel;
+            } else if (moduleType == VALUE_NINETEEN || moduleType == VALUE_TWENTYTHREE) {
+                waData.title = 'Name of the Travel Agency';
+                waData.establishment_name = waData.name_of_travel_agency;
+            } else if (moduleType == VALUE_TWENTYFOUR) {
+                waData.title = 'Name of the Event';
+                waData.establishment_name = waData.name_of_event;
+            } else if (moduleType == VALUE_SEVEN) {
+                waData.title = 'Name of the Firm';
+                waData.establishment_name = waData.firm_name;
+            } else if (moduleType == VALUE_TWENTYTWO) {
+                waData.title = 'Name of the Production House';
+                waData.establishment_name = waData.production_house;
+            } else if (moduleType == VALUE_SIXTY || moduleType == VALUE_FIFTYNINE) {
+                waData.title = 'Name of the Applicant';
+                waData.establishment_name = waData.applicant_name;
+            } else if (moduleType == VALUE_TEN || moduleType == VALUE_NINE) {
+                waData.title = 'Name of the Enterprise';
+                waData.establishment_name = waData.enterprise_name;
+            } else if (moduleType == VALUE_TWENTYSIX) {
+                waData.title = 'Name of the Owner';
+                waData.establishment_name = waData.name_of_owner;
+            } else if (moduleType == VALUE_TWENTYEIGHT) {
+                waData.title = 'Survey Number';
+                waData.establishment_name = waData.survey_no;
+            } else if (moduleType == VALUE_FIFTYTWO) {
+                waData.title = 'Manufacturing Unit / Service Unit Details ';
+                waData.establishment_name = waData.manu_name;
+            } else if (moduleType == VALUE_TWENTYONE) {
+                waData.title = 'Party Name';
+                waData.establishment_name = waData.party_name;
+            }
+            showPopup();
+            $('.swal2-popup').css('width', '30em');
+            $('#popup_container').html(withdrawApplicationTemplate(waData));
+        }
+    });
+}
+
+function submitWithdrawApplication(btnObj) {
+    if (!tempIdInSession || tempIdInSession == null) {
+        loginPage();
+        return false;
+    }
+    validationMessageHide();
+    var waData = $('#withdraw_application_form').serializeFormJSON();
+    if (!waData.module_type_for_withdraw_application || waData.module_type_for_withdraw_application == null || waData.module_type_for_withdraw_application == VALUE_ZERO ||
+            !waData.module_id_for_withdraw_application || waData.module_id_for_withdraw_application == null || waData.module_id_for_withdraw_application == VALUE_ZERO) {
+        showError(invalidAccessValidationMessage);
+        return false;
+    }
+    if (!waData.remarks_for_withdraw_application) {
+        $('#remarks_for_withdraw_application').focus();
+        validationMessageShow('withdraw-application-remarks_for_withdraw_application', remarksValidationMessage);
+        return false;
+    }
+    var ogBtnHTML = btnObj.html();
+    var ogBtnOnclick = btnObj.attr('onclick');
+    btnObj.html(iconSpinnerTemplate);
+    btnObj.attr('onclick', '');
+    $.ajax({
+        type: 'POST',
+        url: 'utility/update_details_for_withdraw_application',
+        data: $.extend({}, waData, getTokenData()),
+        error: function (textStatus, errorThrown) {
+            generateNewCSRFToken();
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            if (textStatus.status === 403) {
+                loginPage();
+                return false;
+            }
+            if (!textStatus.statusText) {
+                loginPage();
+                return false;
+            }
+            showError(textStatus.statusText);
+        },
+        success: function (response) {
+            closeFullPageOverlay();
+            btnObj.html(ogBtnHTML);
+            btnObj.attr('onclick', ogBtnOnclick);
+            var parseData = JSON.parse(response);
+            if (parseData.is_logout === true) {
+                loginPage();
+                return false;
+            }
+            setNewToken(parseData.temp_token);
+            if (parseData.success === false) {
+                showError(parseData.message);
+                return false;
+            }
+            showSuccess(parseData.message);
+            var wData = parseData.wa_data;
+            $('#status_' + waData.module_id_for_withdraw_application).html(appStatusArray[VALUE_ELEVEN]);
+            $('#withdraw_application_btn_' + waData.module_id_for_withdraw_application).remove();
+            $('#edit_btn_' + waData.module_id_for_withdraw_application).remove();
+            $('#upload_challan_btn_' + waData.module_id_for_withdraw_application).remove();
+            $('#reject_btn_for_app_' + waData.module_id_for_withdraw_application).remove();
+            $('#query_status_' + waData.module_id_for_withdraw_application).html(queryStatusArray[wData['query_status']]);
+            $('#so_status_' + waData.module_id_for_withdraw_application).html(dateTimeDays(waData.module_id_for_withdraw_application, wData, waData.module_type_for_withdraw_application));
+        }
+    });
 }

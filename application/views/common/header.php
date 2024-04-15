@@ -40,6 +40,7 @@
             var mOtherDocListTemplate = Handlebars.compile($('#m_other_doc_list_template').html());
             var mOtherDocItemViewTemplate = Handlebars.compile($('#m_other_doc_item_view_template').html());
             var feedbackRatingTemplate = Handlebars.compile($('#feedback_rating_template').html());
+            var withdrawApplicationTemplate = Handlebars.compile($('#withdraw_application_template').html());
             var iconSpinnerTemplate = spinnerTemplate({'type': 'light', 'extra_class': 'spinner-border-small'});
             var IS_DEACTIVE = <?php echo IS_DEACTIVE ?>;
             var IS_DELETE = <?php echo IS_DELETE ?>;

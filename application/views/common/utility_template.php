@@ -80,4 +80,7 @@
 <script type="text/x-handlebars-template" id="feedback_rating_template">
 <?php $this->load->view('common/feedback_rating'); ?>
 </script>
+<script type="text/x-handlebars-template" id="withdraw_application_template">
+<?php $this->load->view('common/withdraw_application'); ?>
+</script>
 <!--------------------------------  Template definitions end -------------------------------------------->

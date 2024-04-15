@@ -363,7 +363,9 @@ class Cinema extends CI_Controller {
                         $cinema_data['status'] != VALUE_SIX && $cinema_data['status'] != VALUE_SEVEN &&
                         $cinema_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $cinema_data['show_remove_upload_btn'] = true;
+                        if ($cinema_data['status'] != VALUE_ELEVEN) {
+                            $cinema_data['show_remove_upload_btn'] = true;
+                        }
                         $cinema_data['show_dropdown'] = true;
                         $cinema_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_EIGHT, 'dept_fd');
                     }
@@ -694,7 +696,6 @@ class Cinema extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

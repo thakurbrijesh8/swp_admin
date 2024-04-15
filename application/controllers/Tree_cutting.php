@@ -293,7 +293,6 @@ class Tree_cutting extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -417,7 +416,9 @@ class Tree_cutting extends CI_Controller {
                         $tree_cutting_data['status'] != VALUE_SIX && $tree_cutting_data['status'] != VALUE_SEVEN &&
                         $tree_cutting_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $tree_cutting_data['show_remove_upload_btn'] = true;
+                        if ($tree_cutting_data['status'] != VALUE_ELEVEN) {
+                            $tree_cutting_data['show_remove_upload_btn'] = true;
+                        }
                         $tree_cutting_data['show_dropdown'] = true;
                         $tree_cutting_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FIFTYNINE, 'dept_fd');
                     }
@@ -493,7 +494,6 @@ class Tree_cutting extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

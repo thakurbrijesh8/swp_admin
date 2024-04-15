@@ -324,7 +324,9 @@ class Shop_renewal extends CI_Controller {
                         $shop_renewal_data['status'] != VALUE_SIX && $shop_renewal_data['status'] != VALUE_SEVEN &&
                         $shop_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $shop_renewal_data['show_remove_upload_btn'] = true;
+                        if ($shop_renewal_data['status'] != VALUE_ELEVEN) {
+                            $shop_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $shop_renewal_data['show_dropdown'] = true;
                         $shop_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTYTWO, 'dept_fd');
                     }
@@ -550,7 +552,6 @@ class Shop_renewal extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -726,12 +727,10 @@ class Shop_renewal extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'shop' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('shop_renewal_id', $shop_renewal_id, 'shop_renewal', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -740,7 +739,6 @@ class Shop_renewal extends CI_Controller {
             echo json_encode(get_error_array($e->getMessage()));
             return false;
         }
-
     }
 
     function generate_excel() {
@@ -786,7 +784,6 @@ class Shop_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

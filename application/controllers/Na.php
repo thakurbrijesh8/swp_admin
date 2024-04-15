@@ -361,11 +361,13 @@ class Na extends CI_Controller {
                     $this->load->model('payment_model');
                     $ph_data = $this->payment_model->get_payment_history(VALUE_FOURTY, $na_id);
                 }
-                 if ($na_data['status'] != VALUE_FOUR && $na_data['status'] != VALUE_FIVE &&
+                if ($na_data['status'] != VALUE_FOUR && $na_data['status'] != VALUE_FIVE &&
                         $na_data['status'] != VALUE_SIX && $na_data['status'] != VALUE_SEVEN &&
                         $na_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $na_data['show_remove_upload_btn'] = true;
+                        if ($na_data['status'] != VALUE_ELEVEN) {
+                            $na_data['show_remove_upload_btn'] = true;
+                        }
                         $na_data['show_dropdown'] = true;
                         $na_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTY, 'dept_fd');
                     }
@@ -585,7 +587,6 @@ class Na extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -699,8 +700,8 @@ class Na extends CI_Controller {
                 print_r(DATABASE_ERROR_MESSAGE);
                 return;
             }
-    //        $taluka_array = $this->config->item('taluka_array');
-    //        $existing_na_data['district'] = isset($taluka_array[$existing_na_data['district']]) ? $taluka_array[$existing_na_data['district']] : '-';
+            //        $taluka_array = $this->config->item('taluka_array');
+            //        $existing_na_data['district'] = isset($taluka_array[$existing_na_data['district']]) ? $taluka_array[$existing_na_data['district']] : '-';
             error_reporting(E_ERROR);
             $data = array('na_data' => $existing_na_data);
             $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'Legal']);
@@ -755,7 +756,6 @@ class Na extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

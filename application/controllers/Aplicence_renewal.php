@@ -298,7 +298,6 @@ class Aplicence_renewal extends CI_Controller {
 
             $this->utility_model->update_data('aplicence_renewal_id', $aplicence_renewal_id, 'appli_licence_renewal', array($document_id => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
 
-
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
             echo json_encode($success_array);
@@ -372,7 +371,9 @@ class Aplicence_renewal extends CI_Controller {
                         $aplicence_renewal_data['status'] != VALUE_SIX && $aplicence_renewal_data['status'] != VALUE_SEVEN &&
                         $aplicence_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $aplicence_renewal_data['show_remove_upload_btn'] = true;
+                        if ($aplicence_renewal_data['status'] != VALUE_ELEVEN) {
+                            $aplicence_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $aplicence_renewal_data['show_dropdown'] = true;
                         $aplicence_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTYSIX, 'dept_fd');
                     }
@@ -602,7 +603,6 @@ class Aplicence_renewal extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -795,7 +795,6 @@ class Aplicence_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

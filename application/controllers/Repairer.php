@@ -300,12 +300,10 @@ class Repairer extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'repairer' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data[$document_id];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('repairer_id', $repairer_id, 'wm_repairer', array($document_id => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -380,7 +378,9 @@ class Repairer extends CI_Controller {
                         $repairer_data['status'] != VALUE_SIX && $repairer_data['status'] != VALUE_SEVEN &&
                         $repairer_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $repairer_data['show_remove_upload_btn'] = true;
+                        if ($repairer_data['status'] != VALUE_ELEVEN) {
+                            $repairer_data['show_remove_upload_btn'] = true;
+                        }
                         $repairer_data['show_dropdown'] = true;
                         $repairer_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_TWO, 'dept_fd');
                     }
@@ -714,7 +714,6 @@ class Repairer extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

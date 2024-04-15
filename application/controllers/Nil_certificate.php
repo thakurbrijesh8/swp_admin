@@ -293,7 +293,6 @@ class Nil_certificate extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -417,7 +416,9 @@ class Nil_certificate extends CI_Controller {
                         $nil_certificate_data['status'] != VALUE_SIX && $nil_certificate_data['status'] != VALUE_SEVEN &&
                         $nil_certificate_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $nil_certificate_data['show_remove_upload_btn'] = true;
+                        if ($nil_certificate_data['status'] != VALUE_ELEVEN) {
+                            $nil_certificate_data['show_remove_upload_btn'] = true;
+                        }
                         $nil_certificate_data['show_dropdown'] = true;
                         $nil_certificate_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_SIXTYONE, 'dept_fd');
                     }
@@ -493,7 +494,6 @@ class Nil_certificate extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

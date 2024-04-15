@@ -127,61 +127,61 @@ class Vc extends CI_Controller {
                 echo json_encode(get_error_array($validation_message));
                 return false;
             }
-    //
-    //        if ($_FILES['seal_and_stamp_for_vc']['name'] != '') {
-    //            $main_path = 'documents/vc';
-    //            // if (!is_dir($main_path)) {
-    //            //     mkdir($main_path);
-    //            //     chmod("$main_path", 0755);
-    //            // }
-    //            $documents_path = 'documents';
-    //            if (!is_dir($documents_path)) {
-    //                mkdir($documents_path);
-    //                chmod($documents_path, 0777);
-    //            }
-    //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'vc';
-    //            if (!is_dir($module_path)) {
-    //                mkdir($module_path);
-    //                chmod($module_path, 0777);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_vc']['name']);
-    //            $filename = 'vc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_vc']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $vc_data['signature'] = $filename;
-    //        }
-    //        if ($_FILES['receipt_of_last_years_house_tax_for_vc']['name'] != '') {
-    //            $main_path = 'documents/vc';
-    //            // if (!is_dir($main_path)) {
-    //            //     mkdir($main_path);
-    //            //     chmod("$main_path", 0755);
-    //            // }
-    //            $documents_path = 'documents';
-    //            if (!is_dir($documents_path)) {
-    //                mkdir($documents_path);
-    //                chmod($documents_path, 0777);
-    //            }
-    //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'vc';
-    //            if (!is_dir($module_path)) {
-    //                mkdir($module_path);
-    //                chmod($module_path, 0777);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['receipt_of_last_years_house_tax_for_vc']['name']);
-    //            $filename = 'vc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //            if (!move_uploaded_file($_FILES['receipt_of_last_years_house_tax_for_vc']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $vc_data['receipt_of_last_years_house_tax'] = $filename;
-    //        }
+            //
+            //        if ($_FILES['seal_and_stamp_for_vc']['name'] != '') {
+            //            $main_path = 'documents/vc';
+            //            // if (!is_dir($main_path)) {
+            //            //     mkdir($main_path);
+            //            //     chmod("$main_path", 0755);
+            //            // }
+            //            $documents_path = 'documents';
+            //            if (!is_dir($documents_path)) {
+            //                mkdir($documents_path);
+            //                chmod($documents_path, 0777);
+            //            }
+            //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'vc';
+            //            if (!is_dir($module_path)) {
+            //                mkdir($module_path);
+            //                chmod($module_path, 0777);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_vc']['name']);
+            //            $filename = 'vc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_vc']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $vc_data['signature'] = $filename;
+            //        }
+            //        if ($_FILES['receipt_of_last_years_house_tax_for_vc']['name'] != '') {
+            //            $main_path = 'documents/vc';
+            //            // if (!is_dir($main_path)) {
+            //            //     mkdir($main_path);
+            //            //     chmod("$main_path", 0755);
+            //            // }
+            //            $documents_path = 'documents';
+            //            if (!is_dir($documents_path)) {
+            //                mkdir($documents_path);
+            //                chmod($documents_path, 0777);
+            //            }
+            //            $module_path = $documents_path . DIRECTORY_SEPARATOR . 'vc';
+            //            if (!is_dir($module_path)) {
+            //                mkdir($module_path);
+            //                chmod($module_path, 0777);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['receipt_of_last_years_house_tax_for_vc']['name']);
+            //            $filename = 'vc_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //            if (!move_uploaded_file($_FILES['receipt_of_last_years_house_tax_for_vc']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $vc_data['receipt_of_last_years_house_tax'] = $filename;
+            //        }
 
             $this->db->trans_start();
             //$vc_data['user_id'] = $user_id;
@@ -380,7 +380,9 @@ class Vc extends CI_Controller {
                         $vc_data['status'] != VALUE_SIX && $vc_data['status'] != VALUE_SEVEN &&
                         $vc_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $vc_data['show_remove_upload_btn'] = true;
+                        if ($vc_data['status'] != VALUE_ELEVEN) {
+                            $vc_data['show_remove_upload_btn'] = true;
+                        }
                         $vc_data['show_dropdown'] = true;
                         $vc_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTYEIGHT, 'dept_fd');
                     }
@@ -712,7 +714,6 @@ class Vc extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

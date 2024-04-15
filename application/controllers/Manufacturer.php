@@ -335,12 +335,10 @@ class Manufacturer extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'manufacturer' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data[$document_id];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('manufacturer_id', $manufacturer_id, 'wm_manufacturer', array($document_id => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -415,7 +413,9 @@ class Manufacturer extends CI_Controller {
                         $manufacturer_data['status'] != VALUE_SIX && $manufacturer_data['status'] != VALUE_SEVEN &&
                         $manufacturer_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $manufacturer_data['show_remove_upload_btn'] = true;
+                        if ($manufacturer_data['status'] != VALUE_ELEVEN) {
+                            $manufacturer_data['show_remove_upload_btn'] = true;
+                        }
                         $manufacturer_data['show_dropdown'] = true;
                         $manufacturer_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOUR, 'dept_fd');
                     }
@@ -746,7 +746,6 @@ class Manufacturer extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

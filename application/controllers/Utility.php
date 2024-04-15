@@ -970,6 +970,132 @@ class Utility extends CI_Controller {
             return false;
         }
     }
+
+    function get_basic_details_for_withdraw_application() {
+        try {
+            if (!is_ajax()) {
+                header("Location:" . base_url() . "login");
+                return false;
+            }
+            if (!is_authenticated()) {
+                echo json_encode(get_logout_array());
+                return false;
+            }
+            $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
+            $module_type = get_from_post('module_type');
+            $module_id = get_from_post('module_id');
+            if (!is_post() || $session_user_id == null || !$session_user_id || !$module_type || $module_type == NULL ||
+                    !$module_id || $module_id == NULL) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $query_module_array = $this->config->item('query_module_array');
+            if (!isset($query_module_array[$module_type])) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $qm_data = $query_module_array[$module_type];
+            $this->db->trans_start();
+            if ($module_type == VALUE_FIFTYTWO) {
+                $ex_data = $this->utility_model->get_details_for_ips_incentives_withdraw_application($qm_data, $module_id);
+            } else {
+                $ex_data = $this->utility_model->get_details_for_withdraw_application($qm_data, $module_id);
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
+            if (empty($ex_data)) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return;
+            }
+            if ($ex_data['status'] == VALUE_ELEVEN) {
+                echo json_encode(get_error_array(ALREADY_WITHDRAW_APPLICATION_MESSAGE));
+                return;
+            }
+            if ($ex_data['status'] != VALUE_TWO && $ex_data['status'] != VALUE_THREE) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return;
+            }
+            $success_array = get_success_array();
+            $success_array['wa_data'] = $ex_data;
+            echo json_encode($success_array);
+        } catch (\Exception $e) {
+            echo json_encode(get_error_array($e->getMessage()));
+            return false;
+        }
+    }
+
+    function update_details_for_withdraw_application() {
+        try {
+            if (!is_ajax()) {
+                header("Location:" . base_url() . "login");
+                return false;
+            }
+            if (!is_authenticated()) {
+                echo json_encode(get_logout_array());
+                return false;
+            }
+            $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
+            $module_type = get_from_post('module_type_for_withdraw_application');
+            $module_id = get_from_post('module_id_for_withdraw_application');
+            if (!is_post() || $session_user_id == null || !$session_user_id || !$module_type || $module_type == NULL ||
+                    !$module_id || $module_id == NULL) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $query_module_array = $this->config->item('query_module_array');
+            if (!isset($query_module_array[$module_type])) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            $qm_data = $query_module_array[$module_type];
+            $update_data = array();
+            $update_data['withdrawal_remarks'] = get_from_post('remarks_for_withdraw_application');
+            if (!$update_data['withdrawal_remarks']) {
+                echo json_encode(get_error_array(REMARKS_MESSAGE));
+                return false;
+            }
+            $ex_data = $this->utility_model->get_by_id($qm_data['key_id_text'], $module_id, $qm_data['tbl_text']);
+            if (empty($ex_data)) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return false;
+            }
+            if ($ex_data['status'] == VALUE_ELEVEN) {
+                echo json_encode(get_error_array(ALREADY_WITHDRAW_APPLICATION_MESSAGE));
+                return;
+            }
+            if ($ex_data['status'] != VALUE_TWO && $ex_data['status'] != VALUE_THREE) {
+                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
+                return;
+            }
+            if ($ex_data['submitted_datetime'] != '0000-00-00 00:00:00') {
+                $update_data['processing_days'] = $this->utility_lib->calculate_processing_days(VALUE_THIRTYTHREE, $ex_data['submitted_datetime']);
+            }
+            if ($ex_data['query_status'] == VALUE_ONE || $ex_data['query_status'] == VALUE_TWO) {
+                $update_data['query_status'] = VALUE_THREE;
+            }
+            $this->db->trans_start();
+            $update_data['status'] = VALUE_ELEVEN;
+            $update_data['status_datetime'] = date('Y-m-d H:i:s');
+            $update_data['updated_by'] = $session_user_id;
+            $update_data['updated_time'] = date('Y-m-d H:i:s');
+            $this->utility_model->update_data($qm_data['key_id_text'], $module_id, $qm_data['tbl_text'], $update_data);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
+            $success_array = get_success_array();
+            $success_array['message'] = WITHDRAW_APPLICATION_MESSAGE;
+            $success_array['wa_data'] = $update_data;
+            echo json_encode($success_array);
+        } catch (\Exception $e) {
+            echo json_encode(get_error_array($e->getMessage()));
+            return false;
+        }
+    }
 }
 
 /*

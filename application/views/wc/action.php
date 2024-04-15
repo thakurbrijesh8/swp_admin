@@ -1,6 +1,6 @@
 <div class="text-center">
     {{#if show_edit_btn}}
-    <button type="button" class="btn btn-sm btn-success" onclick="WC.listview.editOrViewWC($(this),'{{wc_id}}', true);"
+    <button type="button" class="btn btn-sm btn-success" id="edit_btn_{{wc_id}}" onclick="WC.listview.editOrViewWC($(this),'{{wc_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
@@ -21,6 +21,12 @@
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{wc_id}}"
             onclick="WC.listview.openUploadChallan('{{wc_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;"><i class="fas fa-cloud-upload-alt" style="margin-right: 2px;"></i> Request For Payment</button>
+    {{/if}}
+    {{#if show_withdraw_application_btn}}
+    <button type="button" class="btn btn-sm btn-secondary" id="withdraw_application_btn_{{wc_id}}"
+            onclick="askForWithdrawApplication($(this), VALUE_FIVE,'{{wc_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-undo" style="margin-right: 2px;"></i> Withdraw</button>
     {{/if}}
     {{#if show_download_fees_paid_challan_btn}}
     <button type="button" class="btn btn-sm btn-success" id="download_fees_paid_challan_btn_{{wc_id}}"

@@ -145,7 +145,9 @@ class Clact extends CI_Controller {
                         $clact_data['status'] != VALUE_SIX && $clact_data['status'] != VALUE_SEVEN &&
                         $clact_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $clact_data['show_remove_upload_btn'] = true;
+                        if ($clact_data['status'] != VALUE_ELEVEN) {
+                            $clact_data['show_remove_upload_btn'] = true;
+                        }
                         $clact_data['show_dropdown'] = true;
                         $clact_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYONE, 'dept_fd');
                     }
@@ -196,25 +198,25 @@ class Clact extends CI_Controller {
                 echo json_encode(get_error_array(ONE_CONTRACTOR_MESSAGE));
                 return false;
             }
-    //        if ($_FILES['seal_and_stamp_for_clact']['name'] != '') {
-    //            $main_path = CLACT_DOC_PATH;
-    //            if (!is_dir($main_path)) {
-    //                mkdir($main_path);
-    //                chmod("$main_path", 0755);
-    //            }
-    //            $this->load->library('upload');
-    //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_clact']['name']);
-    //            $filename = 'clact_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //            //Change file name
-    //            $final_path = $main_path . $filename;
-    //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_clact']['tmp_name'], $final_path)) {
-    //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                return;
-    //            }
-    //            $clact_data['seal_and_stamp'] = $filename;
-    //        }
+            //        if ($_FILES['seal_and_stamp_for_clact']['name'] != '') {
+            //            $main_path = CLACT_DOC_PATH;
+            //            if (!is_dir($main_path)) {
+            //                mkdir($main_path);
+            //                chmod("$main_path", 0755);
+            //            }
+            //            $this->load->library('upload');
+            //            $temp_filename = str_replace('_', '', $_FILES['seal_and_stamp_for_clact']['name']);
+            //            $filename = 'clact_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //            //Change file name
+            //            $final_path = $main_path . $filename;
+            //            if (!move_uploaded_file($_FILES['seal_and_stamp_for_clact']['tmp_name'], $final_path)) {
+            //                echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                return;
+            //            }
+            //            $clact_data['seal_and_stamp'] = $filename;
+            //        }
             $this->db->trans_start();
-    //        $clact_data['status'] = $module_type;
+            //        $clact_data['status'] = $module_type;
             if (!$establishment_id || $establishment_id == NULL) {
                 $clact_data['declaration'] = VALUE_ONE;
                 $clact_data['created_by'] = $user_id;
@@ -592,7 +594,6 @@ class Clact extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -760,7 +761,6 @@ class Clact extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

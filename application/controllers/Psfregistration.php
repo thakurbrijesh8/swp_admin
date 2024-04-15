@@ -45,7 +45,6 @@ class Psfregistration extends CI_Controller {
             $new_s_status = get_from_post('search_status');
             $search_status = $new_s_status != '' ? $new_s_status : $search_status;
 
-
             $start = get_from_post('start');
             $length = get_from_post('length');
 
@@ -220,12 +219,10 @@ class Psfregistration extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'psfregistration' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('psfregistration_id', $psfregistration_id, 'psf_registration', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -300,7 +297,9 @@ class Psfregistration extends CI_Controller {
                         $psfregistration_data['status'] != VALUE_SIX && $psfregistration_data['status'] != VALUE_SEVEN &&
                         $psfregistration_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $psfregistration_data['show_remove_upload_btn'] = true;
+                        if ($psfregistration_data['status'] != VALUE_ELEVEN) {
+                            $psfregistration_data['show_remove_upload_btn'] = true;
+                        }
                         $psfregistration_data['show_dropdown'] = true;
                         $psfregistration_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_SEVEN, 'dept_fd');
                     }
@@ -526,7 +525,6 @@ class Psfregistration extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -704,7 +702,6 @@ class Psfregistration extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

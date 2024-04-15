@@ -167,60 +167,60 @@ class Factorylicense_renewal extends CI_Controller {
                 return false;
             }
 
-    //         if ($_FILES['sign_of_manager_for_fl']['name'] != '') {
-    //             $main_path = 'documents/factorylicense';
-    // //            if (!is_dir($main_path)) {
-    // //                mkdir($main_path);
-    // //                chmod("$main_path", 0755);
-    // //            }
-    //             $documents_path = 'documents';
-    //             if (!is_dir($documents_path)) {
-    //                 mkdir($documents_path);
-    //                 chmod($documents_path, 0777);
-    //             }
-    //             $module_path = $documents_path . DIRECTORY_SEPARATOR . 'factorylicense';
-    //             if (!is_dir($module_path)) {
-    //                 mkdir($module_path);
-    //                 chmod($module_path, 0777);
-    //             }
-    //             $this->load->library('upload');
-    //             $temp_filename = str_replace('_', '', $_FILES['sign_of_manager_for_fl']['name']);
-    //             $filename = 'factorylicense_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //             //Change file name
-    //             $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //             if (!move_uploaded_file($_FILES['sign_of_manager_for_fl']['tmp_name'], $final_path)) {
-    //                 echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                 return;
-    //             }
-    //             $factory_license_renewal_data['sign_of_manager'] = $filename;
-    //         } 
-    //         if ($_FILES['sign_of_occupier_for_fl']['name'] != '') {
-    //             $main_path = 'documents/factorylicense';
-    // //            if (!is_dir($main_path)) {
-    // //                mkdir($main_path);
-    // //                chmod("$main_path", 0755);
-    // //            }
-    //             $documents_path = 'documents';
-    //             if (!is_dir($documents_path)) {
-    //                 mkdir($documents_path);
-    //                 chmod($documents_path, 0777);
-    //             }
-    //             $module_path = $documents_path . DIRECTORY_SEPARATOR . 'factorylicense';
-    //             if (!is_dir($module_path)) {
-    //                 mkdir($module_path);
-    //                 chmod($module_path, 0777);
-    //             }
-    //             $this->load->library('upload');
-    //             $temp_filename = str_replace('_', '', $_FILES['sign_of_occupier_for_fl']['name']);
-    //             $filename = 'factorylicense_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
-    //             //Change file name
-    //             $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
-    //             if (!move_uploaded_file($_FILES['sign_of_occupier_for_fl']['tmp_name'], $final_path)) {
-    //                 echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
-    //                 return;
-    //             }
-    //             $factory_license_renewal_data['sign_of_occupier'] = $filename;
-    //         } 
+            //         if ($_FILES['sign_of_manager_for_fl']['name'] != '') {
+            //             $main_path = 'documents/factorylicense';
+            // //            if (!is_dir($main_path)) {
+            // //                mkdir($main_path);
+            // //                chmod("$main_path", 0755);
+            // //            }
+            //             $documents_path = 'documents';
+            //             if (!is_dir($documents_path)) {
+            //                 mkdir($documents_path);
+            //                 chmod($documents_path, 0777);
+            //             }
+            //             $module_path = $documents_path . DIRECTORY_SEPARATOR . 'factorylicense';
+            //             if (!is_dir($module_path)) {
+            //                 mkdir($module_path);
+            //                 chmod($module_path, 0777);
+            //             }
+            //             $this->load->library('upload');
+            //             $temp_filename = str_replace('_', '', $_FILES['sign_of_manager_for_fl']['name']);
+            //             $filename = 'factorylicense_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //             //Change file name
+            //             $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //             if (!move_uploaded_file($_FILES['sign_of_manager_for_fl']['tmp_name'], $final_path)) {
+            //                 echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                 return;
+            //             }
+            //             $factory_license_renewal_data['sign_of_manager'] = $filename;
+            //         } 
+            //         if ($_FILES['sign_of_occupier_for_fl']['name'] != '') {
+            //             $main_path = 'documents/factorylicense';
+            // //            if (!is_dir($main_path)) {
+            // //                mkdir($main_path);
+            // //                chmod("$main_path", 0755);
+            // //            }
+            //             $documents_path = 'documents';
+            //             if (!is_dir($documents_path)) {
+            //                 mkdir($documents_path);
+            //                 chmod($documents_path, 0777);
+            //             }
+            //             $module_path = $documents_path . DIRECTORY_SEPARATOR . 'factorylicense';
+            //             if (!is_dir($module_path)) {
+            //                 mkdir($module_path);
+            //                 chmod($module_path, 0777);
+            //             }
+            //             $this->load->library('upload');
+            //             $temp_filename = str_replace('_', '', $_FILES['sign_of_occupier_for_fl']['name']);
+            //             $filename = 'factorylicense_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+            //             //Change file name
+            //             $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+            //             if (!move_uploaded_file($_FILES['sign_of_occupier_for_fl']['tmp_name'], $final_path)) {
+            //                 echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+            //                 return;
+            //             }
+            //             $factory_license_renewal_data['sign_of_occupier'] = $filename;
+            //         } 
 
             $this->db->trans_start();
             // $factory_license_renewal_data['user_id'] = $user_id;
@@ -359,7 +359,9 @@ class Factorylicense_renewal extends CI_Controller {
                         $factory_license_renewal_data['status'] != VALUE_SIX && $factory_license_renewal_data['status'] != VALUE_SEVEN &&
                         $factory_license_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $factory_license_renewal_data['show_remove_upload_btn'] = true;
+                        if ($factory_license_renewal_data['status'] != VALUE_ELEVEN) {
+                            $factory_license_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $factory_license_renewal_data['show_dropdown'] = true;
                         $factory_license_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FOURTYONE, 'dept_fd');
                     }
@@ -584,7 +586,6 @@ class Factorylicense_renewal extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -750,7 +751,6 @@ class Factorylicense_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

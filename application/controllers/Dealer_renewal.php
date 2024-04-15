@@ -368,7 +368,9 @@ class Dealer_renewal extends CI_Controller {
                         $dealer_renewal_data['status'] != VALUE_SIX && $dealer_renewal_data['status'] != VALUE_SEVEN &&
                         $dealer_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $dealer_renewal_data['show_remove_upload_btn'] = true;
+                        if ($dealer_renewal_data['status'] != VALUE_ELEVEN) {
+                            $dealer_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $dealer_renewal_data['show_dropdown'] = true;
                         $dealer_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_FIFTEEN, 'dept_fd');
                     }
@@ -699,7 +701,6 @@ class Dealer_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

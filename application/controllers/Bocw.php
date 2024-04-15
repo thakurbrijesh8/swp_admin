@@ -405,7 +405,9 @@ class Bocw extends CI_Controller {
                         $bocw_data['status'] != VALUE_SIX && $bocw_data['status'] != VALUE_SEVEN &&
                         $bocw_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $bocw_data['show_remove_upload_btn'] = true;
+                        if ($bocw_data['status'] != VALUE_ELEVEN) {
+                            $bocw_data['show_remove_upload_btn'] = true;
+                        }
                         $bocw_data['show_dropdown'] = true;
                         $bocw_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYTWO, 'dept_fd');
                     }
@@ -638,7 +640,6 @@ class Bocw extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -805,7 +806,6 @@ class Bocw extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

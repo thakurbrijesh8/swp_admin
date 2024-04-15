@@ -29,8 +29,8 @@
                                             <th class="text-center" style="min-width: 140px;" rowspan="2">Service Name</th>
                                             <th class="text-center" style="min-width: 50px;" rowspan="2">Time Line</th>
                                             <th class="text-center" style="width: 90px;" rowspan="2">Total Appli<br>cation</th>
-                                            <th class="text-center f-s-16px bg-light-green" style="width: 90px;" colspan="9">Within Time</th>
-                                            <th class="text-center f-s-16px bg-light-red" style="width: 90px;" colspan="9">Delayed as per SLA</th>
+                                            <th class="text-center f-s-16px bg-light-green" style="width: 90px;" colspan="10">Within Time</th>
+                                            <th class="text-center f-s-16px bg-light-red" style="width: 90px;" colspan="10">Delayed as per SLA</th>
                                         </tr>
                                         <tr class="bg-light-gray">
                                             <!--<th class="text-center bg-light-green" style="width: 90px;">Draft</th>-->
@@ -43,6 +43,7 @@
                                             <th class="text-center bg-light-green" style="width: 90px;">Pay. Confi.</th>
                                             <th class="text-center bg-light-green" style="width: 90px;">Appr.</th>
                                             <th class="text-center bg-light-green" style="width: 90px;">Reje.</th>
+                                            <th class="text-center bg-light-green" style="width: 90px;">With.</th>
                                             <!--<th class="text-center bg-light-red" style="width: 90px;">Draft</th>-->
                                             <th class="text-center bg-light-red" style="width: 90px;">Submi.</th>
                                             <th class="text-center bg-light-red" style="width: 90px;">Que<br>ried</th>
@@ -53,6 +54,7 @@
                                             <th class="text-center bg-light-red" style="width: 90px;">Pay. Confi.</th>
                                             <th class="text-center bg-light-red" style="width: 90px;">Appr.</th>
                                             <th class="text-center bg-light-red" style="width: 90px;">Reje.</th>
+                                            <th class="text-center bg-light-red" style="width: 90px;">With.</th>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -77,7 +79,9 @@
                                             <th class="bg-light-green"></th>
                                             <th class="bg-light-green"></th>
                                             <th class="bg-light-green"></th>
-                                            <!--<th class="bg-light-red"></th>-->
+                                            <th class="bg-light-green"></th>
+                                           <!--<th class="bg-light-red"></th>-->
+                                            <th class="bg-light-red"></th>
                                             <th class="bg-light-red"></th>
                                             <th class="bg-light-red"></th>
                                             <th class="bg-light-red"></th>

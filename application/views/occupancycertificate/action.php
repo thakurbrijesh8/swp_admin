@@ -1,6 +1,6 @@
 <div class="text-center">
     {{#if show_edit_btn}}
-    <button type="button" class="btn btn-sm btn-success" onclick="OccupancyCertificate.listview.editOrViewOccupancyCertificate($(this),'{{occupancy_certificate_id}}', true);"
+    <button type="button" class="btn btn-sm btn-success" id="edit_btn_{{occupancy_certificate_id}}" onclick="OccupancyCertificate.listview.editOrViewOccupancyCertificate($(this),'{{occupancy_certificate_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
@@ -21,6 +21,12 @@
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{occupancy_certificate_id}}"
             onclick="OccupancyCertificate.listview.openUploadChallan('{{occupancy_certificate_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;"><i class="fas fa-cloud-upload-alt" style="margin-right: 2px;"></i> Request For Payment</button>
+    {{/if}}
+    {{#if show_withdraw_application_btn}}
+    <button type="button" class="btn btn-sm btn-secondary" id="withdraw_application_btn_{{occupancy_certificate_id}}"
+            onclick="askForWithdrawApplication($(this), VALUE_TWENTYEIGHT,'{{occupancy_certificate_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-undo" style="margin-right: 2px;"></i> Withdraw</button>
     {{/if}}
     {{#if show_download_fees_paid_challan_btn}}
     <button type="button" class="btn btn-sm btn-success" id="download_fees_paid_challan_btn_{{occupancy_certificate_id}}"

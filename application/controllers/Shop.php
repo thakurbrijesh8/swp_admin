@@ -255,7 +255,9 @@ class Shop extends CI_Controller {
                         $shop_data['status'] != VALUE_SIX && $shop_data['status'] != VALUE_SEVEN &&
                         $shop_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $shop_data['show_remove_upload_btn'] = true;
+                        if ($shop_data['status'] != VALUE_ELEVEN) {
+                            $shop_data['show_remove_upload_btn'] = true;
+                        }
                         $shop_data['show_dropdown'] = true;
                         $shop_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYTHREE, 'dept_fd');
                     }
@@ -460,10 +462,10 @@ class Shop extends CI_Controller {
             $shop_data = array();
             if ($_FILES['challan_for_shop_upload_challan']['name'] != '') {
                 $main_path = 'documents/shop/';
-    //            if (!is_dir($main_path)) {
-    //                mkdir($main_path);
-    //                chmod("$main_path", 0755);
-    //            }
+                //            if (!is_dir($main_path)) {
+                //                mkdir($main_path);
+                //                chmod("$main_path", 0755);
+                //            }
                 $documents_path = 'documents';
                 if (!is_dir($documents_path)) {
                     mkdir($documents_path);
@@ -609,7 +611,6 @@ class Shop extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -742,7 +743,6 @@ class Shop extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

@@ -71,20 +71,20 @@ BoilerAct.listView = Backbone.View.extend({
             return boilerActActionTemplate(rowData);
         }
         rowData.show_rv_query_btn = true;
-        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX) {
+        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_edit_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE) {
             rowData.show_form_one_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
         rowData.status = parseInt(rowData.status);
         if (rowData.status == VALUE_FOUR || rowData.status == VALUE_FIVE || rowData.status == VALUE_SEVEN || rowData.status == VALUE_EIGHT) {
             rowData.show_download_fees_paid_challan_btn = true;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -107,6 +107,9 @@ BoilerAct.listView = Backbone.View.extend({
         }
         if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
             rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return boilerActActionTemplate(rowData);
     },
@@ -981,7 +984,7 @@ BoilerAct.listView = Backbone.View.extend({
                 }
                 showSuccess(parseData.message);
                 $('#status_' + formData.boileract_id_for_boiler_act_approve).html(appStatusArray[VALUE_FIVE]);
-                $('#reject_btn_for_boiler_act_' + formData.boileract_id_for_boiler_act_approve).remove();
+                $('#reject_btn_for_app_' + formData.boileract_id_for_boiler_act_approve).remove();
                 $('#approve_btn_for_boiler_act_' + formData.boileract_id_for_boiler_act_approve).remove();
                 $('#download_certificate_btn_for_app_' + formData.boileract_id_for_boiler_act_approve).attr('href', parseData.final_certificate_path);
                 $('#download_certificate_btn_for_app_' + formData.boileract_id_for_boiler_act_approve).show();
@@ -995,7 +998,7 @@ BoilerAct.listView = Backbone.View.extend({
             return false;
         }
         var that = this;
-        var btnObj = $('#reject_btn_for_boiler_act_' + boilerId);
+        var btnObj = $('#reject_btn_for_app_' + boilerId);
         var ogBtnHTML = btnObj.html();
         var ogBtnOnclick = btnObj.attr('onclick');
         btnObj.html(iconSpinnerTemplate);
@@ -1088,7 +1091,7 @@ BoilerAct.listView = Backbone.View.extend({
                 $('#status_' + formData.boileract_id_for_boiler_act_reject).html(appStatusArray[VALUE_SIX]);
                 $('#upload_challan_btn_' + formData.boileract_id_for_boiler_act_reject).remove();
                 $('#download_fees_paid_challan_btn_' + formData.boileract_id_for_boiler_act_reject).remove();
-                $('#reject_btn_for_boiler_act_' + formData.boileract_id_for_boiler_act_reject).remove();
+                $('#reject_btn_for_app_' + formData.boileract_id_for_boiler_act_reject).remove();
                 $('#approve_btn_for_boiler_act_' + formData.boileract_id_for_boiler_act_reject).remove();
                 $('#so_status_' + formData.boileract_id_for_boiler_act_reject).html(dateTimeDays(formData.boileract_id_for_boiler_act_reject, parseData, VALUE_THIRTYSEVEN));
             }

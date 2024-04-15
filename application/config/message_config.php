@@ -924,3 +924,6 @@ define('HEAD_DETAILS_SUBMITTED_MESSAGE', 'Head Details Submitted Successfully !'
 define('RES_NOT_REC_MESSAGE', 'Response Not Received !');
 
 define('FROM_TO_DATE_MESSAGE', 'Select From Date or To Date !');
+
+define('WITHDRAW_APPLICATION_MESSAGE', 'Application Withdraw Successfully !');
+define('ALREADY_WITHDRAW_APPLICATION_MESSAGE', 'Application Already Withdraw !');

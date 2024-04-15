@@ -549,7 +549,9 @@ class Boileract extends CI_Controller {
                         $boiler_act_data['status'] != VALUE_SIX && $boiler_act_data['status'] != VALUE_SEVEN &&
                         $boiler_act_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $boiler_act_data['show_remove_upload_btn'] = true;
+                        if ($boiler_act_data['status'] != VALUE_ELEVEN) {
+                            $boiler_act_data['show_remove_upload_btn'] = true;
+                        }
                         $boiler_act_data['show_dropdown'] = true;
                         $boiler_act_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTYSEVEN, 'dept_fd');
                     }
@@ -781,7 +783,6 @@ class Boileract extends CI_Controller {
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
 
-
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
             array_push($temp_files_to_merge, $final_path);
@@ -949,7 +950,6 @@ class Boileract extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

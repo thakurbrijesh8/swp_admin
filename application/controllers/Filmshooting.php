@@ -557,7 +557,9 @@ class Filmshooting extends CI_Controller {
                         $filmshooting_data['status'] != VALUE_SIX && $filmshooting_data['status'] != VALUE_SEVEN &&
                         $filmshooting_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $filmshooting_data['show_remove_upload_btn'] = true;
+                        if ($filmshooting_data['status'] != VALUE_ELEVEN) {
+                            $filmshooting_data['show_remove_upload_btn'] = true;
+                        }
                         $filmshooting_data['show_dropdown'] = true;
                         $filmshooting_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_TWENTYTWO, 'dept_fd');
                     }
@@ -884,7 +886,6 @@ class Filmshooting extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

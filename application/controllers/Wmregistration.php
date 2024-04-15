@@ -230,12 +230,10 @@ class Wmregistration extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'wmregistration' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data[$document_id];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('wmregistration_id', $wmregistration_id, 'wm_registration', array($document_id => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -310,7 +308,9 @@ class Wmregistration extends CI_Controller {
                         $wmregistration_data['status'] != VALUE_SIX && $wmregistration_data['status'] != VALUE_SEVEN &&
                         $wmregistration_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $wmregistration_data['show_remove_upload_btn'] = true;
+                        if ($wmregistration_data['status'] != VALUE_ELEVEN) {
+                            $wmregistration_data['show_remove_upload_btn'] = true;
+                        }
                         $wmregistration_data['show_dropdown'] = true;
                         $wmregistration_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_ONE, 'dept_fd');
                     }
@@ -642,7 +642,6 @@ class Wmregistration extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

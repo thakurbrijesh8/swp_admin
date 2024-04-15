@@ -382,7 +382,9 @@ class Manufacturer_renewal extends CI_Controller {
                         $manufacturer_renewal_data['status'] != VALUE_SIX && $manufacturer_renewal_data['status'] != VALUE_SEVEN &&
                         $manufacturer_renewal_data['status'] != VALUE_EIGHT) {
                     if ($is_fb_details == VALUE_ONE) {
-                        $manufacturer_renewal_data['show_remove_upload_btn'] = true;
+                        if ($manufacturer_renewal_data['status'] != VALUE_ELEVEN) {
+                            $manufacturer_renewal_data['show_remove_upload_btn'] = true;
+                        }
                         $manufacturer_renewal_data['show_dropdown'] = true;
                         $manufacturer_renewal_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_SIXTEEN, 'dept_fd');
                     }
@@ -708,7 +710,6 @@ class Manufacturer_renewal extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

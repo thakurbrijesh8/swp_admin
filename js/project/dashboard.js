@@ -70,6 +70,7 @@ Dashboard.listView = Backbone.View.extend({
         appData.VALUE_EIGHT = VALUE_EIGHT;
         appData.VALUE_NINE = VALUE_NINE;
         appData.VALUE_TEN = VALUE_TEN;
+        appData.VALUE_ELEVEN = VALUE_ELEVEN;
         return appData;
     },
     loadDashboardData: function () {
@@ -141,10 +142,10 @@ Dashboard.listView = Backbone.View.extend({
                 var csvTitle = ['No.', 'District', 'Department Name', 'Service Name', 'Time Line', 'Total Application',
                     'Within Time : Submitted', 'Within Time : Queried', 'Within Time : Fees Pending', 'Within Time : Fees Paid',
                     'Within Time : Pay Office', 'Within Time : Fees N.A.', 'Within Time : Payment Confirmed',
-                    'Within Time : Approved', 'Within Time : Rejected', 'Delayed as per SLA : Submitted',
+                    'Within Time : Approved', 'Within Time : Rejected', 'Within Time : Withdraw', 'Delayed as per SLA : Submitted',
                     'Delayed as per SLA : Queried', 'Delayed as per SLA : Fees Pending', 'Delayed as per SLA : Fees Paid',
                     'Delayed as per SLA : Pay Office', 'Delayed as per SLA : Fees N.A.', 'Delayed as per SLA : Payment Confirmed',
-                    'Delayed as per SLA : Approved', 'Delayed as per SLA : Rejected'];
+                    'Delayed as per SLA : Approved', 'Delayed as per SLA : Rejected', 'Delayed as per SLA : Withdraw'];
                 $('#app_count_datatable').DataTable({
                     dom: 'Bfrtip',
                     buttons: [{
@@ -179,10 +180,10 @@ Dashboard.listView = Backbone.View.extend({
         var totalCnt = dWiseData['delay_approved_app'] + dWiseData['delay_fees_paid_app'] +
                 dWiseData['delay_fees_pending_app'] + dWiseData['delay_fess_na_app'] + dWiseData['delay_pay_at_office_app'] +
                 dWiseData['delay_payment_confirmed_app'] + dWiseData['delay_rejected_app'] + dWiseData['delay_submitted_app'] +
-                dWiseData['delay_queried_app'] + dWiseData['ot_queried_app'] +
+                dWiseData['delay_queried_app'] + dWiseData['delay_withdraw_app'] + dWiseData['ot_queried_app'] +
                 dWiseData['ot_approved_app'] + dWiseData['ot_fees_paid_app'] +
                 dWiseData['ot_fees_pending_app'] + dWiseData['ot_fess_na_app'] + dWiseData['ot_pay_at_office_app'] +
-                dWiseData['ot_payment_confirmed_app'] + dWiseData['ot_rejected_app'] + dWiseData['ot_submitted_app'];
+                dWiseData['ot_payment_confirmed_app'] + dWiseData['ot_rejected_app'] + dWiseData['ot_withdraw_app'] + dWiseData['ot_submitted_app'];
         return parseInt(totalCnt) ? parseInt(totalCnt) : 0;
 //        var totalCnt = dWiseData['delay_approved_app'] + dWiseData['delay_draft_app'] + dWiseData['delay_fees_paid_app'] +
 //                dWiseData['delay_fees_pending_app'] + dWiseData['delay_fess_na_app'] + dWiseData['delay_pay_at_office_app'] +

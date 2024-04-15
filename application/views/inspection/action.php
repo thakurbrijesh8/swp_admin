@@ -1,6 +1,6 @@
 <div class="text-center">
     {{#if show_edit_btn}}
-    <button type="button" class="btn btn-sm btn-success" onclick="Inspection.listview.editOrViewInspection($(this),'{{inspection_id}}', true);"
+    <button type="button" class="btn btn-sm btn-success" id="edit_btn_{{inspection_id}}" onclick="Inspection.listview.editOrViewInspection($(this),'{{inspection_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
@@ -16,6 +16,12 @@
     <button type="button" class="btn btn-sm btn-warning" id="query_btn_for_inspection_{{inspection_id}}" onclick="Inspection.listview.getQueryData('{{inspection_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-question" style="margin-right: 5px;"></i> Raise / View Query</button>
+    {{/if}}
+    {{#if show_withdraw_application_btn}}
+    <button type="button" class="btn btn-sm btn-secondary" id="withdraw_application_btn_{{inspection_id}}"
+            onclick="askForWithdrawApplication($(this), VALUE_TWENTYSEVEN,'{{inspection_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-undo" style="margin-right: 2px;"></i> Withdraw</button>
     {{/if}}
     <button type="button" class="btn btn-sm btn-success" id="approve_btn_for_app_{{inspection_id}}" onclick="Inspection.listview.askForApproveApplication('{{inspection_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{show_approve_btn}}">
