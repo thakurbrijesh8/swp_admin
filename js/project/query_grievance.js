@@ -92,13 +92,13 @@ QueryGrievance.listView = Backbone.View.extend({
         //     return regNoRenderer(VALUE_THIRTYTWO, data);
         // };
         var talukaRendere = function (data, type, full, meta) {
-            return talukaArray[data];
+            return talukaArray[data] ? talukaArray[data] : '';
         };
         var issueCategoryRendere = function (data, type, full, meta) {
-            return issueCategoryArray[data];
+            return issueCategoryArray[data] ? issueCategoryArray[data] : '';
         };
         var departmentRendere = function (data, type, full, meta) {
-            return departmentArray[data];
+            return departmentArray[data] ? departmentArray[data] : '';
         };
         var that = this;
         QueryGrievance.router.navigate('query_grievance');
