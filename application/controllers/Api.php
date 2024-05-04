@@ -8,6 +8,28 @@ class Api extends CI_Controller {
         parent::__construct();
     }
 
+//    function api_for_get_submitted_app_prev_financial_year() {
+//        $module_type_array = $this->config->item('query_module_array');
+//        echo '<table>';
+//        echo '<tr><td>Service Name</td><td>Department Name</td><td>Total</td></tr>';
+//        foreach ($module_type_array as $mt_array) {
+//            $this->db->select(' count(' . $mt_array['key_id_text'] . ') AS total_records');
+//            $this->db->where('is_delete != ' . VALUE_ONE);
+//            $this->db->where("submitted_datetime >= '2023-04-01 00:00:00'");
+//            $this->db->where("submitted_datetime < '2024-04-01 00:00:00'");
+//            $this->db->from($mt_array['tbl_text']);
+//            $resc = $this->db->get();
+//            $result = $resc->result_array();
+//
+//            foreach ($result as $rd) {
+//                echo '<tr><td>' . $mt_array['title'] . '</td><td>' . $mt_array['department_name'] . '</td>'
+//                . '<td>' . $rd['total_records'] . '</td>'
+//                . '</tr>';
+//            }
+//        }
+//        echo '</table>';
+//    }
+
 //    function check_order_details() {
 //        $dv_request_params = "|" . PG_MID . "|DMNLABOUREMPAPLCR02133-46agl2P17060163712133|" . 142;
 //        $query_request = http_build_query(array('queryRequest' => $dv_request_params, "aggregatorId" => PG_AGG_ID, "merchantId" => PG_MID));
