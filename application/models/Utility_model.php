@@ -81,7 +81,7 @@ class Utility_model extends CI_Model {
         return $resc->result_array();
     }
 
-    function get_result_data_by_ids($id_text, $ids, $table_name, $id_text2 = NULL, $id2 = NULL, $order_by_id = NULL, $order_by = NULL) {
+    function get_result_data_by_ids($id_text, $ids, $table_name, $id_text2 = NULL, $id2 = NULL, $id_text3 = NULL, $id3 = NULL, $order_by_id = NULL, $order_by = NULL) {
         if (is_array($ids)) {
             $this->db->where_in($id_text, $ids);
         } else {
@@ -89,6 +89,9 @@ class Utility_model extends CI_Model {
         }
         if ($id_text2 != NULL && $id2 != NULL) {
             $this->db->where($id_text2, $id2);
+        }
+        if ($id_text3 != NULL && $id3 != NULL) {
+            $this->db->where($id_text3, $id3);
         }
         $this->db->where('is_delete !=' . IS_DELETE);
         $this->db->from($table_name);

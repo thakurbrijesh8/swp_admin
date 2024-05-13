@@ -88,7 +88,7 @@ class Utility_lib {
             }
         }
         if (!empty($temp_ids)) {
-            $qm_data = $this->CI->utility_model->get_result_data_by_ids('module_id', $temp_ids, 'query', 'module_type', $module_type, 'query_id', 'ASC');
+            $qm_data = $this->CI->utility_model->get_result_data_by_ids('module_id', $temp_ids, 'query', 'module_type', $module_type, 'status', VALUE_ONE, 'query_id', 'ASC');
             foreach ($qm_data as $qm) {
                 if (!isset($query_movements[$qm['module_id']])) {
                     $query_movements[$qm['module_id']] = '';
@@ -175,7 +175,7 @@ class Utility_lib {
 
         $update_data = $this->get_basic_delete_array($user_id);
         $this->CI->utility_model->update_data_not_in('module_type', $module_type, 'fees_bifurcation_id', $ex_ids, 'fees_bifurcation', $update_data, 'module_id', $module_id);
-        
+
         if (!empty($new_fb_details)) {
             $this->CI->utility_model->insert_data_batch('fees_bifurcation', $new_fb_details);
         }
@@ -192,7 +192,6 @@ class Utility_lib {
         $update_data['updated_time'] = date('Y-m-d H:i:s');
         return $update_data;
     }
-
 }
 
 /**

@@ -231,7 +231,7 @@ class Utility extends CI_Controller {
             $ex_data = $this->utility_model->get_user_data_for_query_management($temp_access_data['key_id_text'], $module_id, $temp_access_data['tbl_text']);
 
             $query_movements = '';
-            $qm_data = $this->utility_model->get_result_data_by_ids('module_id', $module_id, 'query', 'module_type', $module_type, 'query_id', 'ASC');
+            $qm_data = $this->utility_model->get_result_data_by_ids('module_id', $module_id, 'query', 'module_type', $module_type, 'status', VALUE_ONE, 'query_id', 'ASC');
             if (!empty($qm_data)) {
                 foreach ($qm_data as $qm) {
                     $query_movements .= $this->utility_lib->get_qm($qm);
