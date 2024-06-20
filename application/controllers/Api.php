@@ -6,88 +6,52 @@ class Api extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('utility_model');
     }
 
-//    function api_for_get_submitted_app_prev_financial_year() {
-//        $module_type_array = $this->config->item('query_module_array');
-//        echo '<table>';
-//        echo '<tr><td>Service Name</td><td>Department Name</td><td>Total</td></tr>';
-//        foreach ($module_type_array as $mt_array) {
-//            $this->db->select(' count(' . $mt_array['key_id_text'] . ') AS total_records');
-//            $this->db->where('is_delete != ' . VALUE_ONE);
-//            $this->db->where("submitted_datetime >= '2023-04-01 00:00:00'");
-//            $this->db->where("submitted_datetime < '2024-04-01 00:00:00'");
-//            $this->db->from($mt_array['tbl_text']);
-//            $resc = $this->db->get();
-//            $result = $resc->result_array();
-//
-//            foreach ($result as $rd) {
-//                echo '<tr><td>' . $mt_array['title'] . '</td><td>' . $mt_array['department_name'] . '</td>'
-//                . '<td>' . $rd['total_records'] . '</td>'
-//                . '</tr>';
-//            }
-//        }
-//        echo '</table>';
-//    }
+    function _bd_for_logs($crone_type) {
+        $logs_data = array();
+        $logs_data['crone_type'] = $crone_type;
+        $logs_data['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $logs_data['start_datetime'] = date('Y-m-d H:i:s');
+        $logs_data['logs_data'] = json_encode($_SERVER);
+        return $logs_data;
+    }
 
-//    function check_order_details() {
-//        $dv_request_params = "|" . PG_MID . "|DMNLABOUREMPAPLCR02133-46agl2P17060163712133|" . 142;
-//        $query_request = http_build_query(array('queryRequest' => $dv_request_params, "aggregatorId" => PG_AGG_ID, "merchantId" => PG_MID));
-//
-//        $ch = curl_init(PG_DV_URL);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-//        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-//        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_request);
-//        $response = curl_exec($ch);
-//        
-//        print_r($response);
-//    }
+    function _insert_log($logs_data, $status, $message) {
+        $logs_data['end_datetime'] = date('Y-m-d H:i:s');
+        $logs_data['status'] = $status;
+        $logs_data['message'] = $message;
+        $this->utility_model->insert_data('logs_crone', $logs_data);
+    }
 
-//    function payment_settlement() {
-//       
-//        $dv_request_params = "|" . PG_OM . "|" . PG_COUNTRY . "|" . PG_CURRENCY . "|" . "02032024";
-//        $query_request = http_build_query(array('queryRequest' => $dv_request_params, "aggregatorId" => PG_AGG_ID, "merchantId" => PG_MID));
-//
-//        $ch = curl_init(PG_SETT_URL);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-//        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-//        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_request);
-//        $response = curl_exec($ch);
-//        print_r($response);
-//        $this->load->library('payment_lib');
-//        $iv = $this->payment_lib->generate_iv();
-//        $decrypted_string = $this->payment_lib->decrypt(PG_KEY, $response, $iv);
-//        if (!$decrypted_string) {
-//            echo 'error';
-//            return;
-//        }
-//        return;
-//        $return_data = explode('|', $decrypted_string);
-////        //print_r($return_data);
-////
-//
-//        // Convert XML string to SimpleXMLElement object
-//        $xmlObj = simplexml_load_string($return_data);
-//        
-//        // Convert SimpleXMLElement object to array
-//        $array = json_decode(json_encode($xmlObj), true);
-//
-//        // Output the array
-//       // print_r($array);
-////        echo $refund_status = $array['REFUNDDETAILS']['REFUND']['ORDERSTATUS'];
-//        
-//        if($array['ORDERDETAILS']['ORDER']['ORDERSTATUS'] == "Success"){
-//            echo 'Payment File No. :' . $array['ORDERDETAILS']['ORDER']['PAYOUTFILENUMBER'] . '<br/>';
-//            echo 'Settlement Date :' . $array['ORDERDETAILS']['ORDER']['SETTLEMENTDATE'] . '<br/>';
-//            echo 'Order Amount :' . $array['ORDERDETAILS']['ORDER']['ORDERAMOUNT'] . '<br/>';
-//        }  
-//    }
+    function pending_dv_data() {
+        $check_auth = check_crone_authentication();
+        if (!$check_auth) {
+            return false;
+        }
+        $logs_data = $this->_bd_for_logs(VALUE_THREE);
+        $check_ip = check_crone_ip_authentication();
+        if (!$check_ip) {
+            $this->_insert_log($logs_data, VALUE_ONE, INVALID_IP_MESSAGE);
+            return false;
+        }
+        try {
+            $pending_dv = $this->utility_model->get_pending_dv();
+            if (empty($pending_dv)) {
+                $this->_insert_log($logs_data, VALUE_TWO, NO_RECORD_FOUND_MESSAGE);
+                return false;
+            }
+            $module_type_array = $this->config->item('query_module_array');
+            foreach ($pending_dv as $fp) {
+                $this->payment_lib->check_payment_dv($module_type_array, $fp);
+            }
+            $msg = count($pending_dv) . RECORDS_UPDATED_MESSAGE;
+            $this->_insert_log($logs_data, VALUE_TWO, $msg);
+        } catch (\Exception $e) {
+            $this->_insert_log($logs_data, VALUE_ONE, $e->getMessage());
+        }
+    }
 }
 
 /*

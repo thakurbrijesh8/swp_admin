@@ -7,7 +7,7 @@ define('PG_CURRENCY', 'INR');
 define('PG_KEY', 'nprVtAlqf0ypMdzvXp7pZq5LakQoHKL7MqNM9l/0A64=');
 define('PG_AGG_ID', 'SBIEPAY');
 define('PG_DV_URL', 'https://www.sbiepay.sbi/payagg/statusQuery/getStatusQuery');
-define('PG_SETT_URL', 'https://www.sbipay.sbi/payagg/transactionPayoutAPI/getTransactionPayoutAPI');
+define('PG_SETT_URL', 'https://www.sbiepay.sbi/payagg/transactionPayoutAPI/getTransactionPayoutAPI');
 
 $config['pg_status_array'] = array(
     VALUE_ZERO => 'Payment Not Initiated',

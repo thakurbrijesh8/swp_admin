@@ -249,6 +249,13 @@ class Utility_model extends CI_Model {
         $resc = $this->db->get();
         return $resc->row_array();
     }
+
+    function get_pending_dv() {
+        $this->db->where_in('op_status', array(VALUE_ZERO, VALUE_ONE, VALUE_FOUR, VALUE_FIVE, VALUE_SIX));
+        $this->db->from('fees_payment');
+        $resc = $this->db->get();
+        return $resc->result_array();
+    }
 }
 
 /*

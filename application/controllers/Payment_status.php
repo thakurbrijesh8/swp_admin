@@ -7,7 +7,7 @@ class Payment_status extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('utility_model');
-        $this->load->model('payment_model');
+        $this->load->library('payment_lib');
     }
 
     function check_payment_dv() {
@@ -43,66 +43,11 @@ class Payment_status extends CI_Controller {
             return false;
         }
 
-        $update_fp = false;
         $dv_data = array();
-        $dv_data['dv_type'] = VALUE_TWO;
-        $dv_data['fees_payment_id'] = $fees_payment_id;
-        $dv_data['dv_start_datetime'] = date('Y-m-d H:i:s');
-        $dv_data['created_by'] = $session_user_id;
-        $dv_data['created_time'] = $dv_data['dv_start_datetime'];
-        $dv_data['dv_status'] = VALUE_ONE;
-
-        $dv_request_params = "|" . PG_MID . "|" . $check_payment_fp['op_order_number'] . "|" . $check_payment_fp['total_fees'];
-        $query_request = http_build_query(array('queryRequest' => $dv_request_params, "aggregatorId" => PG_AGG_ID, "merchantId" => PG_MID));
-
-        $ch = curl_init(PG_DV_URL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 50000);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_request);
-        $response = curl_exec($ch);
-        if (curl_errno($ch)) {
-            $dv_data['dv_status'] = VALUE_THREE;
-            $dv_data['dv_message'] = curl_error($ch);
-        }
-        if ($dv_data['dv_status'] == VALUE_ONE) {
-            $dv_data['dv_status'] = VALUE_THREE;
-            $dv_data['dv_message'] = RES_NOT_REC_MESSAGE;
-            if ($response) {
-                $return_data = explode('|', $response);
-                if (!empty($return_data)) {
-                    $status = isset($return_data[2]) ? $return_data[2] : '';
-                    if ($status == 'No Records Found') {
-                        $status = 'FAIL';
-                    }
-                    if ($status == 'FAIL' || $status == 'ABORT' || $status == 'PENDING' || $status == 'BOOKED' || $status == 'INPROGRESS' || $status == 'SUCCESS' || $status == 'REFUND' || $status == 'EXPIRED') {
-                        $dv_data['dv_status'] = VALUE_TWO;
-                        $dv_data['dv_return'] = $response;
-                        $dv_data['dv_reference_id'] = isset($return_data[1]) ? $return_data[1] : '';
-                        $dv_data['dv_pg_status'] = ($status == 'FAIL' || $status == 'ABORT' || $status == 'REFUND' || $status == 'EXPIRED') ? VALUE_THREE : ($status == 'PENDING' ? VALUE_FOUR : ($status == 'BOOKED' ? VALUE_FIVE : ($status == 'INPROGRESS' ? VALUE_SIX : ($status == 'SUCCESS' ? VALUE_TWO : VALUE_THREE))));
-                        $dv_data['dv_order_number'] = isset($return_data[6]) ? $return_data[6] : '';
-                        $dv_data['dv_amount'] = isset($return_data[7]) ? $return_data[7] : '';
-                        $dv_data['dv_message'] = isset($return_data[8]) ? $return_data[8] : '';
-                        $dv_data['dv_bank_code'] = isset($return_data[9]) ? $return_data[9] : '';
-                        $dv_data['dv_bank_ref_number'] = isset($return_data[10]) ? $return_data[10] : '';
-                        $update_fp = true;
-                    }
-                }
-            }
-        }
-        $dv_data['dv_end_datetime'] = date('Y-m-d H:i:s');
-        $fp_dv_id = $this->utility_model->insert_data('fees_payment_dv', $dv_data);
-        if ($update_fp) {
-            $update_fp = false;
-            $fp_update = array();
-            $this->_update_fp_data_status($fp_update, $fp_dv_id, $dv_data, $check_payment_fp, $update_fp, $fees_payment_id);
-        }
-        if ($update_fp) {
-            $this->_update_module_data_status($module_data, $fp_update, $temp_access_data, $check_payment_fp);
-        }
+        $update_fp = false;
+        $fp_update = array();
+        $md_update = array();
+        $this->payment_lib->cp_dv($dv_data, $update_fp, $fp_update, $md_update, $session_user_id, VALUE_TWO, $fees_payment_id, $check_payment_fp, $module_data, $temp_access_data);
 
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) {

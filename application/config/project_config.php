@@ -2065,3 +2065,13 @@ $config['rating_array'] = array(
     VALUE_FOUR => VALUE_FOUR,
     VALUE_FIVE => VALUE_FIVE
 );
+
+$config['crone_type_array'] = array(
+    VALUE_ONE => 'Update Processing Days',
+    VALUE_TWO => 'Send Email For Pending Verification',
+    VALUE_THREE => 'D.V. For Pending Transactions',
+);
+
+$config['allow_ips_for_crone'] = array(
+    '103.212.121.220' => '103.212.121.220'
+);

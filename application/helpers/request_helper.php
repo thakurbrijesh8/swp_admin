@@ -206,7 +206,7 @@ function is_user_acc_ver() {
     $CI = & get_instance();
     $user_type = $CI->session->userdata('temp_type_for_eodbsws_admin');
     return $user_type == TEMP_TYPE_USER_ACC_VER;
-} 
+}
 
 function add_other_village($village_data) {
     $test_array = array();
@@ -215,13 +215,39 @@ function add_other_village($village_data) {
     array_push($village_data, $test_array);
     return $village_data;
 }
+
 function is_ajax() {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }
+
 function get_logout_array() {
     $return_array = get_error_array();
     $return_array['is_logout'] = true;
     return $return_array;
+}
+
+function check_crone_authentication() {
+    if (!isset($_GET['at'])) {
+        return false;
+    }
+    $tat = $_GET['at'];
+    if (!$tat || $tat == null) {
+        return false;
+    }
+    $at = api_decryption($tat);
+    if ($at != ENCRYPTION_KEY) {
+        return false;
+    }
+    return true;
+}
+
+function check_crone_ip_authentication() {
+    $CI = & get_instance();
+    $aips = $CI->config->item('allow_ips_for_crone');
+    if (!isset($aips[$_SERVER['REMOTE_ADDR']])) {
+        return false;
+    }
+    return true;
 }
 
 /**

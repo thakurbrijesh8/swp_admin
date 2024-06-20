@@ -162,11 +162,9 @@ define('UPLOAD_DOCUMENT_MESSAGE', 'Upload Valid Document !');
 define('IDENTITY_CHOICE_MESSAGE', 'Select one Identity !');
 define('PREMISES_STATUS_MESSAGE', 'Select Status of the Premises !');
 
-
 // Weight & Measure Dealer
 define('DEALER_NAME_MESSAGE', 'Enter Name of the concern seeking the license !');
 define('CATEGORY_SOLD_MESSAGE', 'Enter Categories of weights and measures sold/proposed to be sold at present !');
-
 
 // Weight & Measure Manufacturer
 define('MANUFACTURER_NAME_MESSAGE', 'Enter Name of the concern seeking the license !');
@@ -183,7 +181,6 @@ define('APPROVAL_MODEL_MESSAGE', 'Enter Details of Model Approval received from 
 define('INSPECTION_DATE_MESSAGE', 'Select When can you produce for inspection samples of your products for which license is desired !');
 define('IMPORTER_REG_MESSAGE', 'Enter Registration of importer of Weights and Measures !');
 
-
 define('ESTABLISHMENT_REGISTRATION_NO_MESSAGE', 'Enter Registration No. !');
 define('ESTABLISHMENT_REMARK_MESSAGE', 'Enter Remarks !');
 
@@ -193,7 +190,6 @@ define('COMPLETE_ADDRESS_MESSAGE', 'Enter Complete Address of Registered Office 
 define('APPLICANT_CATEGORY_MESSAGE', 'Select Item to be Manufactured/Packed/Imported !');
 define('BRANCH_MESSAGE', 'Enter Complete Address of Manufacturing/Packing/Importing Premises  !');
 define('ITEM_DETAIL_MESSAGE', 'Enter Item Detail  !');
-
 
 // Water Connection
 define('HOUSE_NO_MESSAGE', 'Enter House No. !');
@@ -250,7 +246,6 @@ define('QUERY_RAISED_MESSAGE', 'Query Raised Successfully !');
 define('QUERY_RESOLVED_MESSAGE', 'Query Resolved Successfully !');
 define('DOCUMENT_NAME_MESSAGE', 'Enter Document Name !');
 define('QUERY_DOCUMENT_ITEM_REMOVED_MESSAGE', 'Query Document Item Removed Successfully !');
-
 
 // Incentive General Form
 define('OFFICE_ADDRESS_MESSAGE', 'Enter Office Address with pin code No. !');
@@ -318,7 +313,6 @@ define('SANCTION_AMOUNT_MESSAGE', 'Enter Sanction Amount !');
 //define('DATE_MESSAGE', 'Enter Date !');
 define('RATE_MESSAGE', 'Enter Rate of Interest !');
 
-
 // Incentive Part B Form
 define('SUPPLIER_NAME_ADDRESS_MESSAGE', 'Enter Name & Address of ERP System Supplier !');
 define('FEATURE_SYSTEM_MESSAGE', 'Enter Features of the ERP System !');
@@ -334,7 +328,6 @@ define('CONSUTANCY_MESSAGE', 'Enter all charges including Consultancy Fees !');
 define('CERTIFICATION_CHARGES_MESSAGE', 'Enter all charges for obtaining each certification !');
 define('TESTING_EQUIPMENTS_MESSAGE', 'Enter cost of testing equipments required for certification !');
 define('CLAM_AMOUNT_TOTAL_MESSAGE', 'Enter Total !');
-
 
 // Incentive Part C Form
 define('REGISTRATION_NO_MESSAGE', 'Enter Patent Registration No. !');
@@ -354,7 +347,6 @@ define('EQUIPMENT_COST_MESSAGE', 'Enter cost of equipments recommendation by Ins
 define('EQUIPMENT_NAME_MESSAGE', 'Enter Equipment Name !');
 define('COST_MESSAGE', 'Enter Cost !');
 
-
 // Incentive Part E Form
 define('REQUIT_EMP_MESSAGE', 'Enter Total Number of Local Employment Newly recruited !');
 define('EMP_EXPENDITURE_MESSAGE', 'Enter Total Expenditure made on Local Employment !');
@@ -366,7 +358,6 @@ define('OTHER_INFO_MESSAGE', 'Enter Other Information !');
 
 // Incentive Part G Form
 define('SECTOR_TEXTILE_MESSAGE', 'Enter Sector of Technical Textile !');
-
 
 // Incentive Part H Form
 define('JUSTIFICATION_MESSAGE', 'Enter Details with Justification !');
@@ -408,7 +399,6 @@ define('VALID_AUTHORIZATION_MESSAGE', 'Select appropriate option to upload !');
 
 //Sub_letting Form
 define('NAME_OF_MANUFACTRING_MESSAGE', 'Enter name of  manufacturing !');
-
 
 //Repairer Renewal Form
 define('PROPOSE_CHANGE_MESSAGE', 'Enter any Changes !');
@@ -466,7 +456,6 @@ define('PARTY_ADDRESS_MESSAGE', 'Enter Party Address !');
 define('APPOINTMENT_DATE_MESSAGE', 'Select Appointment Date !');
 define('PROPERTY_DESCRIPTION_MESSAGE', 'Enter Property Description/Schedule !');
 define('SELECT_TIME_MESSAGE', 'Select time for Appointment !');
-
 
 // Tourism Event
 define('NAME_OF_EVENT_MESSAGE', 'Enter Name of the event !');
@@ -621,7 +610,6 @@ define('TOTAL_TOTAL_MESSAGE', 'Enter Total Employees !');
 define('TOTAL_MALE_MESSAGE', 'Enter Male Employees !');
 define('TOTAL_FEMALE_MESSAGE', 'Enter Female Employees !');
 
-
 //part A
 define('WORKED_DAYS_MESSAGE', 'Enter Number of days the esytablishment/factory worked in this year !');
 define('MAN_WORKED_DAYS_MESSAGE', 'Enter The number of man days worked in the year !');
@@ -637,7 +625,6 @@ define('NO_OF_BENEFICIARIES_MESSAGE', 'Enter Number of baneficiaries !');
 define('BONUS_PAID_MESSAGE', 'Enter Total amount of bonus paid !');
 define('PAYMENT_DATE_MESSAGE', 'Enter Date of payment !');
 define('BONUS_REASON_MESSAGE', 'Enter If bonus is not paid, reason there of !');
-
 
 //part C
 define('CONTRACTOR_NATURE_MESSAGE', 'Enter Nature of work/operations of contractor !');
@@ -716,8 +703,6 @@ define('EXAMINED_FEMALE_MESSAGE', 'Enter Examined Female !');
 define('UNFIT_MALE_MESSAGE', 'Enter Unfit Male !');
 define('UNFIT_FEMALE_MESSAGE', 'Enter unfit Female !');
 
-
-
 //part E
 define('RESPECT_OF_FINES_MESSAGE', 'Enter Whether applicantion in respect of Fines being Imposed on the employees in sent !');
 define('ADULT_WORKED_DAYS_MESSAGE', 'Enter Number of man days worked as Adult !');
@@ -737,7 +722,6 @@ define('YEAR_TOTAL_WAGES_MESSAGE', 'Enter Total wages paid during the year !');
 define('YEAR_PAID_BONUS_MESSAGE', 'Enter Bonus paid during the year !');
 define('COMMISION_AMOUNT_MESSAGE', 'Enter Amount of money Value of Commision given during the year !');
 define('REALIZED_AMOUNT_MESSAGE', 'Enter Deduction number of case and amount realized !');
-
 
 //part f
 define('NO_OF_FEMALE_WORKERS_MESSAGE', 'Enter Number of female workers employed on any day !');
@@ -771,8 +755,8 @@ define('DRAF_DATE_MESSAGE', 'Enter demand draf Date !');
 //define('UPLOAD_DOCUMENT_MESSAGE', 'Upload Valid Document !');
 //define('APP_DRAFT_MESSAGE', 'Application Save as Draft Successfully  !');
 //define('APP_SUBMITTED_MESSAGE', 'Application Submitted Successfully  !');
-define('BOCW_SAVED_MESSAGE', 'Saved Successfully  !');
-define('BOCW_UPDATED_MESSAGE', 'Updated Successfully  !');
+define('INVALID_IP_MESSAGE', 'Invalid IP Address !');
+define('RECORDS_UPDATED_MESSAGE', 'Records Updated Successfully  !');
 
 //Factory License Module
 define('FACTORY_NAME_MESSAGE', 'Enter Name of factory !');
@@ -820,7 +804,6 @@ define('FLOW_CHART_MESSAGE', 'Upload Flow Chart of the Manufacturing Process !')
 define('SITE_PLAN_MESSAGE', 'Upload site Plan of Factory !');
 define('ELEVATION_DOCUMENT_MESSAGE', 'Upload Elevation Document !');
 define('APPLICANT_SIGN_MESSAGE', 'Upload Signature of Applicant !');
-
 
 //Boiler Act
 //define('OWNER_NAME_MESSAGE', 'Enter Name Of Owner !');
@@ -905,7 +888,6 @@ define('IR_UPLOAD_MESSAGE', 'Inspection Report Uploaded Successfully !');
 define('USER_NAME_MESSAGE', 'Enter Name of User/ Premises  !');
 define('TRADE_MESSAGE', 'Select Treade !');
 define('REPORT_MESSAGE', 'Select Report/Intimate/Inform !');
-
 
 define('PROMOTER_NAME_MESSAGE', 'Enter Promoter Name !');
 define('PROMOTER_DESIGNATION_MESSAGE', 'Enter Promoter Designation !');
