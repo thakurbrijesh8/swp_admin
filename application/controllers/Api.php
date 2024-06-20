@@ -28,12 +28,14 @@ class Api extends CI_Controller {
     function pending_dv_data() {
         $check_auth = check_crone_authentication();
         if (!$check_auth) {
+            header("Location: " . base_url() . 'main/page_not_found');
             return false;
         }
         $logs_data = $this->_bd_for_logs(VALUE_THREE);
         $check_ip = check_crone_ip_authentication();
         if (!$check_ip) {
             $this->_insert_log($logs_data, VALUE_ONE, INVALID_IP_MESSAGE);
+            header("Location: " . base_url() . 'main/page_not_found');
             return false;
         }
         try {
@@ -50,6 +52,7 @@ class Api extends CI_Controller {
             $this->_insert_log($logs_data, VALUE_TWO, $msg);
         } catch (\Exception $e) {
             $this->_insert_log($logs_data, VALUE_ONE, $e->getMessage());
+            header("Location: " . base_url() . 'main/page_not_found');
         }
     }
 }
