@@ -45,6 +45,7 @@ class Api extends CI_Controller {
                 return false;
             }
             $module_type_array = $this->config->item('query_module_array');
+            $this->load->library('payment_lib');
             foreach ($pending_dv as $fp) {
                 $this->payment_lib->check_payment_dv($module_type_array, $fp);
             }
