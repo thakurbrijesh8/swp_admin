@@ -101,9 +101,11 @@ class Ips extends CI_Controller {
                 return false;
             }
             $inc_doc_details = generate_array_for_id_object($this->utility_model->get_result_data_by_id('ips_incentive_id', $ips_incentive_id, 'ips_incentive_doc', 'ips_id', $ips_incentive_data['ips_id']), 'doc_id');
+            $inc_other_doc_details = $this->utility_model->get_result_data_by_id('ips_incentive_id', $ips_incentive_id, 'ips_incentive_od', 'ips_id', $ips_incentive_data['ips_id']);
             $success_array = get_success_array();
             $success_array['ips_incentive_data'] = $ips_incentive_data;
             $success_array['doc_details'] = $inc_doc_details;
+            $success_array['other_doc_details'] = $inc_other_doc_details;
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -304,7 +306,6 @@ class Ips extends CI_Controller {
 
             // Save Temporary QR Code File
             $mpdf->Output($temp_fc_path, 'F');
-
 
             $temp_files_to_merge = array();
             array_push($temp_files_to_merge, $temp_fc_path);
@@ -527,7 +528,6 @@ class Ips extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

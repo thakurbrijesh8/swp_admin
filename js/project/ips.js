@@ -3,6 +3,7 @@ var ipsIncTableTemplate = Handlebars.compile($('#ips_inc_table_template').html()
 var ipsIncActionTemplate = Handlebars.compile($('#ips_inc_action_template').html());
 var ipsIncViewTemplate = Handlebars.compile($('#ips_inc_view_template').html());
 var ipsIncDocItemViewTemplate = Handlebars.compile($('#ips_inc_doc_item_view_template').html());
+var ipsIncODItemViewTemplate = Handlebars.compile($('#ips_inc_od_item_view_template').html());
 var ipsIncUploadChallanTemplate = Handlebars.compile($('#ips_inc_upload_challan_template').html());
 var ipsIncViewPaymentTemplate = Handlebars.compile($('#ips_inc_view_payment_template').html());
 var ipsIncApproveTemplate = Handlebars.compile($('#ips_inc_approve_template').html());
@@ -336,10 +337,10 @@ Ips.listView = Backbone.View.extend({
         resetCounter('view-doc-sr-no');
         var docDetails = parseData.doc_details;
         var schemeDocuments = schemeDocArray[ipsData.scheme] ? schemeDocArray[ipsData.scheme] : '';
-        var tCnt = 1;
+        var tdCnt = 1;
         $.each(schemeDocuments, function (docId, docNameText) {
             var docData = docDetails[docId] ? docDetails[docId] : {};
-            docData.doc_cnt = tCnt;
+            docData.doc_cnt = tdCnt;
             docData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
             docData.doc_id = docId;
             docData.doc_name_text = docNameText;
@@ -347,10 +348,25 @@ Ips.listView = Backbone.View.extend({
             if (docData.doc_name) {
                 that.loadIncentivesDocumentForView(docData.doc_id, docData);
             }
-            tCnt++;
+            tdCnt++;
         });
-        if (tCnt == 1) {
+        if (tdCnt == 1) {
             $('#doc_item_container_for_view_incentives').html(noRecordFoundTemplate({'colspan': 3, 'message': 'Document Not Available !'}));
+        }
+
+        var otherDocDetails = parseData.other_doc_details;
+        var todCnt = 1;
+        $.each(otherDocDetails, function (index, odDetail) {
+            odDetail.cnt = todCnt;
+            odDetail.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
+            $('#od_item_container_for_view_incentives').append(ipsIncODItemViewTemplate(odDetail));
+            if (odDetail['document'] != '') {
+                that.loadIPSIOtherDocumentForView(odDetail.ips_incentive_od_id, odDetail.document);
+            }
+            todCnt++;
+        });
+        if (todCnt == 1) {
+            $('#od_item_container_for_view_incentives').html(noRecordFoundTemplate({'colspan': 3, 'message': 'Document Not Available !'}));
         }
     },
     viewIncentivesDocument: function (ipsData) {
@@ -1039,5 +1055,9 @@ Ips.listView = Backbone.View.extend({
     loadIncentivesDocumentForView: function (fileNo, incentiveData) {
         $('#upload_name_href_for_incentives_' + fileNo).attr('href', IPS_INC_DOC_PATH + incentiveData.doc_name);
         $('#upload_name_container_for_incentives_' + fileNo).show();
+    },
+    loadIPSIOtherDocumentForView: function (ipsIODId, docName) {
+        $('#document_name_container_for_iod_view_' + ipsIODId).show();
+        $('#document_name_href_for_iod_view_' + ipsIODId).attr('href', IPS_INC_DOC_PATH + docName);
     },
 });

@@ -64,7 +64,7 @@ define('TEMP_TYPE_FOREST', 19);
 define('TEMP_TYPE_ARCS', 20);
 define('TEMP_TYPE_USER_ACC_VER', 21);
 
-define('VERSION', 'v=1.1.76');
+define('VERSION', 'v=1.1.78');
 
 //define('GS_PATH', "C:\Program Files\gs\gs9.55.0\bin\gswin64c");
 define('GS_PATH', "gs");

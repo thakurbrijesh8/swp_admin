@@ -84,7 +84,7 @@ Service.listView = Backbone.View.extend({
             loginPage();
             return false;
         }
-        if (tempTypeInSession != TEMP_TYPE_A) {
+        if (tempTypeInSession != TEMP_TYPE_A && tempTypeInSession != TEMP_TYPE_VDD) {
             Dashboard.router.navigate('dashboard', {trigger: true});
             return false;
         }
@@ -194,7 +194,7 @@ Service.listView = Backbone.View.extend({
             loginPage();
             return false;
         }
-        if (tempTypeInSession != TEMP_TYPE_A) {
+        if (tempTypeInSession != TEMP_TYPE_A && tempTypeInSession != TEMP_TYPE_VDD) {
             Dashboard.router.navigate('dashboard', {trigger: true});
             return false;
         }

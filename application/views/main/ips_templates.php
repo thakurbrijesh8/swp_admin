@@ -13,6 +13,9 @@
 <script type="text/x-handlebars-template" id="ips_inc_doc_item_view_template">
 <?php $this->load->view('ips/inc_doc_item_view'); ?>
 </script>
+<script type="text/x-handlebars-template" id="ips_inc_od_item_view_template">
+<?php $this->load->view('ips/inc_od_item_view'); ?>
+</script>
 <script type="text/x-handlebars-template" id="ips_inc_upload_challan_template">
 <?php $this->load->view('ips/inc_upload_challan'); ?>
 </script>
@@ -23,5 +26,5 @@
 <?php $this->load->view('ips/inc_approve'); ?>
 </script>
 <script type="text/x-handlebars-template" id="ips_inc_reject_template">
-    <?php $this->load->view('ips/inc_reject'); ?>
+<?php $this->load->view('ips/inc_reject'); ?>
 </script>

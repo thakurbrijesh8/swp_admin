@@ -599,20 +599,22 @@
                             </li>
                         </ul>
                     </li>
-                <?php } if (is_admin()) { ?>
+                <?php } if (is_admin() || is_view_all_district_user()) { ?>
                     <li class="nav-item has-treeview">
                         <a id="menu_users" href="Javascript:void(0)" class="nav-link">
                             <i class="nav-icon fas fa-cogs"></i>
                             <p>Admin Master Manage. <i class="right fas fa-angle-left"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a id="menu_dept_fd" href="Javascript:void(0);" class="nav-link menu-close-click"
-                                   onclick="DeptFD.listview.listPage();">
-                                    <i class="nav-icon fas fa-money-check"></i>
-                                    <p>Fee Details of Department(s)</p>
-                                </a>
-                            </li>
+                            <?php if (is_admin()) { ?>
+                                <li class="nav-item">
+                                    <a id="menu_dept_fd" href="Javascript:void(0);" class="nav-link menu-close-click"
+                                       onclick="DeptFD.listview.listPage();">
+                                        <i class="nav-icon fas fa-money-check"></i>
+                                        <p>Fee Details of Department(s)</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
                             <li class="nav-item">
                                 <a id="menu_users_department" href="Javascript:void(0);"
                                    onclick="Department.listview.listPage();" class="nav-link menu-close-click">
@@ -620,13 +622,15 @@
                                     <p>Department(s)</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a id="menu_users_employee" href="Javascript:void(0);"
-                                   onclick="Employee.listview.listPage();" class="nav-link menu-close-click">
-                                    <i class="fas fa-briefcase nav-icon"></i>
-                                    <p>Employee</p>
-                                </a>
-                            </li>
+                            <?php if (is_admin()) { ?>
+                                <li class="nav-item">
+                                    <a id="menu_users_employee" href="Javascript:void(0);"
+                                       onclick="Employee.listview.listPage();" class="nav-link menu-close-click">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>Employee</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
                             <li class="nav-item">
                                 <a id="menu_users_service" href="Javascript:void(0);"
                                    onclick="Service.listview.listPage();" class="nav-link menu-close-click">
@@ -634,27 +638,29 @@
                                     <p>Service(s)</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a id="menu_users_officer" href="Javascript:void(0);"
-                                   onclick="Officer.listview.listPage();" class="nav-link menu-close-click">
-                                    <i class="fas fa-user-check nav-icon"></i>
-                                    <p>Officer</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a id="menu_users_user" href="Javascript:void(0);"
-                                   onclick="Users.listview.listPage();" class="nav-link menu-close-click">
-                                    <i class="fas fa-users nav-icon"></i>
-                                    <p>Users</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a id="menu_users_user_type" href="Javascript:void(0);"
-                                   onclick="Users.listview.listPageForUserType();" class="nav-link menu-close-click">
-                                    <i class="fas fa-list-alt nav-icon"></i>
-                                    <p>User Type</p>
-                                </a>
-                            </li>
+                            <?php if (is_admin()) { ?>
+                                <li class="nav-item">
+                                    <a id="menu_users_officer" href="Javascript:void(0);"
+                                       onclick="Officer.listview.listPage();" class="nav-link menu-close-click">
+                                        <i class="fas fa-user-check nav-icon"></i>
+                                        <p>Officer</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="menu_users_user" href="Javascript:void(0);"
+                                       onclick="Users.listview.listPage();" class="nav-link menu-close-click">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>Users</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="menu_users_user_type" href="Javascript:void(0);"
+                                       onclick="Users.listview.listPageForUserType();" class="nav-link menu-close-click">
+                                        <i class="fas fa-list-alt nav-icon"></i>
+                                        <p>User Type</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </li>
                 <?php } if (is_admin() || is_user_acc_ver()) { ?>
