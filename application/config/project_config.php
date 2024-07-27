@@ -2075,3 +2075,18 @@ $config['crone_type_array'] = array(
 $config['allow_ips_for_crone'] = array(
     '103.212.121.220' => '103.212.121.220'
 );
+
+$config['risk_category_array'] = array(
+    VALUE_ONE => 'Low',
+    VALUE_TWO => 'Medium',
+    VALUE_THREE => 'High',
+    VALUE_FOUR => 'Red',
+    VALUE_FIVE => 'Orange',
+    VALUE_SIX => 'Green',
+    VALUE_SEVEN => 'White',
+);
+
+$config['foreign_domestic_investor_array'] = array(
+    VALUE_ONE => 'Foreign / Domestic ',
+    VALUE_TWO => 'Domestic',
+);

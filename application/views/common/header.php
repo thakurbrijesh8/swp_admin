@@ -282,6 +282,9 @@
             var OTHER_VILLAGE = <?php echo OTHER_VILLAGE; ?>;
 
             var socRegUlStatusArray = <?php echo json_encode($this->config->item('soc_reg_ul_status_array')); ?>;
+            
+            var riskCategoryArray = <?php echo json_encode($this->config->item('risk_category_array')); ?>;
+            var foreignDomesticInvestorArray = <?php echo json_encode($this->config->item('foreign_domestic_investor_array')); ?>;
 
             var tempDropdownData = [];
             $(document).ready(function () {

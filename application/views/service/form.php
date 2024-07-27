@@ -59,6 +59,26 @@
                 </div>
             </div>
             <div class="row">
+                <div class="form-group col-sm-6 col-md-3">
+                    <label>Risk Category <span class="color-nic-red">*</span></label>
+                    <div id="risk_category_container_for_service">
+                    </div>
+                    <span class="error-message error-message-service-risk_category_for_service"></span>
+                </div>
+                <div class="form-group col-sm-6 col-md-3">
+                    <label>Size of firm<span class="color-nic-red">*</span></label>
+                    <div id="size_of_firm_container_for_service">
+                    </div>
+                    <span class="error-message error-message-service-size_of_firm_for_service"></span>
+                </div>
+                <div class="form-group col-sm-6 col-md-3">
+                    <label>Foreign / Domestic Investor<span class="color-nic-red">*</span></label>
+                    <div id="foreign_domestic_investor_container_for_service">
+                    </div>
+                    <span class="error-message error-message-service-foreign_domestic_investor_for_service"></span>
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-sm-6">
                     <label>1st Appellate Authority for Grievance Redressal</label>
                     <input type="text" class="form-control" id="first_aagr_for_service" name="first_aagr_for_service"

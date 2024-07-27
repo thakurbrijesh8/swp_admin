@@ -91,6 +91,9 @@ class Service extends CI_Controller {
         $dept_array['diu_department_id'] = get_from_post('diu_department_id_for_service');
         $dept_array['dnh_department_id'] = get_from_post('dnh_department_id_for_service');
         $dept_array['service_name'] = get_from_post('service_name_for_service');
+        $dept_array['risk_category'] = get_from_post('risk_category_for_service');
+        $dept_array['size_of_firm'] = get_from_post('size_of_firm_for_service');
+        $dept_array['foreign_domestic_investor'] = get_from_post('foreign_domestic_investor_for_service');
         $dept_array['service_type'] = get_from_post('service_type_for_service');
         $dept_array['timeline'] = get_from_post('timeline_for_service');
         $dept_array['competent_authority'] = get_from_post('competent_authority_for_service');
@@ -109,6 +112,15 @@ class Service extends CI_Controller {
         }
         if (!$dept_array['service_name']) {
             return SERVICE_NAME_MESSAGE;
+        }
+        if (!$dept_array['risk_category']) {
+            return ONE_OPTION_MESSAGE;
+        }
+        if (!$dept_array['size_of_firm']) {
+            return ONE_OPTION_MESSAGE;
+        }
+        if (!$dept_array['foreign_domestic_investor']) {
+            return ONE_OPTION_MESSAGE;
         }
         if (!$dept_array['service_type']) {
             return ONE_OPTION_MESSAGE;
