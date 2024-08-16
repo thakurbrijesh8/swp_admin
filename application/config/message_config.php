@@ -7,11 +7,6 @@ $config['invalid_access_array'] = array(
     INVALID_ACCESS => INVALID_ACCESS_MESSAGE
 );
 
-define('PASSWORD_VALIDATION_MESSAGE', '1. Password must be between 8 to 16 characters long.<br>'
-        . '2. Contain at least one digit and two alphabetic character.<br>'
-        . '3. At least one upper case and one lower case character.<br>'
-        . '4. Contain at least one special character of (!#$@%-_+<>=).');
-
 define('DATABASE_ERROR_MESSAGE', 'Some unexpected database error encountered due to which your transaction could not be complete');
 define('INVALID_USER_MESSAGE', 'Invalid User !');
 define('INVALID_PASSWORD_MESSAGE', 'Invalid Password !');

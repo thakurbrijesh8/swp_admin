@@ -47,11 +47,11 @@
                                                 <button type="button" class="btn btn-nic-blue btn-block" onclick="resetForm('login_form');">Clear</button>
                                             </div>
                                         </div>
-<!--                                        <div class="row" style="margin-top: 10px;">
-                                            <div class="col-12">
-                                                <a href="tel:09824567222"><img src="images/TECHNICAL-SUPPORT-AND-FEEDBACK.png" class="img-responsive" style="width: 100%;"></a>
-                                            </div>
-                                        </div>-->
+                                        <!--                                        <div class="row" style="margin-top: 10px;">
+                                                                                    <div class="col-12">
+                                                                                        <a href="tel:09824567222"><img src="images/TECHNICAL-SUPPORT-AND-FEEDBACK.png" class="img-responsive" style="width: 100%;"></a>
+                                                                                    </div>
+                                                                                </div>-->
                                     </form>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                         validationMessageShow('login', parseData.message);
                         return false;
                     }
-                    window.location = baseUrl + 'main';
+                    window.location = parseData.temp_location;
                 }
             });
         }

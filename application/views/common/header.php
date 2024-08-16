@@ -282,7 +282,7 @@
             var OTHER_VILLAGE = <?php echo OTHER_VILLAGE; ?>;
 
             var socRegUlStatusArray = <?php echo json_encode($this->config->item('soc_reg_ul_status_array')); ?>;
-            
+
             var riskCategoryArray = <?php echo json_encode($this->config->item('risk_category_array')); ?>;
             var foreignDomesticInvestorArray = <?php echo json_encode($this->config->item('foreign_domestic_investor_array')); ?>;
 
@@ -293,18 +293,13 @@
         </script>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-        <?php $this->load->view('security'); ?>
+        <?php
+        $this->load->view('common/overlay');
+        $this->load->view('security');
+        ?>
         <script type="text/javascript">
             handleDataTableError();
         </script>
-        <div id="full_page_overlay_div" class="overlay-full-page text-center">
-            <div style="margin-top: 20%;">
-                <i class="fas fa-spinner fa-5x fa-spin text-white"></i>
-            </div>
-            <div>
-                <h2 class="text-white mt-5">Randomization in Progress . . .</h2>
-            </div>
-        </div>
         <div class="wrapper">
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <ul class="navbar-nav">

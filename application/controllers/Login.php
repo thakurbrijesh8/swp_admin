@@ -44,20 +44,29 @@ class Login extends CI_Controller {
                 echo json_encode(get_error_array(ACCOUNT_DELETE_MESSAGE));
                 return;
             }
-            $log_id = $this->utility_lib->login_log($new_user_data['sa_user_id']);
+            if ($new_user_data['is_npp'] != VALUE_ZERO) {
+                $log_id = $this->utility_lib->login_log($new_user_data['sa_user_id']);
+            }
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
                 return;
             }
-            $session_data = array();
-            $session_data['temp_id_for_eodbsws_admin'] = $new_user_data['sa_user_id'];
-            $session_data['name'] = ucwords($new_user_data['name']);
-            $session_data['temp_type_for_eodbsws_admin'] = $new_user_data['user_type'];
-            $session_data['temp_district_for_eodbsws_admin'] = $new_user_data['district'];
+            if ($new_user_data['is_npp'] != VALUE_ZERO) {
+                $session_data = array();
+                $session_data['temp_id_for_eodbsws_admin'] = $new_user_data['sa_user_id'];
+                $session_data['name'] = ucwords($new_user_data['name']);
+                $session_data['temp_type_for_eodbsws_admin'] = $new_user_data['user_type'];
+                $session_data['temp_district_for_eodbsws_admin'] = $new_user_data['district'];
 //            $session_data['temp_logged'] = encrypt($log_id);
-            $this->session->set_userdata($session_data);
-            echo json_encode(get_success_array());
+                $this->session->set_userdata($session_data);
+            }
+            $success_array = get_success_array();
+            $success_array['temp_location'] = base_url() . 'main';
+            if ($new_user_data['is_npp'] == VALUE_ZERO) {
+                $success_array['temp_location'] = base_url() . 'change_password?tid=' . atob_encode($new_user_data['sa_user_id']) . '&npp=' . atob_encode(VALUE_ONE);
+            }
+            echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
             return false;

@@ -15,7 +15,7 @@
                         <th class="text-center" style="width: 160px;">Type</th>
                         <th class="text-center" style="width: 90px;">District</th>
                         <th class="text-center" style="min-width: 110px;">Active / Deactive</th>
-                        <th class="text-center" style="width: 50px;">Action</th>
+                        <th class="text-center" style="width: 120px;">Action</th>
                     </tr>
                 </thead>
             </table>

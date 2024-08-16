@@ -87,10 +87,22 @@ Dashboard.listView = Backbone.View.extend({
             error: function (textStatus, errorThrown) {
                 $('#app_count_main_container').html(noRecordFoundTemplate({'colspan': 25, 'message': dataTableProcessingAndNoDataMsg.emptyTable}));
                 generateNewCSRFToken();
+                if (textStatus.status === 403) {
+                    loginPage();
+                    return false;
+                }
+                if (!textStatus.statusText) {
+                    loginPage();
+                    return false;
+                }
                 showError(textStatus.statusText);
                 $('html, body').animate({scrollTop: '0px'}, 0);
             },
             success: function (response) {
+                if (!isJSON(response)) {
+                    loginPage();
+                    return false;
+                }
                 var parseData = JSON.parse(response);
                 setNewToken(parseData.temp_token);
                 var deptWiseApp = parseData.dept_wise_app_details;

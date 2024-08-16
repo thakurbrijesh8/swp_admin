@@ -501,17 +501,6 @@ Users.listView = Backbone.View.extend({
             }
         });
     },
-    hideShowPassword: function (obj, id) {
-        var InputType = document.getElementById(id);
-        if (InputType.type === "password") {
-            InputType.type = "text";
-            obj.html('<span class="input-group-text"><i class="fa fa-eye-slash"></i></span>');
-        } else {
-            InputType.type = "password";
-            obj.html('<span class="input-group-text"><i class="fa fa-eye"></i></span>');
-        }
-
-    },
     listPageForChangePassword: function () {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
@@ -599,17 +588,9 @@ Users.listView = Backbone.View.extend({
                     $('html, body').animate({scrollTop: '0px'}, 0);
                     return false;
                 }
-                that.resetChangePasswordForm();
+                resetChangePasswordForm(VALUE_ONE);
                 showSuccess(parseData.message);
             }
         });
     },
-    resetChangePasswordForm: function () {
-        validationMessageHide();
-        resetForm('change_password_form');
-        document.getElementById('current_password_for_change_password').type = 'password';
-        document.getElementById('new_password_for_change_password').type = 'password';
-        document.getElementById('retype_password_for_change_password').type = 'password';
-        $('.eye-class').html('<span class="input-group-text"><i class="fa fa-eye"></i></span>');
-    }
 });

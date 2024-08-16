@@ -250,6 +250,28 @@ function check_crone_ip_authentication() {
     return true;
 }
 
+function atob_decode($encrypted_string) {
+    return base64_decode(base64_decode(base64_decode(base64_decode($encrypted_string))));
+}
+
+function atob_encode($encrypted_string) {
+    return base64_encode(base64_encode(base64_encode(base64_encode($encrypted_string))));
+}
+
+function check_atob_encoded_value($t_no) {
+    if (!$t_no || $t_no == null) {
+        return false;
+    }
+    $no = atob_decode($t_no);
+    if (!$no || $no == null) {
+        return false;
+    }
+    if ($t_no != atob_encode($no)) {
+        return false;
+    }
+    return $no;
+}
+
 /**
  * EOF: ./application/helpers/request_helper.php
  */

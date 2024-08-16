@@ -2722,3 +2722,29 @@ function submitWithdrawApplication(btnObj) {
         }
     });
 }
+
+function hideShowPassword(obj, id) {
+    var InputType = document.getElementById(id);
+    if (InputType.type === "password") {
+        InputType.type = "text";
+        obj.html('<span class="input-group-text"><i class="fa fa-eye-slash"></i></span>');
+    } else {
+        InputType.type = "password";
+        obj.html('<span class="input-group-text"><i class="fa fa-eye"></i></span>');
+    }
+}
+
+function resetChangePasswordForm(mType) {
+    validationMessageHide();
+    resetForm('change_password_form');
+    if (mType == 1) {
+        document.getElementById('current_password_for_change_password').type = 'password';
+    }
+    document.getElementById('new_password_for_change_password').type = 'password';
+    document.getElementById('retype_password_for_change_password').type = 'password';
+    $('.eye-class').html('<span class="input-group-text"><i class="fa fa-eye"></i></span>');
+}
+
+function getEncryptedString(tempString) {
+    return window.btoa(window.btoa(window.btoa(window.btoa(tempString))));
+}

@@ -33,7 +33,7 @@
                                     <input type="password" class="form-control" id="current_password_for_change_password" name="current_password_for_change_password" placeholder="Enter Current Password !"
                                            onblur="checkValidation('change-password', 'current_password_for_change_password', passwordValidationMessage);"
                                            maxlength="20">
-                                    <div class="input-group-prepend eye-class" onclick="Users.listview.hideShowPassword($(this), 'current_password_for_change_password');">
+                                    <div class="input-group-prepend eye-class" onclick="hideShowPassword($(this), 'current_password_for_change_password');">
                                         <span class="input-group-text"><i class="fa fa-eye"></i></span>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                     <input type="password" class="form-control" id="new_password_for_change_password" name="new_password_for_change_password" placeholder="Enter New Password !"
                                            onblur="checkPasswordValidation('change-password', 'new_password_for_change_password');"
                                            maxlength="20">
-                                    <div class="input-group-prepend eye-class" onclick="Users.listview.hideShowPassword($(this), 'new_password_for_change_password');">
+                                    <div class="input-group-prepend eye-class" onclick="hideShowPassword($(this), 'new_password_for_change_password');">
                                         <span class="input-group-text"><i class="fa fa-eye"></i></span>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <input type="password" class="form-control" id="retype_password_for_change_password" name="retype_password_for_change_password" placeholder="Enter Retypes Password !"
                                            onblur="checkPasswordValidationForRetypePassword('change-password', 'retype_password_for_change_password', 'new_password_for_change_password');"
                                            maxlength="20">
-                                    <div class="input-group-prepend eye-class" onclick="Users.listview.hideShowPassword($(this), 'retype_password_for_change_password');">
+                                    <div class="input-group-prepend eye-class" onclick="hideShowPassword($(this), 'retype_password_for_change_password');">
                                         <span class="input-group-text"><i class="fa fa-eye"></i></span>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
 
                             <div class="form-group">
                                 <button type="button" id="submit_btn_for_change_password" class="btn btn-sm btn-success" onclick="Users.listview.changePassword($(this));" style="margin-right: 5px;"><i class="fas fa-save"></i> Submit</button>
-                                <button type="button" class="btn btn-sm btn-default" onclick="Users.listview.resetChangePasswordForm();">Clear</button>
+                                <button type="button" class="btn btn-sm btn-default" onclick="resetChangePasswordForm(VALUE_ONE);">Clear</button>
                             </div>
                             <div class="form-group m-b-0" style="color: red;">
                                 <h5 class="f-w-b m-b-0" style="font-size: 16px;">Password Policy</h5>

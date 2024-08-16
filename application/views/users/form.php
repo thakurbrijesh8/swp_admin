@@ -33,7 +33,7 @@
                                 <input type="text" class="form-control" id="password_for_users" name="password_for_users" placeholder="Enter Password !"
                                        onblur="checkPasswordValidation('users', 'password_for_users');"
                                        maxlength="20" value="{{password}}">
-                                <div class="input-group-prepend" onclick="Users.listview.hideShowPassword($(this), 'password_for_users');">
+                                <div class="input-group-prepend" onclick="hideShowPassword($(this), 'password_for_users');">
                                     <span class="input-group-text"><i class="fa fa-eye-slash"></i></span>
                                 </div>
                             </div>

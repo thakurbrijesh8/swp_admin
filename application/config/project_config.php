@@ -17,7 +17,12 @@ $config['log_type'] = array(
 
 define("ENCRYPTION_KEY", "!@#$%^&*");
 
-define('PASSWORD_REGEX', '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!#$@%_+\-=<>]).{8,16}$/');
+define('PASSWORD_REGEX', '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%_+\-=<>])(?!.*01|.*12|.*23|.*34|.*45|.*56|.*67|.*78|.*89|.*90).{8,16}$/');
+define('PASSWORD_VALIDATION_MESSAGE', '1. No consecutive numbers: This means no two or more digits in sequence can appear next to each other. Like 1.2.3.<br>'
+        . '2. Password must be between 8 to 16 characters long.<br>'
+        . '3. Contain at least one digit and two alphabetic character.<br>'
+        . '4. At least one upper case and one lower case character.<br>'
+        . '5. Contain at least one special character of (!@#$%-_+<>=).');
 
 define('API_ENCRYPTION_KEY', 'sgAD#@$@^^&fAB%^*(*&&^%$');
 define('API_ACCESS_KEY', '%#d@AE$#Idgqw$$^jhhh');
@@ -64,7 +69,7 @@ define('TEMP_TYPE_FOREST', 19);
 define('TEMP_TYPE_ARCS', 20);
 define('TEMP_TYPE_USER_ACC_VER', 21);
 
-define('VERSION', 'v=1.1.79');
+define('VERSION', 'v=1.1.80');
 
 //define('GS_PATH', "C:\Program Files\gs\gs9.55.0\bin\gswin64c");
 define('GS_PATH', "gs");
