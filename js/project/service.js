@@ -51,7 +51,7 @@ Service.listView = Backbone.View.extend({
             return serviceActionTemplate({'service_id': data});
         };
         var serviceTypeRenderer = function (data, type, full, meta) {
-            return serviceTypeArray[data] ? serviceTypeArray[data] : '';
+            return getCheckboxValue(data, serviceTypeArray);
         };
         $('#service_form_and_datatable_container').html(serviceTableTemplate);
         $('#service_datatable').DataTable({
