@@ -91,10 +91,10 @@ class Service extends CI_Controller {
         $dept_array['diu_department_id'] = get_from_post('diu_department_id_for_service');
         $dept_array['dnh_department_id'] = get_from_post('dnh_department_id_for_service');
         $dept_array['service_name'] = get_from_post('service_name_for_service');
-        $dept_array['risk_category'] = get_from_post('risk_category_for_service');
-        $dept_array['size_of_firm'] = get_from_post('size_of_firm_for_service');
-        $dept_array['foreign_domestic_investor'] = get_from_post('foreign_domestic_investor_for_service');
-        $dept_array['service_type'] = get_from_post('service_type_for_service');
+        $dept_array['risk_category'] = $this->input->post('risk_category_for_service');
+        $dept_array['size_of_firm'] = $this->input->post('size_of_firm_for_service');
+        $dept_array['foreign_domestic_investor'] = $this->input->post('foreign_domestic_investor_for_service');
+        $dept_array['service_type'] = $this->input->post('service_type_for_service');
         $dept_array['timeline'] = get_from_post('timeline_for_service');
         $dept_array['competent_authority'] = get_from_post('competent_authority_for_service');
         $dept_array['first_aagr'] = get_from_post('first_aagr_for_service');
@@ -149,6 +149,10 @@ class Service extends CI_Controller {
                 echo json_encode(get_error_array($validation_message));
                 return false;
             }
+            $service_data['risk_category'] = is_array($service_data['risk_category']) ? implode(',', $service_data['risk_category']) : $service_data['risk_category'];
+            $service_data['size_of_firm'] = is_array($service_data['size_of_firm']) ? implode(',', $service_data['size_of_firm']) : $service_data['size_of_firm'];
+            $service_data['foreign_domestic_investor'] = is_array($service_data['foreign_domestic_investor']) ? implode(',', $service_data['foreign_domestic_investor']) : $service_data['foreign_domestic_investor'];
+            $service_data['service_type'] = is_array($service_data['service_type']) ? implode(',', $service_data['service_type']) : $service_data['service_type'];
             $questionary_items = $this->input->post('questionary_items');
             $service_data['daman_district'] = $service_data['daman_department_id'] != VALUE_ZERO ? TALUKA_DAMAN : VALUE_ZERO;
             $service_data['diu_district'] = $service_data['diu_department_id'] != VALUE_ZERO ? TALUKA_DIU : VALUE_ZERO;
@@ -190,7 +194,6 @@ class Service extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

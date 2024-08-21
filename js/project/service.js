@@ -94,10 +94,10 @@ Service.listView = Backbone.View.extend({
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempDeptData[TALUKA_DAMAN], 'daman_department_id_for_service', 'department_id', 'department_name');
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempDeptData[TALUKA_DIU], 'diu_department_id_for_service', 'department_id', 'department_name');
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempDeptData[TALUKA_DNH], 'dnh_department_id_for_service', 'department_id', 'department_name');
-        generateBoxes('radio', serviceTypeArray, 'service_type', 'service', serviceData.service_type, true);
-        generateBoxes('radio', cbTypeArray, 'size_of_firm', 'service', serviceData.size_of_firm, true);
-        generateBoxes('radio', riskCategoryArray, 'risk_category', 'service', serviceData.risk_category, true);
-        generateBoxes('radio', foreignDomesticInvestorArray, 'foreign_domestic_investor', 'service', serviceData.foreign_domestic_investor, true);
+        generateBoxes('checkbox', serviceTypeArray, 'service_type', 'service', serviceData.service_type, true);
+        generateBoxes('checkbox', cbTypeArray, 'size_of_firm', 'service', serviceData.size_of_firm, true);
+        generateBoxes('checkbox', riskCategoryArray, 'risk_category', 'service', serviceData.risk_category, true);
+        generateBoxes('checkbox', foreignDomesticInvestorArray, 'foreign_domestic_investor', 'service', serviceData.foreign_domestic_investor, true);
         if (isEdit) {
             $('#daman_department_id_for_service').val(serviceData.daman_department_id);
             $('#diu_department_id_for_service').val(serviceData.diu_department_id);
@@ -105,7 +105,7 @@ Service.listView = Backbone.View.extend({
             $.each(questionaryData, function (index, qData) {
                 that.addQuestion(qData);
             });
-        } 
+        }
         generateSelect2();
         $('#service_form').find('input').keypress(function (e) {
             if (e.which == 13) {
