@@ -44,7 +44,7 @@
         <div style="font-size: 14px; text-align: left; margin-bottom: 5px;margin-top: 50px;margin-left: 30px;">CATEGORY OF ESTABLISHMENT <div style="margin-left:  300px;margin-top: -20px;">: <?php echo $shop_renewal_data['category']; ?></div></div>
         <div style="font-size: 14px; text-align: left; margin-bottom: 5px;margin-top: 20px;margin-left: 30px;">Total number of employees <div style="margin-left:  300px;margin-top: -20px;">:  <?php echo $shop_renewal_data['total_employees']; ?></div></div>
         <div style="font-size: 14px; text-align: left; margin-bottom: 5px;margin-top: 20px;margin-left: 30px;">Name & Address of the <br>Establishment with Mobile Number <div style="margin-left:  300px;margin-top: -20px;">:  <?php echo $shop_renewal_data['name_of_shop']; ?><br>
-                <?php echo $shop_renewal_data['employer_residential_address']; ?><br>
+                <?php echo $shop_renewal_data['door_no'] . ' ' . $shop_renewal_data['street_name'] . ' ' . $shop_renewal_data['location']; ?><br>
                 <?php echo $shop_renewal_data['employer_mobile_no']; ?><br></div></div>
         <div style="font-size: 14px; text-align: left; margin-bottom: 5px;margin-top: 0px;margin-left: 30px;">TO,</div>
         <div style="font-size: 14px; text-align: left; margin-bottom: 5px;margin-top: 0px;margin-left: 30px;">The Labour Inspector,</div>
