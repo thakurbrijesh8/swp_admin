@@ -94,6 +94,7 @@ class Service extends CI_Controller {
         $dept_array['risk_category'] = $this->input->post('risk_category_for_service');
         $dept_array['size_of_firm'] = $this->input->post('size_of_firm_for_service');
         $dept_array['foreign_domestic_investor'] = $this->input->post('foreign_domestic_investor_for_service');
+        $dept_array['business_location'] = $this->input->post('business_location_for_service');
         $dept_array['service_type'] = $this->input->post('service_type_for_service');
         $dept_array['timeline'] = get_from_post('timeline_for_service');
         $dept_array['competent_authority'] = get_from_post('competent_authority_for_service');
@@ -120,6 +121,9 @@ class Service extends CI_Controller {
             return ONE_OPTION_MESSAGE;
         }
         if (!$dept_array['foreign_domestic_investor']) {
+            return ONE_OPTION_MESSAGE;
+        }
+        if (!$dept_array['business_location']) {
             return ONE_OPTION_MESSAGE;
         }
         if (!$dept_array['service_type']) {
@@ -152,6 +156,7 @@ class Service extends CI_Controller {
             $service_data['risk_category'] = is_array($service_data['risk_category']) ? implode(',', $service_data['risk_category']) : $service_data['risk_category'];
             $service_data['size_of_firm'] = is_array($service_data['size_of_firm']) ? implode(',', $service_data['size_of_firm']) : $service_data['size_of_firm'];
             $service_data['foreign_domestic_investor'] = is_array($service_data['foreign_domestic_investor']) ? implode(',', $service_data['foreign_domestic_investor']) : $service_data['foreign_domestic_investor'];
+            $service_data['business_location'] = is_array($service_data['business_location']) ? implode(',', $service_data['business_location']) : $service_data['business_location'];
             $service_data['service_type'] = is_array($service_data['service_type']) ? implode(',', $service_data['service_type']) : $service_data['service_type'];
             $questionary_items = $this->input->post('questionary_items');
             $service_data['daman_district'] = $service_data['daman_department_id'] != VALUE_ZERO ? TALUKA_DAMAN : VALUE_ZERO;

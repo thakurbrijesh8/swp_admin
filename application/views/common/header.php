@@ -285,6 +285,7 @@
 
             var riskCategoryArray = <?php echo json_encode($this->config->item('risk_category_array')); ?>;
             var foreignDomesticInvestorArray = <?php echo json_encode($this->config->item('foreign_domestic_investor_array')); ?>;
+            var businessLocationArray = <?php echo json_encode($this->config->item('business_location_array')); ?>;
 
             var tempDropdownData = [];
             $(document).ready(function () {

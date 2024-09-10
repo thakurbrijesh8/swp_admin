@@ -77,6 +77,12 @@
                     </div>
                     <span class="error-message error-message-service-foreign_domestic_investor_for_service"></span>
                 </div>
+                <div class="form-group col-sm-6 col-md-3">
+                    <label>Business Location<span class="color-nic-red">*</span></label>
+                    <div id="business_location_container_for_service">
+                    </div>
+                    <span class="error-message error-message-service-business_location_for_service"></span>
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6">

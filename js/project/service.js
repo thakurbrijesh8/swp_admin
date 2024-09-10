@@ -98,6 +98,7 @@ Service.listView = Backbone.View.extend({
         generateBoxes('checkbox', cbTypeArray, 'size_of_firm', 'service', serviceData.size_of_firm, true);
         generateBoxes('checkbox', riskCategoryArray, 'risk_category', 'service', serviceData.risk_category, true);
         generateBoxes('checkbox', foreignDomesticInvestorArray, 'foreign_domestic_investor', 'service', serviceData.foreign_domestic_investor, true);
+        generateBoxes('checkbox', businessLocationArray, 'business_location', 'service', serviceData.business_location, true);
         if (isEdit) {
             $('#daman_department_id_for_service').val(serviceData.daman_department_id);
             $('#diu_department_id_for_service').val(serviceData.diu_department_id);
@@ -190,6 +191,9 @@ Service.listView = Backbone.View.extend({
         }
         if (!serviceData.foreign_domestic_investor_for_service) {
             return getBasicMessageAndFieldJSONArray('foreign_domestic_investor_for_service', oneOptionValidationMessage);
+        }
+        if (!serviceData.business_location_for_service) {
+            return getBasicMessageAndFieldJSONArray('business_location_for_service', oneOptionValidationMessage);
         }
         if (!serviceData.service_type_for_service) {
             return getBasicMessageAndFieldJSONArray('service_type_for_service', oneOptionValidationMessage);
