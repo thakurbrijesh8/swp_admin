@@ -273,6 +273,9 @@
 
             var ratingArray = <?php echo json_encode($this->config->item('rating_array')); ?>;
 
+            var applyingForWcArray = <?php echo json_encode($this->config->item('applying_for_wc_array')); ?>;
+            var rejectionReasonForWcArray = <?php echo json_encode($this->config->item('rejection_reason_for_wc_array')); ?>;
+
             var tempStateData = [];
             var tempDistrictData = [];
             var tempPlotData = [];

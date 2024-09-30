@@ -95,6 +95,14 @@ class Wc extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($wc_data['status'] == VALUE_FIVE) {
+                echo json_encode(get_error_array(ALREADY_APPROVED_APPLICATION_MESSAGE));
+                return;
+            }
+            if ($wc_data['status'] == VALUE_SIX) {
+                echo json_encode(get_error_array(ALREADY_REJECTED_APPLICATION_MESSAGE));
+                return;
+            }
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -213,6 +221,7 @@ class Wc extends CI_Controller {
 
     function _get_post_data_for_wc() {
         $wc_data = array();
+        $wc_data['applying_for'] = get_from_post('applying_for');
         $wc_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $wc_data['house_no'] = get_from_post('house_no');
         $wc_data['ward_no'] = get_from_post('ward_no');
@@ -229,6 +238,9 @@ class Wc extends CI_Controller {
     }
 
     function _check_validation_for_wc($wc_data) {
+        if (!$wc_data['applying_for']) {
+            return APPLYING_FOR_MESSAGE;
+        }
         if (!$wc_data['name_of_applicant']) {
             return APPLICANT_NAME_MESSAGE;
         }
@@ -370,6 +382,14 @@ class Wc extends CI_Controller {
             if (empty($wc_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
+            }
+            if ($wc_data['status'] == VALUE_FIVE) {
+                echo json_encode(get_error_array(ALREADY_APPROVED_APPLICATION_MESSAGE));
+                return;
+            }
+            if ($wc_data['status'] == VALUE_SIX) {
+                echo json_encode(get_error_array(ALREADY_REJECTED_APPLICATION_MESSAGE));
+                return;
             }
             if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
                 $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_FIVE, 'fees_bifurcation', 'module_id', $wc_id);
@@ -564,6 +584,10 @@ class Wc extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($ex_data['status'] == VALUE_FIVE) {
+                echo json_encode(get_error_array(ALREADY_APPROVED_APPLICATION_MESSAGE));
+                return;
+            }
             $update_data['processing_days'] = $this->utility_lib->calculate_processing_days(VALUE_FIVE, $ex_data['submitted_datetime']);
             $update_data['status'] = VALUE_FIVE;
             $update_data['status_datetime'] = date('Y-m-d H:i:s');
@@ -602,6 +626,36 @@ class Wc extends CI_Controller {
                 return false;
             }
             $update_data = array();
+            $update_data['reason_of_rejection'] = get_from_post('reason_for_rejection_for_wc_reject');
+            if (!$update_data['reason_of_rejection']) {
+                echo json_encode(get_error_array(REASON_FOR_REJECTION_MESSAGE));
+                return false;
+            }
+            if ($update_data['reason_of_rejection'] == VALUE_ONE) {
+                if ($_FILES['certificate_for_wc_reject']['name'] != '') {
+                    $main_path = 'documents/wc';
+                    $documents_path = 'documents';
+                    if (!is_dir($documents_path)) {
+                        mkdir($documents_path);
+                        chmod($documents_path, 0777);
+                    }
+                    $module_path = $documents_path . DIRECTORY_SEPARATOR . 'wc';
+                    if (!is_dir($module_path)) {
+                        mkdir($module_path);
+                        chmod($module_path, 0777);
+                    }
+                    $this->load->library('upload');
+                    $temp_filename = str_replace('_', '', $_FILES['certificate_for_wc_reject']['name']);
+                    $filename = 'certificate_of_rejection_' . (rand(100000000, 999999999)) . time() . '.' . pathinfo($temp_filename, PATHINFO_EXTENSION);
+                    //Change file name
+                    $final_path = $main_path . DIRECTORY_SEPARATOR . $filename;
+                    if (!move_uploaded_file($_FILES['certificate_for_wc_reject']['tmp_name'], $final_path)) {
+                        echo json_encode(get_error_array(DOCUMENT_NOT_UPLOAD_MESSAGE));
+                        return;
+                    }
+                    $update_data['certificate_of_rejection'] = $filename;
+                }
+            }
             $update_data['remarks'] = get_from_post('remarks_for_wc_reject');
             if (!$update_data['remarks']) {
                 echo json_encode(get_error_array(ESTABLISHMENT_REMARK_MESSAGE));
@@ -612,6 +666,10 @@ class Wc extends CI_Controller {
             if (empty($ex_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
+            }
+            if ($ex_data['status'] == VALUE_SIX) {
+                echo json_encode(get_error_array(ALREADY_REJECTED_APPLICATION_MESSAGE));
+                return;
             }
             $update_data['processing_days'] = $this->utility_lib->calculate_processing_days(VALUE_FIVE, $ex_data['submitted_datetime']);
             $update_data['status'] = VALUE_SIX;
@@ -666,6 +724,44 @@ class Wc extends CI_Controller {
             $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
             $mpdf->WriteHTML($this->load->view('wc/certificate', $data, TRUE));
             $mpdf->Output('wc_certificate_' . time() . '.pdf', 'I');
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            return false;
+        }
+    }
+
+    function generate_naw_certificate() {
+        try {
+            $user_id = get_from_session('temp_id_for_eodbsws_admin');
+            $wc_id = get_from_post('wc_id_for_naw_certificate');
+            if (!is_post() || $user_id == null || !$user_id || $wc_id == null || !$wc_id) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return false;
+            }
+            $this->db->trans_start();
+            $existing_wc_data = $this->utility_model->get_by_id('wc_id', $wc_id, 'wc');
+            if (empty($existing_wc_data)) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return;
+            }
+            if (($existing_wc_data['status'] != VALUE_SIX && $existing_wc_data['reason_of_rejection'] != VALUE_ONE)) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return;
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === false) {
+                print_r(DATABASE_ERROR_MESSAGE);
+                return;
+            }
+            $filePath = FCPATH . 'documents/wc/' . $existing_wc_data['certificate_of_rejection'];
+            $final_filename = 'certificate_of_rejection_' . rand(111111111, 99999999) . '_' . time() . '.pdf';
+
+            ob_clean();
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename=' . $final_filename);
+
+            readfile($filePath);
+            exit;
         } catch (\Exception $e) {
             print_r($e->getMessage());
             return false;

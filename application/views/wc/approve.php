@@ -1,5 +1,5 @@
 <div class="card-header">
-    <h3 class="card-title" style="float: none; text-align: center;">Approve Water Connection Form</h3>
+    <h3 class="card-title" style="float: none; text-align: center;">Approve Water Connection or Certificate of Non-Availability of Water Form</h3>
 </div>
 <form role="form" id="approve_wc_form" name="approve_wc_form" onsubmit="return false;" style="font-size: 14px;">
     <input type="hidden" id="wc_id_for_wc_approve" name="wc_id_for_wc_approve" value="{{wc_id}}">

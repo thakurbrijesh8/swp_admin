@@ -330,6 +330,12 @@ var districtRenderer = function (data, type, full, meta) {
 var entityEstablishmentRenderer = function (data, type, full, meta) {
     return entityEstablishmentTypeArray[data] ? entityEstablishmentTypeArray[data] : '';
 };
+
+var entityEstablishmentWcRenderer = function (data, type, full, meta) {
+    return (entityEstablishmentTypeArray[data] ? entityEstablishmentTypeArray[data] : '') + '<hr>' + (applyingForWcArray[full.applying_for] ? applyingForWcArray[full.applying_for] : '');
+};
+
+
 var serialNumberRenderer = function (data, type, full, meta) {
     return meta.row + meta.settings._iDisplayStart + 1;
 };
@@ -2747,4 +2753,12 @@ function resetChangePasswordForm(mType) {
 
 function getEncryptedString(tempString) {
     return window.btoa(window.btoa(window.btoa(window.btoa(tempString))));
+}
+
+function showUpladForWcReject(reasonRejectionId, id, moduleName) {
+    if (reasonRejectionId.value == VALUE_ONE) {
+        $('#' + id + '_for_' + moduleName).show();
+    } else {
+        $('#' + id + '_for_' + moduleName).hide();
+    }
 }

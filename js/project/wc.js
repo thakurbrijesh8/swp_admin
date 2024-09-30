@@ -131,6 +131,11 @@ WC.listView = Backbone.View.extend({
         if (rowData.status != VALUE_FIVE) {
             rowData.download_certificate_style = 'display: none;';
         }
+        if (rowData.status == VALUE_SIX && rowData.reason_of_rejection == VALUE_ONE) {
+            rowData.download_naw_certificate_style = '';
+        } else {
+            rowData.download_naw_certificate_style = 'display: none;';
+        }
         if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
             rowData.show_fr_btn = true;
         }
@@ -211,7 +216,7 @@ WC.listView = Backbone.View.extend({
             columns: [
                 {data: '', 'render': serialNumberRenderer, 'class': 'text-center'},
                 {data: 'wc_id', 'class': 'text-center f-w-b', 'render': tempRegNoRenderer},
-                {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentRenderer},
+                {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentWcRenderer},
                 {data: '', 'class': '', 'render': logedUserDetailsRenderer},
                 {data: '', 'class': '', 'render': appDetailsRenderer},
                 {data: 'wc_id', 'class': 'text-center', 'render': dateTimeDaysRenderer},
@@ -266,8 +271,10 @@ WC.listView = Backbone.View.extend({
         $('#wc_form_container').html(wcFormTemplate((templateData)));
         renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
+        renderOptionsForTwoDimensionalArray(applyingForWcArray, 'applying_for');
         if (isEdit) {
             $('#declaration_for_wc').attr('checked', 'checked');
+            $('#applying_for').val(formData.applying_for);
             $('#application_category').val(formData.application_category);
             $('#house_ownership').val(formData.house_ownership);
             $('#wc_type').val(formData.wc_type);
@@ -380,6 +387,7 @@ WC.listView = Backbone.View.extend({
         var formData = parseData.wc_data;
         WC.router.navigate('view_wc_form');
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
+        formData.applying_for = applyingForWcArray[formData.applying_for] ? applyingForWcArray[formData.applying_for] : ' ';
         showFormContainer('wc');
         $('#wc_form_container').html(wcViewTemplate(formData));
         renderOptionsForTwoDimensionalArray(talukaArray, 'district');
@@ -422,6 +430,9 @@ WC.listView = Backbone.View.extend({
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
+        }
+        if (!wcData.applying_for) {
+            return getBasicMessageAndFieldJSONArray('applying_for', applyingForValidationMessage);
         }
         if (!wcData.name_of_applicant) {
             return getBasicMessageAndFieldJSONArray('name_of_applicant', applicantNameValidationMessage);
@@ -989,6 +1000,7 @@ WC.listView = Backbone.View.extend({
                 $('#approve_btn_for_app_' + formData.wc_id_for_wc_approve).remove();
                 $('#download_certificate_btn_for_app_' + formData.wc_id_for_wc_approve).show();
                 $('#so_status_' + formData.wc_id_for_wc_approve).html(dateTimeDays(formData.wc_id_for_wc_approve, parseData, VALUE_FIVE));
+                $('#edit_btn_' + formData.wc_id_for_wc_approve).remove();
             }
         });
     },
@@ -1039,6 +1051,7 @@ WC.listView = Backbone.View.extend({
                 var wcData = parseData.wc_data;
                 showPopup();
                 $('#popup_container').html(wcRejectTemplate(wcData));
+                renderOptionsForTwoDimensionalArray(rejectionReasonForWcArray, 'reason_for_rejection_for_wc_reject', false);
             }
         });
     },
@@ -1048,22 +1061,56 @@ WC.listView = Backbone.View.extend({
             return false;
         }
         validationMessageHide();
-        var formData = $('#reject_wc_form').serializeFormJSON();
-        if (!formData.wc_id_for_wc_reject) {
+        var wcId = $('#wc_id_for_wc_reject').val();
+        if (!wcId) {
             showError(invalidAccessValidationMessage);
             return false;
         }
-        if (!formData.remarks_for_wc_reject) {
+        var reasonOfRejection = $('#reason_for_rejection_for_wc_reject').val();
+        if (!reasonOfRejection) {
+            $('#reason_for_rejection_for_wc_reject').focus();
+            validationMessageShow('wc-reject-reason_for_rejection_for_wc_reject', reasonForRejectionValidationMessage);
+            return false;
+        }
+        if (reasonOfRejection == VALUE_ONE) {
+            var cartificate = $('#certificate_for_wc_reject').val();
+            if (cartificate == '') {
+                $('#certificate_for_wc_reject').focus();
+                validationMessageShow('wc-reject-certificate_for_wc_reject', uploadDocumentValidationMessage);
+                return false;
+            }
+            var certificateMessage = fileUploadValidation('certificate_for_wc_reject', 2048);
+            if (certificateMessage != '') {
+                $('#certificate_for_wc_reject').focus();
+                validationMessageShow('wc-reject-certificate_for_wc_reject', certificateMessage);
+                return false;
+            }
+        }
+        var remarks = $('#remarks_for_wc_reject').val();
+        if (!remarks) {
             $('#remarks_for_wc_reject').focus();
             validationMessageShow('wc-reject-remarks_for_wc_reject', establishmentRemarkValidationMessage);
             return false;
         }
+        var btnObj = $('#submit_btn_for_wc_reject');
+        var ogBtnHTML = btnObj.html();
+        var ogBtnOnclick = btnObj.attr('onclick');
+        btnObj.html(iconSpinnerTemplate);
+        btnObj.attr('onclick', '');
+        var formData = new FormData($('#reject_wc_form')[0]);
+        formData.append("csrf_token_eodbsws_admin", getTokenData()['csrf_token_eodbsws_admin']);
         $.ajax({
             type: 'POST',
             url: 'wc/reject_application',
-            data: $.extend({}, formData, getTokenData()),
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
             error: function (textStatus, errorThrown) {
                 generateNewCSRFToken();
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
                 if (textStatus.status === 403) {
                     loginPage();
                     return false;
@@ -1076,6 +1123,8 @@ WC.listView = Backbone.View.extend({
                 $('html, body').animate({scrollTop: '0px'}, 0);
             },
             success: function (response) {
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
                 if (!isJSON(response)) {
                     loginPage();
                     return false;
@@ -1088,12 +1137,17 @@ WC.listView = Backbone.View.extend({
                     return false;
                 }
                 showSuccess(parseData.message);
-                $('#status_' + formData.wc_id_for_wc_reject).html(appStatusArray[VALUE_SIX]);
-                $('#upload_challan_btn_' + formData.wc_id_for_wc_reject).remove();
-                $('#download_fees_paid_challan_btn_' + formData.wc_id_for_wc_reject).remove();
-                $('#reject_btn_for_app_' + formData.wc_id_for_wc_reject).remove();
-                $('#approve_btn_for_app_' + formData.wc_id_for_wc_reject).remove();
-                $('#so_status_' + formData.wc_id_for_wc_reject).html(dateTimeDays(formData.wc_id_for_wc_reject, parseData, VALUE_FIVE));
+                $('#status_' + wcId).html(appStatusArray[VALUE_SIX]);
+                $('#upload_challan_btn_' + wcId).remove();
+                $('#download_fees_paid_challan_btn_' + wcId).remove();
+                $('#reject_btn_for_app_' + wcId).remove();
+                $('#approve_btn_for_app_' + wcId).remove();
+                $('#so_status_' + wcId).html(dateTimeDays(wcId, parseData, VALUE_FIVE));
+                $('#withdraw_application_btn_' + wcId).remove();
+                $('#edit_btn_' + wcId).remove();
+                if (reasonOfRejection == VALUE_ONE) {
+                    $('#download_naw_certificate_btn_for_app_' + wcId).show();
+                }
             }
         });
     },
@@ -1105,6 +1159,15 @@ WC.listView = Backbone.View.extend({
         $('#wc_id_for_certificate').val(wcId);
         $('#wc_certificate_pdf_form').submit();
         $('#wc_id_for_certificate').val('');
+    },
+    generateNawCertificate: function (wcId) {
+        if (!wcId) {
+            showError(invalidAccessValidationMessage);
+            return false;
+        }
+        $('#wc_id_for_naw_certificate').val(wcId);
+        $('#wc_naw_certificate_pdf_form').submit();
+        $('#wc_id_for_naw_certificate').val('');
     },
     getQueryData: function (wcId) {
         if (!tempIdInSession || tempIdInSession == null) {

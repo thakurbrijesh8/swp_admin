@@ -25,6 +25,34 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-12">
+                <label>Reason For Rejection<span style="color: red;">*</span></label>
+                <select class="form-control" id="reason_for_rejection_for_wc_reject" name="reason_for_rejection_for_wc_reject"
+                        data-placeholder="Select Reason For Rejection !" onchange="showUpladForWcReject(this, 'upload_certificate', 'wc_reject');" onblur="checkValidation('wc', 'reason_for_rejection_for_wc_reject', reasonForRejectionValidationMessage);">
+                    <option value="">Select Reason For Rejection !</option>
+                </select>
+                <span class="error-message error-message-wc-reject-reason_for_rejection_for_wc_reject"></span>
+            </div>
+        </div>
+        <div class="row" id="upload_certificate_for_wc_reject" style="display: none;">
+            <div class="col-12 m-b-5px" id="certificate_container_for_wc_reject">
+                <label>Upload : Certificate of Non-Availabiblity of Water <span style="color: red;">* (Maximum File Size: 2MB)</span></label><br>
+                <input type="file" id="certificate_for_wc_reject" name="certificate_for_wc_reject"
+                       accept="image/jpg,image/png,image/jpeg,image/jfif,application/pdf">
+                <div class="error-message error-message-wc-reject-certificate_for_wc_reject"></div>
+            </div>
+            <div class="form-group col-sm-12" id="certificate_name_container_for_wc_reject" style="display: none;">
+                <label>Certificate of Non-Availabiblity of Water <span style="color: red;">*</label><br>
+                <a id="certificate_name_href_for_wc_reject" target="_blank">
+                    <i class="fas fa-cloud-download-alt" style="margin-right: 3px;"></i><span id="certificate_name_for_wc_reject"></span>
+                </a>
+                {{#if show_remove_upload_btn}}
+                <span class="fas fa-times" style="color: red; cursor: pointer; margin-left: 3px;" id="certificate_remove_btn_for_wc_reject"></span><br>
+                {{/if}}
+                <span class="error-message error-message-wc-reject-certificate_name_for_wc_reject"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
                 <label>Remarks  <span style="color: red;">*</span></label>
                 <textarea id="remarks_for_wc_reject" name="remarks_for_wc_reject" class="form-control"
                           onblur="checkValidation('wc-reject', 'remarks_for_wc_reject', establishmentRemarkValidationMessage);"

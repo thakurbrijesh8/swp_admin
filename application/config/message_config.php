@@ -124,6 +124,8 @@ define('DOCUMENT_REMOVED_MESSAGE', 'Document Removed Successfully !');
 define('SRAP_SAVED_MESSAGE', 'State Reforms Action Plan Data Saved Successfully !');
 define('APP_APPROVED_MESSAGE', 'Application Approved Successfully !');
 define('APP_REJECTED_MESSAGE', 'Application Rejected Successfully !');
+define('ALREADY_APPROVED_APPLICATION_MESSAGE', 'Application Already Approved !');
+define('ALREADY_REJECTED_APPLICATION_MESSAGE', 'Application Already Rejected !');
 
 // Weight & Measure Repairer
 define('REPAIRMEN_NAME_MESSAGE', 'Enter Name of the concern seeking the license !');
@@ -196,6 +198,8 @@ define('HOUSE_OWNERSHIP_MESSAGE', 'Enter House Ownership !');
 define('WC_TYPE_MESSAGE', 'Enter Water Connection Type !');
 define('DIAMETER_SERVICE_CONNECTION_MESSAGE', 'Enter Diameter of Service Connection !');
 define('WATER_METER_MESSAGE', 'Enter Water Meter !');
+define('APPLYING_FOR_MESSAGE', 'Select Applying For !');
+define('REASON_FOR_REJECTION_MESSAGE', 'Select Reason For Rejection !');
 
 // Cinema
 //define('FATHER_NAME_MESSAGE', "Enter Father's Name. !");

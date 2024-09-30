@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title" style="float: none; text-align: center;">Water Connection Form </h3>
-                <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application for release of New Water Supply Connection </div>
+                <h3 class="card-title" style="float: none; text-align: center;">Water Connection or Certificate of Non-Availability of Water Form </h3>
+                <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application for release of New Water Connection or Certificate of Non-Availability of Water </div>
             </div>
             <form role="form" id="wc_form" name="wc_form" onsubmit="return false;">
 
@@ -16,6 +16,17 @@
                             The Assistant Engineer,<br>
                             P.W.D., Sub Division No. 1<br>
                             Nani Daman.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Applying For <span class="color-nic-red">*</span></label>
+                            <div class="input-group">
+                                <select class="form-control select2" id="applying_for" name="applying_for"
+                                        data-placeholder="Select Applying For !" onblur="checkValidation('wc', 'applying_for', applyingForValidationMessage);">
+                                </select>
+                            </div>
+                            <span class="error-message error-message-wc-applying_for"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -46,7 +57,7 @@
                         <div class="form-group col-sm-6">
                             <label>4. Village <span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                                <input type="text" id="village" name="village" class="form-control" placeholder="Name of Applicant !"
+                                <input type="text" id="village" name="village" class="form-control" placeholder="Name of Village !"
                                        maxlength="100" onblur="checkValidation('wc', 'village', villageValidationMessage);" value="{{wc_data.village}}">
                             </div>
                             <span class="error-message error-message-wc-village"></span>
@@ -88,11 +99,11 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>8. Type of water connection <span style="color: red;">*</span></label>
+                            <label>8. Type of Water Connection or Certificate of Non-Availability of Water <span style="color: red;">*</span></label>
                             <div class="input-group">
                                 <select class="form-control" id="wc_type" name="wc_type"
                                         data-placeholder="Status !" onblur="checkValidation('wc', 'wc_type', wcTypeValidationMessage);">
-                                    <option value="">Select Type of water connection</option>
+                                    <option value="">Select Type of Water Connection or Certificate of Non-Availability of Water</option>
                                     <option value="Domestic">Domestic</option>
                                     <option value="Non-domestic">Non-domestic</option>
                                 </select>
@@ -125,9 +136,9 @@
                         <div class="form-group col-sm-6">
                             <label>11.1 Entity / Establishment Type <span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                                 <select id="entity_establishment_type" name="entity_establishment_type" class="form-control select2"
-                                    data-placeholder="Select Entity / Establishment Type" style="width: 100%;" onblur="checkValidation('wc', 'entity_establishment_type', entityEstablishmentTypeValidationMessage);">
-                            </select>
+                                <select id="entity_establishment_type" name="entity_establishment_type" class="form-control select2"
+                                        data-placeholder="Select Entity / Establishment Type" style="width: 100%;" onblur="checkValidation('wc', 'entity_establishment_type', entityEstablishmentTypeValidationMessage);">
+                                </select>
                             </div>
                             <span class="error-message error-message-wc-entity_establishment_type"></span>
                         </div>

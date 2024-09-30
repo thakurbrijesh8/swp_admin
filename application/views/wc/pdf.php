@@ -92,7 +92,7 @@
                 Nani Daman.
             </div>
         </div>
-        <div style="font-size: 14px; text-align: center; margin-top: 10px;text-decoration: underline;">Subject : Application for release of New Water Supply Connection</div>
+        <div style="font-size: 14px; text-align: center; margin-top: 10px;text-decoration: underline;">Subject : Application for release of New Water Connection or Certificate of Non-Availability of Water</div>
         <br/>
         <table class="CompanyDetails">
             <tr>
@@ -153,7 +153,7 @@
             </tr>
             <tr>
                 <td class="first-column" style="height: 30px;">9.</td>
-                <td class="second-column">Type of water connection (Domestic/Non-domestic) :-</td>
+                <td class="second-column">Type of Water Connection or Certificate of Non-Availability of Water (Domestic/Non-domestic) :-</td>
                 <td class="third-column">
                     <?php echo $wc_data['wc_type']; ?>
                 </td>

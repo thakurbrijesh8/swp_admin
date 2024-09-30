@@ -430,7 +430,7 @@ $config['query_module_array'] = array(
         'timeline' => '07 Days',
         'day' => 7,
         'working_days' => 'fdw_ess',
-        'title' => 'New Water Connection',
+        'title' => 'New Water Connection or Certificate of Non-Availability of Water',
         'key_id_text' => 'wc_id',
         'tbl_text' => 'wc'),
     VALUE_SIX => array(
@@ -2099,4 +2099,14 @@ $config['foreign_domestic_investor_array'] = array(
 $config['business_location_array'] = array(
     VALUE_ONE => 'Rural',
     VALUE_TWO => 'Urban',
+);
+
+$config['applying_for_wc_array'] = array(
+    VALUE_ONE => 'New Water Connection',
+    VALUE_TWO => 'Certificate of Non-Availability of Water',
+);
+
+$config['rejection_reason_for_wc_array'] = array(
+    VALUE_ONE => 'Non-Availability of Water',
+    VALUE_TWO => 'Other',
 );

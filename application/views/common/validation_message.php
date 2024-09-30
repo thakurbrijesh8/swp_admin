@@ -132,6 +132,8 @@
     var wcTypeValidationMessage = '<?php echo WC_TYPE_MESSAGE; ?>';
     var diameterServiceConnectionValidationMessage = '<?php echo DIAMETER_SERVICE_CONNECTION_MESSAGE; ?>';
     var waterMeterValidationMessage = '<?php echo WATER_METER_MESSAGE; ?>';
+    var applyingForValidationMessage = '<?php echo APPLYING_FOR_MESSAGE; ?>';
+    var reasonForRejectionValidationMessage = '<?php echo REASON_FOR_REJECTION_MESSAGE; ?>';
 
     // Cinema 
 

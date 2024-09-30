@@ -49,6 +49,10 @@
             onclick="WC.listview.generateCertificate('{{wc_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_certificate_style}}">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    <button type="button" class="btn btn-sm btn-nic-blue" id="download_naw_certificate_btn_for_app_{{wc_id}}"
+            onclick="WC.listview.generateNawCertificate('{{wc_id}}');"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px; {{download_naw_certificate_style}}">
+        <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Non-Avaibility of Water Certificate</button>
     {{#if show_fr_btn}}
     <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_FIVE,'{{wc_id}}')"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">

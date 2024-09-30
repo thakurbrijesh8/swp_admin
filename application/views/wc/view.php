@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title" style="float: none; text-align: center;">Water Connection Form </h3>
-                <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application for release of New Water Supply Connection </div>
+                <h3 class="card-title" style="float: none; text-align: center;">Water Connection or Certificate of Non-Availability of Water Form </h3>
+                <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application for release of New Water Connection or Certificate of Non-Availability of Water </div>
             </div>
             <form role="form" id="wc_form" name="wc_form" onsubmit="return false;">
 
@@ -16,6 +16,15 @@
                             The Assistant Engineer,<br>
                             P.W.D., Sub Division No. 1<br>
                             Nani Daman.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Applying For <span class="color-nic-red">*</span></label>
+                            <div class="input-group">
+                                <input type="text" id="applying_for" name="applying_for" class="form-control" placeholder="Applying For !"
+                                       maxlength="100" value="{{applying_for}}" disabled="">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -46,7 +55,7 @@
                         <div class="form-group col-sm-6">
                             <label>4. Village <span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                                <input type="text" id="village" name="village" class="form-control" placeholder="Name of Applicant !"
+                                <input type="text" id="village" name="village" class="form-control" placeholder="Name of Village !"
                                        maxlength="100" onblur="checkValidation('wc', 'village', villageValidationMessage);" value="{{village}}" readonly="">
                             </div>
                             <span class="error-message error-message-wc-village"></span>
@@ -88,11 +97,11 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>8. Type of water connection <span class="color-nic-red">*</span></label>
+                            <label>8. Type of Water Connection or Certificate of Non-Availability of Water <span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <select class="form-control" id="wc_type" name="wc_type"
                                         data-placeholder="Status !" onblur="checkValidation('wc', 'wc_type', wcTypeValidationMessage);" readonly="">
-                                    <option value="">Select Type of water connection</option>
+                                    <option value="">Select Type of Water Connection or Certificate of Non-Availability of Water</option>
                                     <option value="Domestic">Domestic</option>
                                     <option value="Non-domestic">Non-domestic</option>
                                 </select>
