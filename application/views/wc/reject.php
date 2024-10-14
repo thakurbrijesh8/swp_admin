@@ -35,13 +35,13 @@
         </div>
         <div class="row" id="upload_certificate_for_wc_reject" style="display: none;">
             <div class="col-12 m-b-5px" id="certificate_container_for_wc_reject">
-                <label>Upload : Certificate of Non-Availabiblity of Water <span style="color: red;">* (Maximum File Size: 2MB)</span></label><br>
+                <label>Upload : Certificate of Non-Availability of Water <span style="color: red;">* (Maximum File Size: 2MB)</span></label><br>
                 <input type="file" id="certificate_for_wc_reject" name="certificate_for_wc_reject"
-                       accept="image/jpg,image/png,image/jpeg,image/jfif,application/pdf">
+                       accept="application/pdf">
                 <div class="error-message error-message-wc-reject-certificate_for_wc_reject"></div>
             </div>
             <div class="form-group col-sm-12" id="certificate_name_container_for_wc_reject" style="display: none;">
-                <label>Certificate of Non-Availabiblity of Water <span style="color: red;">*</label><br>
+                <label>Certificate of Non-Availability of Water <span style="color: red;">*</label><br>
                 <a id="certificate_name_href_for_wc_reject" target="_blank">
                     <i class="fas fa-cloud-download-alt" style="margin-right: 3px;"></i><span id="certificate_name_for_wc_reject"></span>
                 </a>
