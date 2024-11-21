@@ -7,7 +7,7 @@
                 <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application format for Permission Buyer of Lease rights of Government Industrial plots</div>
             </div>
             <form role="form" id="transfer_form" name="transfer_form" onsubmit="return false;">
-                
+
                 <input type="hidden" id="transfer_id" name="transfer_id" value="{{transfer_id}}">
                 <div class="card-body">
                     <div class="row">
@@ -17,6 +17,16 @@
                             District Industries Centre,<br>
                             DNH&DD,<br>
                             Silvassa.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Entity / Establishment Type <span class="color-nic-red">*</span></label>
+                            <div class="input-group">
+                                <select id="entity_establishment_type" name="entity_establishment_type" class="form-control select2"
+                                        data-placeholder="Select Entity / Establishment Type" style="width: 100%;" disabled="">
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -37,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
 
                     <div class="row">
@@ -56,7 +66,7 @@
                             <span class="error-message error-message-transfer-district"></span>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>5.Taluka<span class="color-nic-red">*</span></label>
@@ -69,7 +79,7 @@
                             <label>6.Village<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <select class="form-control" id="villages_for_noc_data" name="villages_for_noc_data"
-                                    data-placeholder="Status !" onblur="checkValidation('transfer', 'villages_for_noc_data', villageValidationMessage); getPlotData($(this), 'plot_no', 'transfer_data');" disabled="true">
+                                        data-placeholder="Status !" onblur="checkValidation('transfer', 'villages_for_noc_data', villageValidationMessage); getPlotData($(this), 'plot_no', 'transfer_data');" disabled="true">
                                     <option value="">Select Village</option>
                                 </select>
                             </div>
@@ -82,7 +92,7 @@
                             <div class="input-group">
                                 <select class="form-control" id="plot_no_for_transfer_data" name="plot_no_for_transfer_data"
                                         data-placeholder="Status !" onchange="checkValidation('transfer', 'plot_no_for_transfer_data', plotnoValidationMessage);
-                                    getAreaData($(this));" disabled="true">
+                                                getAreaData($(this));" disabled="true">
                                     <option value="">Select Plot No.</option>
                                 </select>
                             </div>
@@ -111,7 +121,7 @@
                             </div>
                             <span class="error-message error-message-transfer-admeasuring_square_metre"></span>
                         </div>
-                    
+
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12">
@@ -122,7 +132,7 @@
                             <span class="error-message error-message-transfer-reason_of_transfer"></span>
                         </div>
                     </div>
-                     
+
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>12.Name of Purchaser<span class="color-nic-red">*</span></label>
@@ -131,7 +141,7 @@
                             </div>
                             <span class="error-message error-message-transfer-transferer_name"></span>
                         </div>
-                    <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label>13.Details of Product of Purchaser<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="name_of_servicing" name="name_of_servicing" class="form-control" readonly="" value="{{name_of_servicing}}">
@@ -147,7 +157,7 @@
                             </div>
                             <span class="error-message error-message-transfer-other_services"></span>
                         </div>
-                   
+
                         <div class="form-group col-sm-6">
                             <label>15.Udyog Aadhar Memorandum Number:<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -155,7 +165,7 @@
                             </div>
                             <span class="error-message error-message-transfer-aadhar_no"></span>
                         </div>
-                   
+
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
@@ -172,7 +182,7 @@
                             </div>
                             <span class="error-message error-message-transfer-gst_no"></span>
                         </div>
-                   
+
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
@@ -184,16 +194,12 @@
                         </div>
                     </div>
                     <!-- checklist -->
-                         <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>19.Request letter with details of manufacture items. ? (if Yes, please attach details) <span class="color-nic-red">*</span></label>
-                            <div class="input-group">
-                                <input type="radio" disabled id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}" >&nbsp; Yes
-                                &emsp;
-                                <input type="radio" disabled id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;"
-                                        value="{{VALUE_TWO}}" >&nbsp;No
+                            <label>19.Request letter with details of manufacture items. ? <span style="color: red;">* </span> &emsp;</label>
+                                <input type="radio" disabled id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                                <input type="radio" disabled id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
                                 <br/><span class="error-message error-message-transfer-request_letter"></span>
-                            </div>
                         </div>
                         <div class="form-group col-sm-6 request_letter_upload_div" id="request_letter_upload_container_for_transfer" style="display: none;">
                             <!-- <label>19.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -207,16 +213,12 @@
                         </div>
                     </div>
                     <!-- 2 -->
-                      <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>20.Details of Project Report. ? (if Yes, please attach details) <span class="color-nic-red">*</span></label>
-                            <div class="input-group">
-                                <input type="radio" disabled id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}" >&nbsp; Yes
-                                &emsp;
-                                <input type="radio" disabled id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;"
-                                        value="{{VALUE_TWO}}" >&nbsp;No
+                            <label>20.Details of Project Report. ? <span style="color: red;">* </span> &emsp;</label>
+                                <input type="radio" disabled id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                                <input type="radio" disabled id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
                                 <br/><span class="error-message error-message-transfer-project_report"></span>
-                            </div>
                         </div>
                         <div class="form-group col-sm-6 project_report_upload_div" id="project_report_upload_container_for_transfer" style="display: none;">
                             <!-- <label>20.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -232,14 +234,10 @@
                     <!-- 3 -->
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>21.Constitution of the Project viz. Memorandum and Article of Association/Partnership Deed. ? (if Yes, please attach details) <span class="color-nic-red">*</span></label>
-                            <div class="input-group">
-                                <input type="radio" disabled id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}" >&nbsp; Yes
-                                &emsp;
-                                <input type="radio" disabled id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;"
-                                        value="{{VALUE_TWO}}" >&nbsp;No
+                            <label>21.Constitution of the Project viz. Memorandum and Article of Association/Partnership Deed. ? <span style="color: red;">* </span> &emsp;</label>
+                                <input type="radio" disabled id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}" > Yes &emsp;
+                                <input type="radio" disabled id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}" > No
                                 <br/><span class="error-message error-message-transfer-constitution_project"></span>
-                            </div>
                         </div>
                         <div class="form-group col-sm-6 constitution_project_upload_div" id="constitution_project_upload_container_for_transfer" style="display: none;">
                             <!-- <label>21.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -255,14 +253,10 @@
                     <!-- 4 -->
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>22.Valid authorization to sign on behalf of Purchaser/Buyer.. ? (if Yes, please attach details) <span class="color-nic-red">*</span></label>
-                            <div class="input-group">
-                                <input type="radio" disabled id="valid_authorization_yes" name="valid_authorization" class="" value="{{VALUE_ONE}}" >&nbsp; Yes
-                                &emsp;
-                                <input type="radio" disabled id="valid_authorization_no" name="valid_authorization" class="" style="margin-bottom: 0px;"
-                                        value="{{VALUE_TWO}}" >&nbsp;No
+                            <label>22.Valid authorization to sign on behalf of Purchaser/Buyer.. ? <span style="color: red;">* </span> &emsp;</label>
+                                <input type="radio" disabled id="valid_authorization_yes" name="valid_authorization" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                                <input type="radio" disabled id="valid_authorization_no" name="valid_authorization" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
                                 <br/><span class="error-message error-message-transfer-valid_authorization"></span>
-                            </div>
                         </div>
                         <div class="form-group col-sm-6 valid_authorization_upload_div" id="valid_authorization_upload_container_for_transfer" style="display: none;">
                             <!-- <label>22.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -294,7 +288,7 @@
                         </div>
                         <div class="form-group col-sm-12" id="sign_seal_name_container_for_transfer_view" style="display: none;">
                             <label>Signature <span style="color: red;">*</label><br>
-                                <a id="seal_and_stamp_download" target="_blank"><img id="sign_seal_name_image_for_transfer_view" style="width: 250px; height: 250px; border: 2px solid blue;"></a>
+                            <a id="seal_and_stamp_download" target="_blank"><img id="sign_seal_name_image_for_transfer_view" style="width: 250px; height: 250px; border: 2px solid blue;"></a>
                         </div>
                     </div>
 

@@ -22,3 +22,6 @@
 <script type="text/x-handlebars-template" id="transfer_reject_template">
     <?php $this->load->view('transfer/reject'); ?>
 </script>
+<script type="text/x-handlebars-template" id="transfer_view_payment_template">
+<?php $this->load->view('transfer/view_payment'); ?>
+</script>

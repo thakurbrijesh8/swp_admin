@@ -6,6 +6,7 @@ var nocViewTemplate = Handlebars.compile($('#noc_view_template').html());
 var nocUploadChallanTemplate = Handlebars.compile($('#noc_upload_challan_template').html());
 var nocApproveTemplate = Handlebars.compile($('#noc_approve_template').html());
 var nocRejectTemplate = Handlebars.compile($('#noc_reject_template').html());
+var nocViewPaymentTemplate = Handlebars.compile($('#noc_view_payment_template').html());
 
 var tempPersonCnt = 1;
 
@@ -72,20 +73,19 @@ Noc.listView = Backbone.View.extend({
             return nocActionTemplate(rowData);
         }
         rowData.show_rv_query_btn = true;
-        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX) {
+        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_edit_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE) {
             rowData.show_form_one_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_TWO && rowData.status != VALUE_THREE && rowData.status != VALUE_SIX) {
+        if (rowData.status == VALUE_FOUR || rowData.status == VALUE_FIVE || rowData.status == VALUE_SEVEN || rowData.status == VALUE_EIGHT) {
             rowData.show_download_fees_paid_challan_btn = true;
-            rowData.NOC_DOC_PATH = NOC_DOC_PATH;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -97,9 +97,15 @@ Noc.listView = Backbone.View.extend({
             rowData.show_approve_btn = 'display: none;';
         }
         rowData.module_type = VALUE_ELEVEN;
-        rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : 'display: none;';
+        rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : (rowData.status == VALUE_EIGHT ? '' : (rowData.status == VALUE_NINE ? '' : 'display: none;'));
         if (rowData.status == VALUE_FIVE) {
             rowData.show_download_certificate_btn = true;
+        }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return nocActionTemplate(rowData);
     },
@@ -116,7 +122,7 @@ Noc.listView = Backbone.View.extend({
             return dateTo_DD_MM_YYYY(full.created_time);
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            return regNoRenderer(VALUE_ELEVEN, data);
+            return getAppNoWithRating(VALUE_ELEVEN, data, full.district, full);
         };
         var that = this;
         showTableContainer('noc');
@@ -134,6 +140,7 @@ Noc.listView = Backbone.View.extend({
             columns: [
                 {data: '', 'render': serialNumberRenderer, 'class': 'text-center'},
                 {data: 'noc_id', 'class': 'v-a-m text-center f-w-b', 'render': tempRegNoRenderer},
+                {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentRenderer},
                 {data: 'applicant_name', 'class': 'v-a-m'},
                 {data: 'name_of_applicant', 'class': 'text-center'},
                 {data: 'survey_no', 'class': 'text-center'},
@@ -186,29 +193,29 @@ Noc.listView = Backbone.View.extend({
         templateData.IS_CHECKED_NO = IS_CHECKED_NO;
         templateData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
         templateData.noc_data = parseData.noc_data;
-         if (isEdit) {
+        if (isEdit) {
             templateData.application_date = dateTo_DD_MM_YYYY(templateData.noc_data.application_date);
             templateData.loan_from_date = dateTo_DD_MM_YYYY(templateData.noc_data.loan_from_date);
             templateData.to_date = dateTo_DD_MM_YYYY(templateData.noc_data.to_date);
-        }
-        else {
+        } else {
             templateData.application_date = dateTo_DD_MM_YYYY();
         }
         showFormContainer('noc');
         $('#noc_form_container').html(nocFormTemplate((templateData)));
-         renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
+        renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
         renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
-      // renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_name', 'village_name', 'Village');
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
+        // renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_name', 'village_name', 'Village');
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
-       renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor([], 'plot_no_for_noc_data', 'plot_no', 'plot_no', 'Plot No');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor([], 'plot_no_for_noc_data', 'plot_no', 'plot_no', 'Plot No');
         if (isEdit) {
             $('#state').val(formData.state);
             $('#district').val(formData.district);
             $('#taluka').val(formData.taluka);
-           // $('#declaration_for_noc').attr('checked', 'checked');
-           // $('#villages_for_noc_data').val(formData.village);
-
-             $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
+            // $('#declaration_for_noc').attr('checked', 'checked');
+            // $('#villages_for_noc_data').val(formData.village);
+            $('#entity_establishment_type').val(formData.entity_establishment_type);
+            $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
             var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
             renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(plotData, 'plot_no_for_noc_data', 'plot_id', 'plot_no', 'Plot No');
             $('#plot_no_for_noc_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
@@ -220,20 +227,20 @@ Noc.listView = Backbone.View.extend({
                 $('#reason_of_loan_doc_name_container_for_noc').show();
                 $('#reason_of_loan_doc_name_download').attr("href", NOC_DOC_PATH + formData.reason_of_loan_doc);
             }
-             if (formData.request_letter_doc != '') {
+            if (formData.request_letter_doc != '') {
                 $('#request_letter_doc_container_for_noc').hide();
                 $('#request_letter_doc_name_image').attr('src', NOC_DOC_PATH + formData.request_letter_doc);
                 $('#request_letter_doc_name_container_for_noc').show();
                 $('#request_letter_doc_name_download').attr("href", NOC_DOC_PATH + formData.request_letter_doc);
             }
 
-           if (formData.behalf_of_lessee_doc != '') {
+            if (formData.behalf_of_lessee_doc != '') {
                 $('#behalf_of_lessee_doc_container_for_noc').hide();
                 $('#behalf_of_lessee_doc_name_image').attr('src', NOC_DOC_PATH + formData.behalf_of_lessee_doc);
                 $('#behalf_of_lessee_doc_name_container_for_noc').show();
                 $('#behalf_of_lessee_doc_name_download').attr("href", NOC_DOC_PATH + formData.behalf_of_lessee_doc);
             }
-             if (formData.public_undertaking_doc != '') {
+            if (formData.public_undertaking_doc != '') {
                 $('#public_undertaking_doc_container_for_noc').hide();
                 $('#public_undertaking_doc_name_image').attr('src', NOC_DOC_PATH + formData.public_undertaking_doc);
                 $('#public_undertaking_doc_name_container_for_noc').show();
@@ -245,38 +252,39 @@ Noc.listView = Backbone.View.extend({
                 $('#seal_and_stamp_name_container_for_noc').show();
                 $('#seal_and_stamp_download').attr("href", NOC_DOC_PATH + formData.signature);
             }
-       
 
-         if (formData.reason_of_loan_from_bank == IS_CHECKED_YES) {
-            $('#reason_of_loan_from_bank_yes').attr('checked', 'checked');
-              $('.reason_of_loan_from_bank_div').show();
-           } else if (formData.reason_of_loan_from_bank == IS_CHECKED_NO) {
-            $('#reason_of_loan_from_bank_no').attr('checked', 'checked');
-           }
+
+            if (formData.reason_of_loan_from_bank == IS_CHECKED_YES) {
+                $('#reason_of_loan_from_bank_yes').attr('checked', 'checked');
+                $('.reason_of_loan_from_bank_div').show();
+            } else if (formData.reason_of_loan_from_bank == IS_CHECKED_NO) {
+                $('#reason_of_loan_from_bank_no').attr('checked', 'checked');
+            }
 
             if (formData.request_letter_of_bank == IS_CHECKED_YES) {
-            $('#request_letter_of_bank_yes').attr('checked', 'checked');
-              $('.request_letter_doc_div').show();
-           } else if (formData.request_letter_of_bank == IS_CHECKED_NO) {
-            $('#request_letter_of_bank_no').attr('checked', 'checked');
-           }
+                $('#request_letter_of_bank_yes').attr('checked', 'checked');
+                $('.request_letter_doc_div').show();
+            } else if (formData.request_letter_of_bank == IS_CHECKED_NO) {
+                $('#request_letter_of_bank_no').attr('checked', 'checked');
+            }
 
             if (formData.behalf_of_lessee == IS_CHECKED_YES) {
-            $('#behalf_of_lessee_yes').attr('checked', 'checked');
-              $('.behalf_of_lessee_div').show();
-           } else if (formData.behalf_of_lessee == IS_CHECKED_NO) {
-            $('#behalf_of_lessee_no').attr('checked', 'checked');
-           }
+                $('#behalf_of_lessee_yes').attr('checked', 'checked');
+                $('.behalf_of_lessee_div').show();
+            } else if (formData.behalf_of_lessee == IS_CHECKED_NO) {
+                $('#behalf_of_lessee_no').attr('checked', 'checked');
+            }
 
             if (formData.public_undertaking == IS_CHECKED_YES) {
-            $('#public_undertaking_yes').attr('checked', 'checked');
-            $('.public_undertaking_div').show();
-        } else if (formData.public_undertaking == IS_CHECKED_NO) {
-            $('#public_undertaking_no').attr('checked', 'checked');
+                $('#public_undertaking_yes').attr('checked', 'checked');
+                $('.public_undertaking_div').show();
+            } else if (formData.public_undertaking == IS_CHECKED_NO) {
+                $('#public_undertaking_no').attr('checked', 'checked');
+            }
         }
-}
+        generateSelect2();
         datePicker();
-        startDateEndDateFunctionality('loan_from_date','to_date');
+        startDateEndDateFunctionality('loan_from_date', 'to_date');
         $('#noc_form').find('input').keypress(function (e) {
             if (e.which == 13) {
                 that.submitNoc($('#submit_btn_for_noc'));
@@ -362,42 +370,44 @@ Noc.listView = Backbone.View.extend({
         formData.loan_from_date = dateTo_DD_MM_YYYY(formData.loan_from_date);
         formData.to_date = dateTo_DD_MM_YYYY(formData.to_date);
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
-      // formData.loan_to_date = dateTo_DD_MM_YYYY(formData.loan_to_date);
+        // formData.loan_to_date = dateTo_DD_MM_YYYY(formData.loan_to_date);
         showFormContainer('noc');
         $('#noc_form_container').html(nocViewTemplate(formData));
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
         $('#state').val(formData.state);
         $('#district').val(formData.district);
         $('#taluka').val(formData.taluka);
+        $('#entity_establishment_type').val(formData.entity_establishment_type);
         //$('#declaration_for_noc').attr('checked', 'checked');
 
-         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
-       renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination([], 'plot_no_for_noc_data', 'plot_no', 'plot_no', 'Plot No');
-         
-          $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
-            var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
-            renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(plotData, 'plot_no_for_noc_data', 'plot_id', 'plot_no', 'Plot No');
-            $('#plot_no_for_noc_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination([], 'plot_no_for_noc_data', 'plot_no', 'plot_no', 'Plot No');
 
-           if (formData.reason_of_loan_from_bank == IS_CHECKED_YES) {
+        $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
+        var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(plotData, 'plot_no_for_noc_data', 'plot_id', 'plot_no', 'Plot No');
+        $('#plot_no_for_noc_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
+
+        if (formData.reason_of_loan_from_bank == IS_CHECKED_YES) {
             $('#reason_of_loan_from_bank_yes').attr('checked', 'checked');
-              $('.reason_of_loan_from_bank_div').show();
-           } else if (formData.reason_of_loan_from_bank == IS_CHECKED_NO) {
+            $('.reason_of_loan_from_bank_div').show();
+        } else if (formData.reason_of_loan_from_bank == IS_CHECKED_NO) {
             $('#reason_of_loan_from_bank_no').attr('checked', 'checked');
-           }
+        }
 
-            if (formData.request_letter_of_bank == IS_CHECKED_YES) {
+        if (formData.request_letter_of_bank == IS_CHECKED_YES) {
             $('#request_letter_of_bank_yes').attr('checked', 'checked');
-              $('.request_letter_doc_div').show();
-           } else if (formData.request_letter_of_bank == IS_CHECKED_NO) {
+            $('.request_letter_doc_div').show();
+        } else if (formData.request_letter_of_bank == IS_CHECKED_NO) {
             $('#request_letter_of_bank_no').attr('checked', 'checked');
-           }
+        }
 
-            if (formData.behalf_of_lessee == IS_CHECKED_YES) {
+        if (formData.behalf_of_lessee == IS_CHECKED_YES) {
             $('#behalf_of_lessee_yes').attr('checked', 'checked');
-              $('.behalf_of_lessee_div').show();
-           } else if (formData.behalf_of_lessee == IS_CHECKED_NO) {
+            $('.behalf_of_lessee_div').show();
+        } else if (formData.behalf_of_lessee == IS_CHECKED_NO) {
             $('#behalf_of_lessee_no').attr('checked', 'checked');
-           }
+        }
 
         if (formData.public_undertaking == IS_CHECKED_YES) {
             $('#public_undertaking_yes').attr('checked', 'checked');
@@ -406,25 +416,25 @@ Noc.listView = Backbone.View.extend({
             $('#public_undertaking_no').attr('checked', 'checked');
         }
 
-         if (formData.reason_of_loan_doc != '') {
-                $('#reason_of_loan_doc_container_for_noc_view').hide();
-                $('#reason_of_loan_doc_name_image_view').attr('src',NOC_DOC_PATH + formData.reason_of_loan_doc);
-                $('#reason_of_loan_doc_name_container_for_noc_view').show();
-                $('#reason_of_loan_doc_name_download').attr("href",NOC_DOC_PATH + formData.reason_of_loan_doc);
-            }
-         if (formData.request_letter_doc != '') {
-                $('#request_letter_doc_container_for_noc_view').hide();
-                $('#request_letter_doc_name_image_view').attr('src',NOC_DOC_PATH + formData.request_letter_doc);
-                $('#request_letter_doc_name_container_for_noc_view').show();
-                $('#request_letter_doc_name_download').attr("href",NOC_DOC_PATH + formData.request_letter_doc);
-            }
+        if (formData.reason_of_loan_doc != '') {
+            $('#reason_of_loan_doc_container_for_noc_view').hide();
+            $('#reason_of_loan_doc_name_image_view').attr('src', NOC_DOC_PATH + formData.reason_of_loan_doc);
+            $('#reason_of_loan_doc_name_container_for_noc_view').show();
+            $('#reason_of_loan_doc_name_download').attr("href", NOC_DOC_PATH + formData.reason_of_loan_doc);
+        }
+        if (formData.request_letter_doc != '') {
+            $('#request_letter_doc_container_for_noc_view').hide();
+            $('#request_letter_doc_name_image_view').attr('src', NOC_DOC_PATH + formData.request_letter_doc);
+            $('#request_letter_doc_name_container_for_noc_view').show();
+            $('#request_letter_doc_name_download').attr("href", NOC_DOC_PATH + formData.request_letter_doc);
+        }
 
-         if (formData.behalf_of_lessee_doc != '') {
-                $('#behalf_of_lessee_doc_container_for_noc_view').hide();
-                $('#behalf_of_lessee_doc_name_image_view').attr('src',NOC_DOC_PATH + formData.behalf_of_lessee_doc);
-                $('#behalf_of_lessee_doc_name_container_for_noc_view').show();
-                $('#behalf_of_lessee_doc_name_download').attr("href",NOC_DOC_PATH + formData.behalf_of_lessee_doc);
-            }
+        if (formData.behalf_of_lessee_doc != '') {
+            $('#behalf_of_lessee_doc_container_for_noc_view').hide();
+            $('#behalf_of_lessee_doc_name_image_view').attr('src', NOC_DOC_PATH + formData.behalf_of_lessee_doc);
+            $('#behalf_of_lessee_doc_name_container_for_noc_view').show();
+            $('#behalf_of_lessee_doc_name_download').attr("href", NOC_DOC_PATH + formData.behalf_of_lessee_doc);
+        }
 
         if (formData.public_undertaking_doc != '') {
             $('#public_undertaking_doc_container_for_noc_view').hide();
@@ -445,6 +455,9 @@ Noc.listView = Backbone.View.extend({
             loginPage();
             return false;
         }
+        if (!nocData.entity_establishment_type) {
+            return getBasicMessageAndFieldJSONArray('entity_establishment_type', entityEstablishmentTypeValidationMessage);
+        }
         if (!nocData.name_of_applicant) {
             return getBasicMessageAndFieldJSONArray('name_of_applicant', applicantNameValidationMessage);
         }
@@ -460,7 +473,7 @@ Noc.listView = Backbone.View.extend({
         if (!nocData.villages_for_noc_data) {
             return getBasicMessageAndFieldJSONArray('villages_for_noc_data', villageNameValidationMessage);
         }
-        
+
         if (!nocData.plot_no_for_noc_data) {
             return getBasicMessageAndFieldJSONArray('plot_no_for_noc_data', plotnoValidationMessage);
         }
@@ -476,7 +489,7 @@ Noc.listView = Backbone.View.extend({
         // if (!nocData.admeasuring_square_metre) {
         //     return getBasicMessageAndFieldJSONArray('admeasuring_square_metre', admeasuringValidationMessage);
         // }
-       
+
         if (!nocData.purpose_of_lease) {
             return getBasicMessageAndFieldJSONArray('purpose_of_lease', purposeleaseValidationMessage);
         }
@@ -493,14 +506,14 @@ Noc.listView = Backbone.View.extend({
         if (!nocData.ifsc_code) {
             return getBasicMessageAndFieldJSONArray('ifsc_code', ifscCodeValidationMessage);
         }
-         if (!nocData.loan_from_date) {
+        if (!nocData.loan_from_date) {
             return getBasicMessageAndFieldJSONArray('loan_from_date', loanFromDateValidationMessage);
         }
 
-         if (!nocData.to_date) {
+        if (!nocData.to_date) {
             return getBasicMessageAndFieldJSONArray('to_date', loanToDateValidationMessage);
         }
-       
+
         return '';
     },
     askForSubmitNoc: function (moduleType) {
@@ -521,7 +534,7 @@ Noc.listView = Backbone.View.extend({
         showConfirmation(yesEvent, 'Submit');
     },
     submitNoc: function (moduleType) {
-       // alert('hi');
+        // alert('hi');
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -536,58 +549,58 @@ Noc.listView = Backbone.View.extend({
             return false;
         }
 
-         if (nocData.reason_of_loan_from_bank == isChecked) {
-        if ($('#reason_of_loan_doc_container_for_noc').is(':visible')) {
-            var reasonform = $('#reason_of_loan_doc_for_noc').val();
-            if (reasonform == '') {
-                $('#reason_of_loan_doc_for_noc').focus();
-                validationMessageShow('noc-reason_of_loan_doc_for_noc', uploadDocumentValidationMessage);
-                return false;
-            }
-            var reasonformMessage = pdffileUploadValidation('reason_of_loan_doc_for_noc');
-            if (reasonformMessage != '') {
-                $('#reason_of_loan_doc_for_noc').focus();
-                validationMessageShow('noc-reason_of_loan_doc_for_noc', reasonformMessage);
-                return false;
-            }
-        }
-       } 
-
-     if (nocData.request_letter_of_bank == isChecked) {
-        if ($('#request_letter_doc_container_for_noc').is(':visible')) {
-            var reasonform = $('#request_letter_doc_for_noc').val();
-            if (reasonform == '') {
-                $('#request_letter_doc_for_noc').focus();
-                validationMessageShow('noc-request_letter_doc_for_noc', uploadDocumentValidationMessage);
-                return false;
-            }
-            var reasonformMessage = pdffileUploadValidation('request_letter_doc_for_noc');
-            if (reasonformMessage != '') {
-                $('#request_letter_doc_for_noc').focus();
-                validationMessageShow('noc-request_letter_doc_for_noc', reasonformMessage);
-                return false;
+        if (nocData.reason_of_loan_from_bank == isChecked) {
+            if ($('#reason_of_loan_doc_container_for_noc').is(':visible')) {
+                var reasonform = $('#reason_of_loan_doc_for_noc').val();
+                if (reasonform == '') {
+                    $('#reason_of_loan_doc_for_noc').focus();
+                    validationMessageShow('noc-reason_of_loan_doc_for_noc', uploadDocumentValidationMessage);
+                    return false;
+                }
+                var reasonformMessage = pdffileUploadValidation('reason_of_loan_doc_for_noc');
+                if (reasonformMessage != '') {
+                    $('#reason_of_loan_doc_for_noc').focus();
+                    validationMessageShow('noc-reason_of_loan_doc_for_noc', reasonformMessage);
+                    return false;
+                }
             }
         }
-       } 
 
-       if (nocData.behalf_of_lessee == isChecked) {
-        if ($('#behalf_of_lessee_doc_container_for_noc').is(':visible')) {
-            var reasonform = $('#behalf_of_lessee_doc_for_noc').val();
-            if (reasonform == '') {
-                $('#behalf_of_lessee_doc_for_noc').focus();
-                validationMessageShow('noc-behalf_of_lessee_doc_for_noc', uploadDocumentValidationMessage);
-                return false;
-            }
-            var reasonformMessage = pdffileUploadValidation('behalf_of_lessee_doc_for_noc');
-            if (reasonformMessage != '') {
-                $('#behalf_of_lessee_doc_for_noc').focus();
-                validationMessageShow('noc-behalf_of_lessee_doc_for_noc', reasonformMessage);
-                return false;
+        if (nocData.request_letter_of_bank == isChecked) {
+            if ($('#request_letter_doc_container_for_noc').is(':visible')) {
+                var reasonform = $('#request_letter_doc_for_noc').val();
+                if (reasonform == '') {
+                    $('#request_letter_doc_for_noc').focus();
+                    validationMessageShow('noc-request_letter_doc_for_noc', uploadDocumentValidationMessage);
+                    return false;
+                }
+                var reasonformMessage = pdffileUploadValidation('request_letter_doc_for_noc');
+                if (reasonformMessage != '') {
+                    $('#request_letter_doc_for_noc').focus();
+                    validationMessageShow('noc-request_letter_doc_for_noc', reasonformMessage);
+                    return false;
+                }
             }
         }
-       } 
 
-       if (nocData.public_undertaking == isChecked) {
+        if (nocData.behalf_of_lessee == isChecked) {
+            if ($('#behalf_of_lessee_doc_container_for_noc').is(':visible')) {
+                var reasonform = $('#behalf_of_lessee_doc_for_noc').val();
+                if (reasonform == '') {
+                    $('#behalf_of_lessee_doc_for_noc').focus();
+                    validationMessageShow('noc-behalf_of_lessee_doc_for_noc', uploadDocumentValidationMessage);
+                    return false;
+                }
+                var reasonformMessage = pdffileUploadValidation('behalf_of_lessee_doc_for_noc');
+                if (reasonformMessage != '') {
+                    $('#behalf_of_lessee_doc_for_noc').focus();
+                    validationMessageShow('noc-behalf_of_lessee_doc_for_noc', reasonformMessage);
+                    return false;
+                }
+            }
+        }
+
+        if (nocData.public_undertaking == isChecked) {
             if ($('#public_undertaking_doc_container_for_noc').is(':visible')) {
                 var reasonform = $('#public_undertaking_doc_for_noc').val();
                 if (reasonform == '') {
@@ -771,7 +784,7 @@ Noc.listView = Backbone.View.extend({
         $.ajax({
             url: 'noc/get_noc_data_by_noc_id',
             type: 'post',
-            data: $.extend({}, {'noc_id': nocId}, getTokenData()),
+            data: $.extend({}, {'noc_id': nocId, 'load_fb_details': VALUE_ONE}, getTokenData()),
             error: function (textStatus, errorThrown) {
                 generateNewCSRFToken();
                 btnObj.html(ogBtnHTML);
@@ -803,10 +816,20 @@ Noc.listView = Backbone.View.extend({
                 }
                 var nocData = parseData.noc_data;
                 showPopup();
-                if (nocData.status != VALUE_FOUR && nocData.status != VALUE_FIVE && nocData.status != VALUE_SIX) {
-                    nocData.show_remove_upload_btn = true;
+//                if (nocData.status != VALUE_FOUR && nocData.status != VALUE_FIVE && nocData.status != VALUE_SIX) {
+//                    nocData.show_remove_upload_btn = true;
+//                }
+                if (nocData.payment_type == VALUE_ONE) {
+                    nocData.utitle = 'Challan Copy';
+                } else {
+                    nocData.utitle = 'Payment Details';
                 }
+                nocData.module_type = VALUE_ELEVEN;
                 $('#popup_container').html(nocUploadChallanTemplate(nocData));
+                loadFB(VALUE_ELEVEN, parseData.fb_data, nocData.payment_type, nocData.show_remove_upload_btn, nocData.show_dropdown, nocData.dropdown_data);
+
+                generateBoxes('radio', paymentTypeArray, 'payment_type', 'noc_upload_challan', nocData.payment_type, true);
+                showSubContainerForPaymentDetails('payment_type', 'noc_upload_challan', 'uc', 'radio', '#fb', VALUE_ELEVEN);
                 if (nocData.challan != '') {
                     $('#challan_container_for_noc_upload_challan').hide();
                     $('#challan_name_container_for_noc_upload_challan').show();
@@ -875,6 +898,12 @@ Noc.listView = Backbone.View.extend({
             showError(invalidAccessValidationMessage);
             return false;
         }
+        var paymentType = $('input[name=payment_type_for_noc_upload_challan]:checked').val();
+        if (paymentType != VALUE_ONE && paymentType != VALUE_TWO && paymentType != VALUE_THREE) {
+            $('#payment_type_for_noc_upload_challan_1').focus();
+            validationMessageShow('noc-uc-payment_type_for_noc_upload_challan', onePaymentOptionValidationMessage);
+            return false;
+        }
         if ($('#challan_container_for_noc_upload_challan').is(':visible')) {
             var sealAndStamp = $('#challan_for_noc_upload_challan').val();
             if (sealAndStamp == '') {
@@ -889,6 +918,12 @@ Noc.listView = Backbone.View.extend({
                 return false;
             }
         }
+        if (paymentType == VALUE_ONE || paymentType == VALUE_TWO) {
+            var returnData = checkValidationForFB(VALUE_ELEVEN, 'noc-uc', true);
+            if (!returnData) {
+                return false;
+            }
+        }
         var btnObj = $('#submit_btn_for_noc_upload_challan');
         var ogBtnHTML = btnObj.html();
         var ogBtnOnclick = btnObj.attr('onclick');
@@ -896,6 +931,9 @@ Noc.listView = Backbone.View.extend({
         btnObj.attr('onclick', '');
         var formData = new FormData($('#noc_upload_challan_form')[0]);
         formData.append("csrf_token_eodbsws_admin", getTokenData()['csrf_token_eodbsws_admin']);
+        if (paymentType == VALUE_ONE || paymentType == VALUE_TWO) {
+            formData.append("fees_bifurcation_details", returnData);
+        }
         $.ajax({
             type: 'POST',
             url: 'noc/upload_challan',
@@ -934,7 +972,11 @@ Noc.listView = Backbone.View.extend({
                     return false;
                 }
                 Swal.close();
-                $('#status_' + nocId).html(appStatusArray[VALUE_THREE]);
+                $('#status_' + nocId).html(paymentType == VALUE_THREE ? appStatusArray[VALUE_NINE] : appStatusArray[VALUE_THREE]);
+                if (paymentType == VALUE_THREE) {
+                    $('#confirm_payment_btn_for_app_' + nocId).show();
+                }
+                $('#total_fees_' + nocId).html(returnFees(parseData));
                 showSuccess(parseData.message);
             }
         });
@@ -1225,6 +1267,76 @@ Noc.listView = Backbone.View.extend({
                 tmpData.module_type = VALUE_ELEVEN;
                 tmpData.module_id = nocId;
                 loadQueryManagementModule(parseData, templateData, tmpData);
+            }
+        });
+    },
+    viewPayment: function (nocId) {
+        if (!nocId) {
+            showError(invalidAccessValidationMessage);
+            return false;
+        }
+        var that = this;
+        var btnObj = $('#download_fees_paid_challan_btn_' + nocId);
+        var ogBtnHTML = btnObj.html();
+        var ogBtnOnclick = btnObj.attr('onclick');
+        btnObj.html(iconSpinnerTemplate);
+        btnObj.attr('onclick', '');
+        $.ajax({
+            url: 'noc/get_noc_data_by_noc_id',
+            type: 'post',
+            data: $.extend({}, {'noc_id': nocId, 'load_fb_details': VALUE_TWO}, getTokenData()),
+            error: function (textStatus, errorThrown) {
+                generateNewCSRFToken();
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
+                if (textStatus.status === 403) {
+                    loginPage();
+                    return false;
+                }
+                if (!textStatus.statusText) {
+                    loginPage();
+                    return false;
+                }
+                showError(textStatus.statusText);
+                $('html, body').animate({scrollTop: '0px'}, 0);
+            },
+            success: function (response) {
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
+                if (!isJSON(response)) {
+                    loginPage();
+                    return false;
+                }
+                var parseData = JSON.parse(response);
+                setNewToken(parseData.temp_token);
+                if (parseData.success === false) {
+                    showError(parseData.message);
+                    $('html, body').animate({scrollTop: '0px'}, 0);
+                    return false;
+                }
+                var nocData = parseData.noc_data;
+                showPopup();
+                if (nocData.payment_type == VALUE_ONE || nocData.payment_type == VALUE_THREE) {
+                    nocData.user_payment_type_text = paymentTypeArray[nocData.payment_type];
+                } else {
+                    nocData.user_payment_type_text = userPaymentTypeArray[nocData.user_payment_type] ? userPaymentTypeArray[nocData.user_payment_type] : '';
+                }
+                if (nocData.payment_type == VALUE_ONE) {
+                    nocData.utitle = 'Fees Paid Challan Copy';
+                } else if (nocData.payment_type == VALUE_TWO && nocData.user_payment_type == VALUE_ONE) {
+                    nocData.utitle = 'Demand Draft (DD) Copy';
+                }
+                nocData.module_type = VALUE_ELEVEN;
+                $('#popup_container').html(nocViewPaymentTemplate(nocData));
+                loadFB(VALUE_ELEVEN, parseData.fb_data, nocData.payment_type);
+                loadPH(VALUE_ELEVEN, nocData.noc_id, parseData.ph_data);
+                if (nocData.payment_type == VALUE_ONE || (nocData.payment_type == VALUE_TWO && nocData.user_payment_type == VALUE_ONE)) {
+                    if (nocData.fees_paid_challan != '') {
+                        $('#vp_container_for_noc').show();
+                        $('#fees_paid_challan_name_href_for_noc').attr('href', NOC_DOC_PATH + nocData.fees_paid_challan);
+                        $('#fees_paid_challan_name_for_noc').html(nocData.fees_paid_challan);
+                    }
+                }
             }
         });
     }

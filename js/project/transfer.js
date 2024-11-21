@@ -6,6 +6,7 @@ var transferViewTemplate = Handlebars.compile($('#transfer_view_template').html(
 var transferUploadChallanTemplate = Handlebars.compile($('#transfer_upload_challan_template').html());
 var transferApproveTemplate = Handlebars.compile($('#transfer_approve_template').html());
 var transferRejectTemplate = Handlebars.compile($('#transfer_reject_template').html());
+var transferViewPaymentTemplate = Handlebars.compile($('#transfer_view_payment_template').html());
 
 var tempPersonCnt = 1;
 
@@ -113,20 +114,19 @@ Transfer.listView = Backbone.View.extend({
             return transferActionTemplate(rowData);
         }
         rowData.show_rv_query_btn = true;
-        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX) {
+        if (tempTypeInSession == TEMP_TYPE_A && rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_edit_btn = true;
         }
         if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE) {
             rowData.show_form_one_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX) {
+        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN) {
             rowData.show_upload_challan_btn = true;
         }
-        if (rowData.status != VALUE_ZERO && rowData.status != VALUE_ONE && rowData.status != VALUE_TWO && rowData.status != VALUE_THREE && rowData.status != VALUE_SIX) {
+        if (rowData.status == VALUE_FOUR || rowData.status == VALUE_FIVE || rowData.status == VALUE_SEVEN || rowData.status == VALUE_EIGHT) {
             rowData.show_download_fees_paid_challan_btn = true;
-            rowData.TRANSFER_DOC_PATH = TRANSFER_DOC_PATH;
         }
-        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX &&
+        if (rowData.status != VALUE_FIVE && rowData.status != VALUE_SIX && rowData.status != VALUE_ELEVEN &&
                 (rowData.query_status == VALUE_ZERO || rowData.query_status == VALUE_THREE)) {
             rowData.show_reject_btn = '';
         } else {
@@ -138,9 +138,15 @@ Transfer.listView = Backbone.View.extend({
             rowData.show_approve_btn = 'display: none;';
         }
         rowData.module_type = VALUE_TWELVE;
-        rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : 'display: none;';
+        rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : (rowData.status == VALUE_EIGHT ? '' : (rowData.status == VALUE_NINE ? '' : 'display: none;'));
         if (rowData.status == VALUE_FIVE) {
             rowData.show_download_certificate_btn = true;
+        }
+        if (rowData.rating != VALUE_ZERO && (rowData.status == VALUE_FIVE || rowData.status == VALUE_SIX)) {
+            rowData.show_fr_btn = true;
+        }
+        if (tempTypeInSession == TEMP_TYPE_A && (rowData.status == VALUE_TWO || rowData.status == VALUE_THREE)) {
+            rowData.show_withdraw_application_btn = true;
         }
         return transferActionTemplate(rowData);
     },
@@ -157,7 +163,7 @@ Transfer.listView = Backbone.View.extend({
             return dateTo_DD_MM_YYYY(full.created_time);
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-            return regNoRenderer(VALUE_TWELVE, data);
+            return getAppNoWithRating(VALUE_TWELVE, data, full.district, full);
         };
         var that = this;
         showTableContainer('transfer');
@@ -175,6 +181,7 @@ Transfer.listView = Backbone.View.extend({
             columns: [
                 {data: '', 'render': serialNumberRenderer, 'class': 'text-center'},
                 {data: 'transfer_id', 'class': 'v-a-m text-center f-w-b', 'render': tempRegNoRenderer},
+                {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentRenderer},
                 {data: 'applicant_name', 'class': 'v-a-m'},
                 {data: 'name_of_applicant', 'class': 'text-center'},
                 {data: 'survey_no', 'class': 'text-center'},
@@ -226,41 +233,41 @@ Transfer.listView = Backbone.View.extend({
         templateData.transfer_data = parseData.transfer_data;
         templateData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
 
-         if (isEdit) {
+        if (isEdit) {
             templateData.application_date = dateTo_DD_MM_YYYY(templateData.transfer_data.application_date);
-        }else {
+        } else {
             templateData.application_date = dateTo_DD_MM_YYYY();
         }
 
         showFormContainer('transfer');
         $('#transfer_form_container').html(transferFormTemplate((templateData)));
-         renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
+        renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
         renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
 
-
-        
-         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
-       renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor([], 'plot_no_for_transfer_data', 'plot_no', 'plot_no', 'Plot No');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor([], 'plot_no_for_transfer_data', 'plot_no', 'plot_no', 'Plot No');
 
         $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
-            var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
+        var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
 
-            renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(plotData, 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
-            $('#plot_no_for_transfer_data').val(formData.plot_no == 0 ? '' : formData.plot_no);       
-        
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(plotData, 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
+        $('#plot_no_for_transfer_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
+
         if (isEdit) {
             $('#state').val(formData.state);
             $('#district').val(formData.district);
             $('#taluka').val(formData.taluka);
+            $('#entity_establishment_type').val(formData.entity_establishment_type);
             $('#villages_for_transfer_data').val(formData.village);
             $('#declarationone').attr('checked', 'checked');
 
-          //  $('#application_category').val(formData.application_category);
-           if (formData.request_letter_upload != '') {
+            //  $('#application_category').val(formData.application_category);
+            if (formData.request_letter_upload != '') {
                 $('#request_letter_upload_container_for_transfer').hide();
-                $('#request_letter_upload_name_image_for_transfer').attr('src',TRANSFER_DOC_PATH + formData.request_letter_upload);
+                $('#request_letter_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.request_letter_upload);
                 $('#request_letter_upload_name_container_for_transfer').show();
-                $('#request_letter_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH+ formData.request_letter_upload);
+                $('#request_letter_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.request_letter_upload);
             }
             if (formData.project_report_upload != '') {
                 $('#project_report_upload_container_for_transfer').hide();
@@ -268,17 +275,17 @@ Transfer.listView = Backbone.View.extend({
                 $('#project_report_upload_name_container_for_transfer').show();
                 $('#project_report_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.project_report_upload);
             }
-                if (formData.constitution_project_upload != '') {
+            if (formData.constitution_project_upload != '') {
                 $('#constitution_project_upload_container_for_transfer').hide();
                 $('#constitution_project_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.constitution_project_upload);
                 $('#constitution_project_upload_name_container_for_transfer').show();
-                $('#constitution_project_upload_name_image_for_transfer_download').attr("href",TRANSFER_DOC_PATH + formData.constitution_project_upload);
+                $('#constitution_project_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.constitution_project_upload);
             }
-             if (formData.valid_authorization_upload != '') {
+            if (formData.valid_authorization_upload != '') {
                 $('#valid_authorization_upload_container_for_transfer').hide();
                 $('#valid_authorization_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.valid_authorization_upload);
                 $('#valid_authorization_upload_name_container_for_transfer').show();
-                $('#valid_authorization_upload_name_image_for_transfer_download').attr("href",TRANSFER_DOC_PATH + formData.valid_authorization_upload);
+                $('#valid_authorization_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.valid_authorization_upload);
             }
 
             if (formData.sign_seal != '') {
@@ -287,29 +294,30 @@ Transfer.listView = Backbone.View.extend({
                 $('#sign_seal_name_container_for_transfer').show();
                 $('#seal_and_stamp_download').attr("href", TRANSFER_DOC_PATH + formData.sign_seal);
             }
-       
+
         }
 
         if (formData.request_letter == isChecked) {
             $('#request_letter_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#request_letter_no').attr('checked', 'checked');
         }
         if (formData.project_report == isChecked) {
             $('#project_report_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#project_report_no').attr('checked', 'checked');
         }
-         if (formData.constitution_project == isChecked) {
+        if (formData.constitution_project == isChecked) {
             $('#constitution_project_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#constitution_project_no').attr('checked', 'checked');
         }
         if (formData.valid_authorization == isChecked) {
             $('#valid_authorization_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#valid_authorization_no').attr('checked', 'checked');
         }
+        generateSelect2();
         datePicker();
         $('#transfer_form').find('input').keypress(function (e) {
             if (e.which == 13) {
@@ -389,7 +397,7 @@ Transfer.listView = Backbone.View.extend({
         }
         var formData = parseData.transfer_data;
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
-                formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
+        formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
 
         Transfer.router.navigate('view_transfer_form');
         formData.establishment_date = dateTo_DD_MM_YYYY(formData.establishment_date);
@@ -399,36 +407,37 @@ Transfer.listView = Backbone.View.extend({
         showFormContainer('transfer');
         $('#transfer_form_container').html(transferViewTemplate(formData));
         renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
-       renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
-
-       renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
-       renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination([], 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
+        renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination([], 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
 
         $('#state').val(formData.state);
-         $('#district').val(formData.district);
-           $('#taluka').val(formData.taluka);
-            //$('#villages_for_transfer_data').val(formData.village);
-            $('#declarationone').attr('checked', 'checked');
-            $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
-            var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
+        $('#district').val(formData.district);
+        $('#taluka').val(formData.taluka);
+        //$('#villages_for_transfer_data').val(formData.village);
+        $('#entity_establishment_type').val(formData.entity_establishment_type);
+        $('#declarationone').attr('checked', 'checked');
+        $('#villages_for_noc_data').val(formData.village == 0 ? '' : formData.village);
+        var plotData = tempPlotData[formData.village] ? tempPlotData[formData.village] : [];
 
-            renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(plotData, 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
-            $('#plot_no_for_transfer_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
+        renderOptionsForTwoDimensionalArrayWithKeyValueWithCombination(plotData, 'plot_no_for_transfer_data', 'plot_id', 'plot_no', 'Plot No');
+        $('#plot_no_for_transfer_data').val(formData.plot_no == 0 ? '' : formData.plot_no);
 
 
-         if (formData.request_letter_upload != '') {
+        if (formData.request_letter_upload != '') {
             $('#request_letter_upload_container_for_transfer').hide();
-            $('#request_letter_upload_name_image_for_transfer').attr('src',TRANSFER_DOC_PATH + formData.request_letter_upload);
+            $('#request_letter_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.request_letter_upload);
             $('#request_letter_upload_name_container_for_transfer').show();
             $('#request_letter_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.request_letter_upload);
         }
-         if (formData.project_report_upload != '') {
+        if (formData.project_report_upload != '') {
             $('#project_report_upload_container_for_transfer').hide();
             $('#project_report_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.project_report_upload);
             $('#project_report_upload_name_container_for_transfer').show();
-            $('#project_report_upload_name_image_for_transfer_download').attr("href",TRANSFER_DOC_PATH + formData.project_report_upload);
+            $('#project_report_upload_name_image_for_transfer_download').attr("href", TRANSFER_DOC_PATH + formData.project_report_upload);
         }
-         if (formData.constitution_project_upload != '') {
+        if (formData.constitution_project_upload != '') {
             $('#constitution_project_upload_container_for_transfer').hide();
             $('#constitution_project_upload_name_image_for_transfer').attr('src', TRANSFER_DOC_PATH + formData.constitution_project_upload);
             $('#constitution_project_upload_name_container_for_transfer').show();
@@ -447,24 +456,24 @@ Transfer.listView = Backbone.View.extend({
             $('#sign_seal_name_container_for_transfer_view').show();
             $('#seal_and_stamp_download').attr("href", TRANSFER_DOC_PATH + formData.sign_seal);
         }
-         if (formData.request_letter == isChecked) {
+        if (formData.request_letter == isChecked) {
             $('#request_letter_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#request_letter_no').attr('checked', 'checked');
         }
-         if (formData.project_report == isChecked) {
+        if (formData.project_report == isChecked) {
             $('#project_report_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#project_report_no').attr('checked', 'checked');
         }
-           if (formData.constitution_project == isChecked) {
+        if (formData.constitution_project == isChecked) {
             $('#constitution_project_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#constitution_project_no').attr('checked', 'checked');
         }
         if (formData.valid_authorization == isChecked) {
             $('#valid_authorization_yes').attr('checked', 'checked');
-        }else{
+        } else {
             $('#valid_authorization_no').attr('checked', 'checked');
         }
 
@@ -478,68 +487,71 @@ Transfer.listView = Backbone.View.extend({
             loginPage();
             return false;
         }
-         if (!transferData.name_of_applicant) {
+        if (!transferData.entity_establishment_type) {
+            return getBasicMessageAndFieldJSONArray('entity_establishment_type', entityEstablishmentTypeValidationMessage);
+        }
+        if (!transferData.name_of_applicant) {
             return getBasicMessageAndFieldJSONArray('name_of_applicant', applicantNameValidationMessage);
         }
-         if (!transferData.application_date) {
-            return getBasicMessageAndFieldJSONArray('application_date',appDateValidationMessage);
+        if (!transferData.application_date) {
+            return getBasicMessageAndFieldJSONArray('application_date', appDateValidationMessage);
         }
-         if (!transferData.state) {
-            return getBasicMessageAndFieldJSONArray('state',stateValidationMessage);
+        if (!transferData.state) {
+            return getBasicMessageAndFieldJSONArray('state', stateValidationMessage);
         }
         if (!transferData.district) {
-            return getBasicMessageAndFieldJSONArray('district',districtValidationMessage);
+            return getBasicMessageAndFieldJSONArray('district', districtValidationMessage);
         }
         if (!transferData.taluka) {
-            return getBasicMessageAndFieldJSONArray('taluka',talukaValidationMessage);
+            return getBasicMessageAndFieldJSONArray('taluka', talukaValidationMessage);
         }
         if (!transferData.villages_for_noc_data) {
-            return getBasicMessageAndFieldJSONArray('villages_for_noc_data',villageValidationMessage);
+            return getBasicMessageAndFieldJSONArray('villages_for_noc_data', villageValidationMessage);
         }
-       
+
         if (!transferData.plot_no_for_transfer_data) {
-            return getBasicMessageAndFieldJSONArray('plot_no_for_transfer_data',plotnoValidationMessage);
+            return getBasicMessageAndFieldJSONArray('plot_no_for_transfer_data', plotnoValidationMessage);
         }
         if (!transferData.survey_no) {
-            return getBasicMessageAndFieldJSONArray('survey_no',surveynoValidationMessage);
+            return getBasicMessageAndFieldJSONArray('survey_no', surveynoValidationMessage);
         }
         if (!transferData.admeasuring_square_metre) {
-            return getBasicMessageAndFieldJSONArray('admeasuring_square_metre',admeasuringValidationMessage);
+            return getBasicMessageAndFieldJSONArray('admeasuring_square_metre', admeasuringValidationMessage);
         }
         if (!transferData.govt_industrial_estate_area) {
-            return getBasicMessageAndFieldJSONArray('govt_industrial_estate_area',govtIndustrialEstateAreaValidationMessage);
+            return getBasicMessageAndFieldJSONArray('govt_industrial_estate_area', govtIndustrialEstateAreaValidationMessage);
         }
-         if (!transferData.reason_of_transfer) {
-            return getBasicMessageAndFieldJSONArray('reason_of_transfer',purposeleaseValidationMessage);
+        if (!transferData.reason_of_transfer) {
+            return getBasicMessageAndFieldJSONArray('reason_of_transfer', purposeleaseValidationMessage);
         }
-       
-         if (!transferData.transferer_name) {
-            return getBasicMessageAndFieldJSONArray('transferer_name',acNumberValidationMessage);
+
+        if (!transferData.transferer_name) {
+            return getBasicMessageAndFieldJSONArray('transferer_name', acNumberValidationMessage);
         }
-         if (!transferData.name_of_servicing) {
-            return getBasicMessageAndFieldJSONArray('name_of_servicing',banknameValidationMessage);
+        if (!transferData.name_of_servicing) {
+            return getBasicMessageAndFieldJSONArray('name_of_servicing', banknameValidationMessage);
         }
         if (!transferData.other_services) {
-            return getBasicMessageAndFieldJSONArray('other_services',branchNameValidationMessage);
+            return getBasicMessageAndFieldJSONArray('other_services', branchNameValidationMessage);
         }
         if (!transferData.aadhar_no) {
-            return getBasicMessageAndFieldJSONArray('aadhar_no',aadharnoValidationMessage);
+            return getBasicMessageAndFieldJSONArray('aadhar_no', aadharnoValidationMessage);
         }
         if (!transferData.pan_no) {
-            return getBasicMessageAndFieldJSONArray('pan_no',pannoValidationMessage);
+            return getBasicMessageAndFieldJSONArray('pan_no', pannoValidationMessage);
         }
         if (!transferData.gst_no) {
-            return getBasicMessageAndFieldJSONArray('gst_no',gstnoValidationMessage);
+            return getBasicMessageAndFieldJSONArray('gst_no', gstnoValidationMessage);
         }
         if (!transferData.account_no) {
-            return getBasicMessageAndFieldJSONArray('account_no',acNumberValidationMessage);
+            return getBasicMessageAndFieldJSONArray('account_no', acNumberValidationMessage);
         }
         var requestLetter = $('input[name=request_letter]:checked').val();
         if (requestLetter == '' || requestLetter == null) {
             $('#request_letter_yes').focus();
             return getBasicMessageAndFieldJSONArray('request_letter', requestLetterValidationMessage);
         }
-         var projectReport = $('input[name=project_report]:checked').val();
+        var projectReport = $('input[name=project_report]:checked').val();
         if (projectReport == '' || projectReport == null) {
             $('#project_report_yes').focus();
             return getBasicMessageAndFieldJSONArray('project_report', projectReportValidationMessage);
@@ -591,7 +603,7 @@ Transfer.listView = Backbone.View.extend({
             return false;
         }
 
-    
+
         if (transferData.request_letter == isChecked) {
             if ($('#request_letter_upload_container_for_transfer').is(':visible')) {
                 var supportDocument = $('#request_letter_upload_for_transfer').val();
@@ -608,7 +620,7 @@ Transfer.listView = Backbone.View.extend({
                 }
             }
         }
-         if (transferData.project_report == isChecked) {
+        if (transferData.project_report == isChecked) {
             if ($('#project_report_upload_container_for_transfer').is(':visible')) {
                 var supportDocument = $('#project_report_upload_for_transfer').val();
                 if (supportDocument == '') {
@@ -640,7 +652,7 @@ Transfer.listView = Backbone.View.extend({
                 }
             }
         }
-         if (transferData.valid_authorization == isChecked) {
+        if (transferData.valid_authorization == isChecked) {
             if ($('#valid_authorization_upload_container_for_transfer').is(':visible')) {
                 var supportDocument = $('#valid_authorization_upload_for_transfer').val();
                 if (supportDocument == '') {
@@ -826,7 +838,7 @@ Transfer.listView = Backbone.View.extend({
         $.ajax({
             url: 'transfer/get_transfer_data_by_transfer_id',
             type: 'post',
-            data: $.extend({}, {'transfer_id': transferId}, getTokenData()),
+            data: $.extend({}, {'transfer_id': transferId, 'load_fb_details': VALUE_ONE}, getTokenData()),
             error: function (textStatus, errorThrown) {
                 generateNewCSRFToken();
                 btnObj.html(ogBtnHTML);
@@ -858,10 +870,20 @@ Transfer.listView = Backbone.View.extend({
                 }
                 var transferData = parseData.transfer_data;
                 showPopup();
-                if (transferData.status != VALUE_FOUR && transferData.status != VALUE_FIVE && transferData.status != VALUE_SIX) {
-                    transferData.show_remove_upload_btn = true;
+//                if (transferData.status != VALUE_FOUR && transferData.status != VALUE_FIVE && transferData.status != VALUE_SIX) {
+//                    transferData.show_remove_upload_btn = true;
+//                }
+                if (transferData.payment_type == VALUE_ONE) {
+                    transferData.utitle = 'Challan Copy';
+                } else {
+                    transferData.utitle = 'Payment Details';
                 }
+                transferData.module_type = VALUE_TWELVE;
                 $('#popup_container').html(transferUploadChallanTemplate(transferData));
+                loadFB(VALUE_TWELVE, parseData.fb_data, transferData.payment_type, transferData.show_remove_upload_btn, transferData.show_dropdown, transferData.dropdown_data);
+
+                generateBoxes('radio', paymentTypeArray, 'payment_type', 'transfer_upload_challan', transferData.payment_type, true);
+                showSubContainerForPaymentDetails('payment_type', 'transfer_upload_challan', 'uc', 'radio', '#fb', VALUE_TWELVE);
                 if (transferData.challan != '') {
                     $('#challan_container_for_transfer_upload_challan').hide();
                     $('#challan_name_container_for_transfer_upload_challan').show();
@@ -930,6 +952,12 @@ Transfer.listView = Backbone.View.extend({
             showError(invalidAccessValidationMessage);
             return false;
         }
+        var paymentType = $('input[name=payment_type_for_transfer_upload_challan]:checked').val();
+        if (paymentType != VALUE_ONE && paymentType != VALUE_TWO && paymentType != VALUE_THREE) {
+            $('#payment_type_for_transfer_upload_challan_1').focus();
+            validationMessageShow('transfer-uc-payment_type_for_transfer_upload_challan', onePaymentOptionValidationMessage);
+            return false;
+        }
         if ($('#challan_container_for_transfer_upload_challan').is(':visible')) {
             var sealAndStamp = $('#challan_for_transfer_upload_challan').val();
             if (sealAndStamp == '') {
@@ -944,6 +972,12 @@ Transfer.listView = Backbone.View.extend({
                 return false;
             }
         }
+        if (paymentType == VALUE_ONE || paymentType == VALUE_TWO) {
+            var returnData = checkValidationForFB(VALUE_TWELVE, 'transfer-uc', true);
+            if (!returnData) {
+                return false;
+            }
+        }
         var btnObj = $('#submit_btn_for_transfer_upload_challan');
         var ogBtnHTML = btnObj.html();
         var ogBtnOnclick = btnObj.attr('onclick');
@@ -951,6 +985,9 @@ Transfer.listView = Backbone.View.extend({
         btnObj.attr('onclick', '');
         var formData = new FormData($('#transfer_upload_challan_form')[0]);
         formData.append("csrf_token_eodbsws_admin", getTokenData()['csrf_token_eodbsws_admin']);
+        if (paymentType == VALUE_ONE || paymentType == VALUE_TWO) {
+            formData.append("fees_bifurcation_details", returnData);
+        }
         $.ajax({
             type: 'POST',
             url: 'transfer/upload_challan',
@@ -989,7 +1026,11 @@ Transfer.listView = Backbone.View.extend({
                     return false;
                 }
                 Swal.close();
-                $('#status_' + transferId).html(appStatusArray[VALUE_THREE]);
+                $('#status_' + transferId).html(paymentType == VALUE_THREE ? appStatusArray[VALUE_NINE] : appStatusArray[VALUE_THREE]);
+                if (paymentType == VALUE_THREE) {
+                    $('#confirm_payment_btn_for_app_' + transferId).show();
+                }
+                $('#total_fees_' + transferId).html(returnFees(parseData));
                 showSuccess(parseData.message);
             }
         });
@@ -1280,6 +1321,76 @@ Transfer.listView = Backbone.View.extend({
                 tmpData.module_type = VALUE_TWELVE;
                 tmpData.module_id = transferId;
                 loadQueryManagementModule(parseData, templateData, tmpData);
+            }
+        });
+    },
+    viewPayment: function (transferId) {
+        if (!transferId) {
+            showError(invalidAccessValidationMessage);
+            return false;
+        }
+        var that = this;
+        var btnObj = $('#download_fees_paid_challan_btn_' + transferId);
+        var ogBtnHTML = btnObj.html();
+        var ogBtnOnclick = btnObj.attr('onclick');
+        btnObj.html(iconSpinnerTemplate);
+        btnObj.attr('onclick', '');
+        $.ajax({
+            url: 'transfer/get_transfer_data_by_transfer_id',
+            type: 'post',
+            data: $.extend({}, {'transfer_id': transferId, 'load_fb_details': VALUE_TWO}, getTokenData()),
+            error: function (textStatus, errorThrown) {
+                generateNewCSRFToken();
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
+                if (textStatus.status === 403) {
+                    loginPage();
+                    return false;
+                }
+                if (!textStatus.statusText) {
+                    loginPage();
+                    return false;
+                }
+                showError(textStatus.statusText);
+                $('html, body').animate({scrollTop: '0px'}, 0);
+            },
+            success: function (response) {
+                btnObj.html(ogBtnHTML);
+                btnObj.attr('onclick', ogBtnOnclick);
+                if (!isJSON(response)) {
+                    loginPage();
+                    return false;
+                }
+                var parseData = JSON.parse(response);
+                setNewToken(parseData.temp_token);
+                if (parseData.success === false) {
+                    showError(parseData.message);
+                    $('html, body').animate({scrollTop: '0px'}, 0);
+                    return false;
+                }
+                var transferData = parseData.transfer_data;
+                showPopup();
+                if (transferData.payment_type == VALUE_ONE || transferData.payment_type == VALUE_THREE) {
+                    transferData.user_payment_type_text = paymentTypeArray[transferData.payment_type];
+                } else {
+                    transferData.user_payment_type_text = userPaymentTypeArray[transferData.user_payment_type] ? userPaymentTypeArray[transferData.user_payment_type] : '';
+                }
+                if (transferData.payment_type == VALUE_ONE) {
+                    transferData.utitle = 'Fees Paid Challan Copy';
+                } else if (transferData.payment_type == VALUE_TWO && transferData.user_payment_type == VALUE_ONE) {
+                    transferData.utitle = 'Demand Draft (DD) Copy';
+                }
+                transferData.module_type = VALUE_TWELVE;
+                $('#popup_container').html(transferViewPaymentTemplate(transferData));
+                loadFB(VALUE_TWELVE, parseData.fb_data, transferData.payment_type);
+                loadPH(VALUE_TWELVE, transferData.transfer_id, parseData.ph_data);
+                if (transferData.payment_type == VALUE_ONE || (transferData.payment_type == VALUE_TWO && transferData.user_payment_type == VALUE_ONE)) {
+                    if (transferData.fees_paid_challan != '') {
+                        $('#vp_container_for_transfer').show();
+                        $('#fees_paid_challan_name_href_for_transfer').attr('href', TRANSFER_DOC_PATH + transferData.fees_paid_challan);
+                        $('#fees_paid_challan_name_for_transfer').html(transferData.fees_paid_challan);
+                    }
+                }
             }
         });
     }

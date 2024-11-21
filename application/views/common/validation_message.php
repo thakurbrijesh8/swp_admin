@@ -331,6 +331,7 @@
 
     //Sub-letting Form 
     var nameofmanufactringValidationMessage = '<?php echo NAME_OF_MANUFACTRING_MESSAGE; ?>';
+    var occupancyValidationMessage = '<?php echo OCCUPANCY_MESSAGE; ?>';
 
     // Repairer Renewal Form
     var proposeChangeValidationMessage = '<?php echo PROPOSE_CHANGE_MESSAGE; ?>';
@@ -840,6 +841,6 @@
 
     var descValidationMessage = '<?php echo DESCRIPTION_MESSAGE; ?>';
     var oneFeeValidationMessage = '<?php echo ONE_FEE_MESSAGE; ?>';
-    
+
     var fromToDateValidationMessage = '<?php echo FROM_TO_DATE_MESSAGE; ?>';
 </script>

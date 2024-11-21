@@ -285,6 +285,43 @@
                             </ul>
                         <?php } ?>
                     </li>
+                <?php } if (is_admin() || is_dic_dept_user() || is_dic_dnh_dept_user() || is_view_all_district_user()) { ?>
+                    <li class="nav-item has-treeview">
+                        <a id="menu_dic" href="Javascript:void(0)" class="nav-link">
+                            <i class="nav-icon fas fa-list-alt"></i>
+                            <p>DIC DNH<i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a id="textile" href="Javascript:void(0);"
+                                   onclick="Noc.listview.listPage();" class="nav-link menu-close-click">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>NOC for Mortgage</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="textile" href="Javascript:void(0);"
+                                   onclick="Seller.listview.listPage();" class="nav-link menu-close-click">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>Seller of Plot For Lease</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="textile" href="Javascript:void(0);"
+                                   onclick="Transfer.listview.listPage();" class="nav-link menu-close-click">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>Buyer of Plot For Lease</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="textile" href="Javascript:void(0);"
+                                   onclick="Subletting.listview.listPage();" class="nav-link menu-close-click">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>Sub-Letting for Lessee</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <?php } if (is_admin() || is_pda_dept_user() || is_view_all_district_user()) { ?>
                     <li class="nav-item has-treeview">
                         <a id="menu_pda" href="Javascript:void(0)" class="nav-link">

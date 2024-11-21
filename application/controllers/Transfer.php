@@ -108,7 +108,7 @@ class Transfer extends CI_Controller {
                 echo json_encode(get_error_array($validation_message));
                 return false;
             }
-    //checklist
+            //checklist
             if ($transfer_data['request_letter'] == IS_CHECKED_YES) {
                 if ($_FILES['request_letter_upload_for_transfer']['name'] != '') {
                     $main_path = 'documents/transfer';
@@ -293,6 +293,7 @@ class Transfer extends CI_Controller {
 
     function _get_post_data_for_transfer() {
         $transfer_data = array();
+        $transfer_data['entity_establishment_type'] = get_from_post('entity_establishment_type');
         $transfer_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $transfer_data['application_date'] = get_from_post('application_date');
         $transfer_data['state'] = get_from_post('state');
@@ -403,12 +404,10 @@ class Transfer extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'transfer' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('transfer_id', $transfer_id, 'transfer', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -457,23 +456,49 @@ class Transfer extends CI_Controller {
                 return false;
             }
             $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
-            if (!is_post() || $session_user_id == NULL || !$session_user_id) {
-                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-                return false;
-            }
             $transfer_id = get_from_post('transfer_id');
-            if (!$transfer_id) {
+            if (!is_post() || $session_user_id == NULL || !$session_user_id || $transfer_id == null || !$transfer_id) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $is_fb_details = get_from_post('load_fb_details');
             $this->db->trans_start();
             $transfer_data = $this->utility_model->get_by_id_with_applicant_name('transfer_id', $transfer_id, 'transfer');
             if (empty($transfer_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_TWELVE, 'fees_bifurcation', 'module_id', $transfer_id);
+                if ($is_fb_details == VALUE_TWO) {
+                    $this->load->model('payment_model');
+                    $ph_data = $this->payment_model->get_payment_history(VALUE_TWELVE, $transfer_id);
+                }
+                if ($transfer_data['status'] != VALUE_FOUR && $transfer_data['status'] != VALUE_FIVE &&
+                        $transfer_data['status'] != VALUE_SIX && $transfer_data['status'] != VALUE_SEVEN &&
+                        $transfer_data['status'] != VALUE_EIGHT) {
+                    if ($is_fb_details == VALUE_ONE) {
+                        if ($transfer_data['status'] != VALUE_ELEVEN) {
+                            $transfer_data['show_remove_upload_btn'] = true;
+                        }
+                        $transfer_data['show_dropdown'] = true;
+                        $transfer_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_TWELVE, 'dept_fd');
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
             $success_array = get_success_array();
             $success_array['transfer_data'] = $transfer_data;
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $success_array['fb_data'] = $fb_data;
+                if ($is_fb_details == VALUE_TWO) {
+                    $success_array['ph_data'] = $ph_data;
+                }
+            }
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -530,6 +555,11 @@ class Transfer extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $payment_type = get_from_post('payment_type_for_transfer_upload_challan');
+            if ($payment_type != VALUE_ONE && $payment_type != VALUE_TWO && $payment_type != VALUE_THREE) {
+                echo json_encode(get_error_array(ONE_PAYMENT_OPTION_MESSAGE));
+                return false;
+            }
             $transfer_data = array();
             if ($_FILES['challan_for_transfer_upload_challan']['name'] != '') {
                 $main_path = 'documents/transfer';
@@ -560,9 +590,25 @@ class Transfer extends CI_Controller {
                 $transfer_data['challan_updated_date'] = date('Y-m-d H:i:s');
             }
             $transfer_data['status'] = VALUE_THREE;
+            if ($payment_type == VALUE_THREE) {
+                $transfer_data['status'] = VALUE_NINE;
+            }
+            $transfer_data['payment_type'] = $payment_type;
             $transfer_data['updated_by'] = $user_id;
             $transfer_data['updated_time'] = date('Y-m-d H:i:s');
             $this->db->trans_start();
+
+            if ($payment_type == VALUE_ONE || $payment_type == VALUE_TWO) {
+                $error_message = $this->utility_lib->update_fees_bifurcation_details(VALUE_TWELVE, $transfer_id, $user_id, $transfer_data);
+                if ($error_message != '') {
+                    echo json_encode(get_error_array($error_message));
+                    return false;
+                }
+            } else {
+                $update_data = $this->utility_lib->get_basic_delete_array($user_id);
+                $this->utility_model->update_data('module_type', VALUE_TWELVE, 'fees_bifurcation', $update_data, 'module_id', $transfer_id);
+            }
+
             $this->utility_model->update_data('transfer_id', $transfer_id, 'transfer', $transfer_data);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
@@ -619,6 +665,9 @@ class Transfer extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('transfer_id', $transfer_id, 'transfer', $update_data);
+
+            $this->utility_lib->send_sms_and_email_for_app_approve($ex_data['user_id'], VALUE_SEVEN, VALUE_TWELVE, $transfer_id);
+
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -665,6 +714,9 @@ class Transfer extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('transfer_id', $transfer_id, 'transfer', $update_data);
+
+            $this->utility_lib->send_sms_and_email_for_app_reject($ex_data['user_id'], VALUE_EIGHT, VALUE_TWELVE, $transfer_id);
+
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -714,9 +766,8 @@ class Transfer extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*
- * EOF: ./application/controller/BOCW.php
+ * EOF: ./application/controller/Transfer.php
  */

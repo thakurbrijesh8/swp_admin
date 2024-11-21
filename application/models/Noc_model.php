@@ -13,7 +13,7 @@ class Noc_model extends CI_Model {
         if ($search_status != '') {
             $this->db->where('r.status', $search_status);
         }
-        if ($search_district != '') {
+        if ($session_district != '') {
             $this->db->where('r.district', $session_district);
         }
         $this->db->limit($length, $start);

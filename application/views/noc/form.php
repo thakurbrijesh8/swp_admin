@@ -7,7 +7,7 @@
                 <div style="font-size: 16px; text-align: center; margin-top: 0px;font-weight: bold;">Application format for NOC of Mortgage rights of Government Industrial Plots</div>
             </div>
             <form role="form" id="noc_form" name="noc_form" onsubmit="return false;">
-                
+
                 <input type="hidden" id="noc_id" name="noc_id" value="{{noc_data.noc_id}}">
                 <div class="card-body">
                     <div class="row">
@@ -19,7 +19,18 @@
                             Silvassa.
                         </div>
                     </div>
-                                   <div class="row">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Entity / Establishment Type <span class="color-nic-red">*</span></label>
+                            <div class="input-group">
+                                <select id="entity_establishment_type" name="entity_establishment_type" class="form-control select2"
+                                        data-placeholder="Select Entity / Establishment Type" style="width: 100%;" onblur="checkValidation('noc', 'entity_establishment_type', entityEstablishmentTypeValidationMessage);">
+                                </select>
+                            </div>
+                            <span class="error-message error-message-noc-entity_establishment_type"></span>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-6">
                             <label>1. Name of Applicant<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -84,7 +95,7 @@
                             <div class="input-group">
                                 <select class="form-control" id="villages_for_noc_data" name="villages_for_noc_data"
                                         data-placeholder="Status !"  onchange="checkValidation('noc', 'villages_for_noc_data', villageNameValidationMessage);
-                                    getPlotData($(this), 'plot_no', 'noc_data');">
+                                                getPlotData($(this), 'plot_no', 'noc_data');">
                                     <option value="">Select Village</option>
                                 </select>
                             </div>
@@ -97,7 +108,7 @@
                             <div class="input-group">
                                 <select class="form-control" id="plot_no_for_noc_data" name="plot_no_for_noc_data"
                                         data-placeholder="Status !" onchange="checkValidation('noc', 'plot_no_for_noc_data', plotnoValidationMessage);
-                                    getAreaData($(this));">
+                                                getAreaData($(this));">
                                     <option value="">Select Plot NO</option>
                                 </select>
                             </div>
@@ -111,28 +122,28 @@
                             </div>
                             <span class="error-message error-message-noc-survey_no"></span>
                         </div>
-                       
-                       
+
+
                     </div>
                     <div class="row">
-                         <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label>9. Admeasuring in square metre <span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="govt_industrial_estate_area" name="govt_industrial_estate_area" class="form-control" placeholder="Enter Admeasuring square metre !"  maxlength="100" value="{{noc_data.govt_industrial_estate_area}}" readonly="">
                             </div>
                             <span class="error-message error-message-noc-govt_industrial_estate_area"></span>
                         </div>
-                    <!--  <div class="form-group col-sm-6">
-                            
-                              <label>10. Government Industrial Estate<span class="color-nic-red">*</span></label>
-                            <div class="input-group">
-                                <input type="text" id="admeasuring_square_metre" name="admeasuring_square_metre" class="form-control" placeholder="Enter  Government Industrial Estate!"  maxlength="100" onblur="checkValidation('noc', 'admeasuring_square_metre', admeasuringValidationMessage);" value="{{noc_data.admeasuring_square_metre}}">
-                            </div>
-                            <span class="error-message error-message-noc-admeasuring_square_metre"></span>
-                        </div> -->
-                         
+                        <!--  <div class="form-group col-sm-6">
+                                
+                                  <label>10. Government Industrial Estate<span class="color-nic-red">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="admeasuring_square_metre" name="admeasuring_square_metre" class="form-control" placeholder="Enter  Government Industrial Estate!"  maxlength="100" onblur="checkValidation('noc', 'admeasuring_square_metre', admeasuringValidationMessage);" value="{{noc_data.admeasuring_square_metre}}">
+                                </div>
+                                <span class="error-message error-message-noc-admeasuring_square_metre"></span>
+                            </div> -->
 
-                        
+
+
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
@@ -142,7 +153,7 @@
                             </div>
                             <span class="error-message error-message-noc-loan_amount"></span>
                         </div>
-                        
+
                         <div class="form-group col-sm-6">
                             <label>12. Purpose Of Loan<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -151,7 +162,7 @@
                             <span class="error-message error-message-noc-purpose_of_lease"></span>
                         </div>
                     </div>
-                                       <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
                             <label>13. Bank Account Number<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -209,7 +220,7 @@
                             <span class="error-message error-message-noc-to_date"></span>
                         </div>
                     </div>
-               
+
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>18. Reason for obtaining loan from Bank.<span style="color: red;">* </span> &emsp;</label>
@@ -217,63 +228,63 @@
                             <input type="radio" id="reason_of_loan_from_bank_no" name="reason_of_loan_from_bank" value="{{IS_CHECKED_NO}}"> No
                             <br><span class="error-message error-message-noc-reason_of_loan_from_bank"></span>
                         </div>
-                    <div class=" reason_of_loan_from_bank_div" style="display: none;">
-                        <div class="form-group col-sm-12 " id="reason_of_loan_doc_container_for_noc">
-                            <label>18.1 Document from Bank. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
-                            <input type="file" id="reason_of_loan_doc_for_noc" name="reason_of_loan_doc_for_noc"
-                                   accept="image/pdf">
-                             <div class="error-message error-message-noc-reason_of_loan_doc_for_noc"></div>
-                        </div>
+                        <div class=" reason_of_loan_from_bank_div" style="display: none;">
+                            <div class="form-group col-sm-12 " id="reason_of_loan_doc_container_for_noc">
+                                <label>18.1 Document from Bank. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
+                                <input type="file" id="reason_of_loan_doc_for_noc" name="reason_of_loan_doc_for_noc"
+                                       accept="image/pdf">
+                                <div class="error-message error-message-noc-reason_of_loan_doc_for_noc"></div>
+                            </div>
 
-                     <div class="form-group col-sm-12" id="reason_of_loan_doc_name_container_for_noc" style="display: none;">
-                            <label>18.1 Document from Bank. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
-                            <a id="reason_of_loan_doc_name_download" target="_blank"><label id="reason_of_loan_doc_name_image" class="btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <div class="form-group col-sm-12" id="reason_of_loan_doc_name_container_for_noc" style="display: none;">
+                                <label>18.1 Document from Bank. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
+                                <a id="reason_of_loan_doc_name_download" target="_blank"><label id="reason_of_loan_doc_name_image" class="btn btn-sm btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            </div>
                         </div>
                     </div>
-                  </div>
-                  <div class="row">
-                      <div class="form-group col-sm-12">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
                             <label>19. Request original Letter from Bank. <span style="color: red;">* </span> &emsp;</label>
                             <input type="radio" id="request_letter_of_bank_yes" name="request_letter_of_bank" value="{{IS_CHECKED_YES}}"> Yes &emsp; 
                             <input type="radio" id="request_letter_of_bank_no" name="request_letter_of_bank" value="{{IS_CHECKED_NO}}"> No
                             <br><span class="error-message error-message-noc-request_letter_of_bank"></span>
                         </div>
-                  <div class=" request_letter_doc_div" style="display: none;">
-                        <div class="form-group col-sm-12" id="request_letter_doc_container_for_noc">
-                            <label>19.1 Original Letter. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
-                            <input type="file" id="request_letter_doc_for_noc" name="request_letter_doc_for_noc"
-                                   accept="image/pdf">
-                             <div class="error-message error-message-noc-request_letter_doc_for_noc"></div>
-                        </div>
+                        <div class=" request_letter_doc_div" style="display: none;">
+                            <div class="form-group col-sm-12" id="request_letter_doc_container_for_noc">
+                                <label>19.1 Original Letter. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
+                                <input type="file" id="request_letter_doc_for_noc" name="request_letter_doc_for_noc"
+                                       accept="image/pdf">
+                                <div class="error-message error-message-noc-request_letter_doc_for_noc"></div>
+                            </div>
 
-                     <div class="form-group col-sm-12" id="request_letter_doc_name_container_for_noc" style="display: none;">
-                            <label>19.1 Original Letter. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
-                            <a id="request_letter_doc_name_download" target="_blank"><label id="request_letter_doc_name_image" class="btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
-                        </div>
-                     </div>   
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-12" id="request_letter_doc_name_container_for_noc" style="display: none;">
+                                <label>19.1 Original Letter. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
+                                <a id="request_letter_doc_name_download" target="_blank"><label id="request_letter_doc_name_image" class="btn btn-sm btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
                             <label>20. Valid authorization to sign on behalf of Lessee. <span style="color: red;">* </span> &emsp;</label>
                             <input type="radio" id="behalf_of_lessee_yes" name="behalf_of_lessee" value="{{IS_CHECKED_YES}}"> Yes &emsp; 
                             <input type="radio" id="behalf_of_lessee_no" name="behalf_of_lessee" value="{{IS_CHECKED_NO}}"> No
                             <br><span class="error-message error-message-noc-behalf_of_lessee"></span>
                         </div>
-                  <div class=" behalf_of_lessee_div" style="display: none;">
-                        <div class="form-group col-sm-12" id="behalf_of_lessee_doc_container_for_noc">
-                            <label>20.1 Behalf of Lessee. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
-                            <input type="file" id="behalf_of_lessee_doc_for_noc" name="behalf_of_lessee_doc_for_noc"
-                                   accept="image/pdf">
-                             <div class="error-message error-message-noc-behalf_of_lessee_doc_for_noc"></div>
-                        </div>
+                        <div class=" behalf_of_lessee_div" style="display: none;">
+                            <div class="form-group col-sm-12" id="behalf_of_lessee_doc_container_for_noc">
+                                <label>20.1 Behalf of Lessee. <span style="color: red;">* <br>(Maximum File Size: 2MB)(Upload pdf Only)</span></label><br>
+                                <input type="file" id="behalf_of_lessee_doc_for_noc" name="behalf_of_lessee_doc_for_noc"
+                                       accept="image/pdf">
+                                <div class="error-message error-message-noc-behalf_of_lessee_doc_for_noc"></div>
+                            </div>
 
-                     <div class="form-group col-sm-12" id="behalf_of_lessee_doc_name_container_for_noc" style="display: none;">
-                            <label>20.1 Behalf of Lessee. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
-                            <a id="behalf_of_lessee_doc_name_download" target="_blank"><label id="behalf_of_lessee_doc_name_image" class="btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
-                        </div>
-                      </div>  
-                  </div>
-                   <div class="row">
+                            <div class="form-group col-sm-12" id="behalf_of_lessee_doc_name_container_for_noc" style="display: none;">
+                                <label>20.1 Behalf of Lessee. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
+                                <a id="behalf_of_lessee_doc_name_download" target="_blank"><label id="behalf_of_lessee_doc_name_image" class="btn btn-sm btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>21. No Due Certificate for Public Undertaking / Paid Challan. <span style="color: red;">* </span> &emsp;</label>
                             <input type="radio" id="public_undertaking_yes" name="public_undertaking" value="{{IS_CHECKED_YES}}"> Yes &emsp; 
@@ -290,13 +301,13 @@
 
                             <div class="form-group col-sm-12" id="public_undertaking_doc_name_container_for_noc" style="display: none;">
                                 <label>21.1 Certificate for Public Undertaking. <span style="color: red;">*<br> (Maximum File Size: 2MB)(Upload pdf Only) <span style="color: red;">*</span></label><br>
-                                <a id="public_undertaking_doc_name_download" target="_blank"><label id="public_undertaking_doc_name_image" class="btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
-                                
+                                <a id="public_undertaking_doc_name_download" target="_blank"><label id="public_undertaking_doc_name_image" class="btn btn-sm btn-nic-blue f-w-n" style="border: 2px solid black;">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+
                             </div>
                         </div>  
                     </div>
 
-               
+
                     <div class="row">
                         <div class="col-12 m-b-5px" id="seal_and_stamp_container_for_noc">
                             <label>22.Signature<span style="color: red;">* (Maximum File Size: 1MB)(Upload jpg, png, jpeg ,jfif Only)</span></label><br>

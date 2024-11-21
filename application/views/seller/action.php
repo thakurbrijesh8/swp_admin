@@ -1,6 +1,6 @@
 <div class="text-center">
     {{#if show_edit_btn}}
-    <button type="button" class="btn btn-sm btn-success" onclick="Seller.listview.editOrViewSeller($(this),'{{seller_id}}', true);"
+    <button type="button" class="btn btn-sm btn-success" id="edit_btn_{{seller_id}}" onclick="Seller.listview.editOrViewSeller($(this),'{{seller_id}}', true);"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-pencil-alt" style="margin-right: 2px;"></i> Edit</button>
     {{/if}}
@@ -18,14 +18,19 @@
     {{#if show_upload_challan_btn}}
     <button type="button" class="btn btn-sm btn-info" id="upload_challan_btn_{{seller_id}}"
             onclick="Seller.listview.openUploadChallan('{{seller_id}}');"
-            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;"><i class="fas fa-cloud-upload-alt" style="margin-right: 2px;"></i> Send Challan</button>
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;"><i class="fas fa-cloud-upload-alt" style="margin-right: 2px;"></i> Request For Payment</button>
+    {{/if}}
+    {{#if show_withdraw_application_btn}}
+    <button type="button" class="btn btn-sm btn-secondary" id="withdraw_application_btn_{{seller_id}}"
+            onclick="askForWithdrawApplication($(this), VALUE_EIGHTEEN,'{{seller_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-undo" style="margin-right: 2px;"></i> Withdraw</button>
     {{/if}}
     {{#if show_download_fees_paid_challan_btn}}
-    <a class="btn btn-sm btn-success color-nic-white" target="_blank"
-       href="{{SELLER_DOC_PATH}}{{fees_paid_challan}}" id="download_fees_paid_challan_btn_{{seller_id}}"
-       style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
-        <i class="fas fa-cloud-download-alt" style="margin-right: 2px;"></i> Fees Paid Challan
-    </a>
+    <button type="button" class="btn btn-sm btn-success" id="download_fees_paid_challan_btn_{{seller_id}}"
+            onclick="Seller.listview.viewPayment('{{seller_id}}');"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-info-circle" style="margin-right: 2px;"></i> View Payment</button>
     {{/if}}
     <button type="button" class="btn btn-sm btn-warning" id="confirm_payment_btn_for_app_{{seller_id}}"
             onclick="askForConfirmPayment('{{module_type}}', '{{seller_id}}');"
@@ -42,5 +47,10 @@
     <button type="button" class="btn btn-sm btn-nic-blue" onclick="Seller.listview.generateCertificate('{{seller_id}}');"
             style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
         <i class="fas fa-certificate" style="margin-right: 2px;"></i> Download Certificate</button>
+    {{/if}}
+    {{#if show_fr_btn}}
+    <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackRating($(this), VALUE_EIGHTEEN,'{{seller_id}}')"
+            style="padding: 2px 7px; margin-top: 1px; margin-bottom: 2px;">
+        <i class="fas fa-star" style="margin-right: 2px;"></i> View Feedback / Rating</button>
     {{/if}}
 </div>

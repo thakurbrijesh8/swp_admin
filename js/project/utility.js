@@ -2604,7 +2604,8 @@ function askForWithdrawApplication(btnObj, moduleType, moduleId) {
             } else if (moduleType == VALUE_THIRTYEIGHT) {
                 waData.title = 'Name of the Firm';
                 waData.establishment_name = waData.name_of_firm;
-            } else if (moduleType == VALUE_FIVE || moduleType == VALUE_ONE || moduleType == VALUE_FOURTYEIGHT ||
+            } else if (moduleType == VALUE_FIVE || moduleType == VALUE_ONE || moduleType == VALUE_ELEVEN || 
+                    moduleType == VALUE_TWELVE || moduleType == VALUE_THIRTEEN || moduleType == VALUE_EIGHTEEN || moduleType == VALUE_FOURTYEIGHT ||
                     moduleType == VALUE_FIFTY || moduleType == VALUE_EIGHT || moduleType == VALUE_FOURTY ||
                     moduleType == VALUE_TWENTYSEVEN || moduleType == VALUE_SIXTYONE || moduleType == VALUE_TWENTYFIVE) {
                 waData.title = 'Name of the Applicant';

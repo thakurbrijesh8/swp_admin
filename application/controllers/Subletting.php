@@ -452,6 +452,7 @@ class Subletting extends CI_Controller {
 
     function _get_post_data_for_subletting() {
         $subletting_data = array();
+        $subletting_data['entity_establishment_type'] = get_from_post('entity_establishment_type');
         $subletting_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $subletting_data['state'] = get_from_post('state');
         $subletting_data['district'] = get_from_post('district');
@@ -477,6 +478,9 @@ class Subletting extends CI_Controller {
     }
 
     function _check_validation_for_subletting($subletting_data) {
+        if (!$subletting_data['entity_establishment_type']) {
+            return ENTITY_ESTABLISHMENT_TYPE_MESSAGE;
+        }
         if (!$subletting_data['name_of_applicant']) {
             return APPLICANT_NAME_MESSAGE;
         }
@@ -655,23 +659,49 @@ class Subletting extends CI_Controller {
                 return false;
             }
             $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
-            if (!is_post() || $session_user_id == NULL || !$session_user_id) {
-                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-                return false;
-            }
             $subletting_id = get_from_post('subletting_id');
-            if (!$subletting_id) {
+            if (!is_post() || $session_user_id == NULL || !$session_user_id || $subletting_id == null || !$subletting_id) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $is_fb_details = get_from_post('load_fb_details');
             $this->db->trans_start();
             $subletting_data = $this->utility_model->get_by_id_with_applicant_name('subletting_id', $subletting_id, 'sub_letting');
             if (empty($subletting_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTEEN, 'fees_bifurcation', 'module_id', $subletting_id);
+                if ($is_fb_details == VALUE_TWO) {
+                    $this->load->model('payment_model');
+                    $ph_data = $this->payment_model->get_payment_history(VALUE_THIRTEEN, $subletting_id);
+                }
+                if ($subletting_data['status'] != VALUE_FOUR && $subletting_data['status'] != VALUE_FIVE &&
+                        $subletting_data['status'] != VALUE_SIX && $subletting_data['status'] != VALUE_SEVEN &&
+                        $subletting_data['status'] != VALUE_EIGHT) {
+                    if ($is_fb_details == VALUE_ONE) {
+                        if ($subletting_data['status'] != VALUE_ELEVEN) {
+                            $subletting_data['show_remove_upload_btn'] = true;
+                        }
+                        $subletting_data['show_dropdown'] = true;
+                        $subletting_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_THIRTEEN, 'dept_fd');
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
             $success_array = get_success_array();
             $success_array['subletting_data'] = $subletting_data;
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $success_array['fb_data'] = $fb_data;
+                if ($is_fb_details == VALUE_TWO) {
+                    $success_array['ph_data'] = $ph_data;
+                }
+            }
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -728,6 +758,11 @@ class Subletting extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $payment_type = get_from_post('payment_type_for_subletting_upload_challan');
+            if ($payment_type != VALUE_ONE && $payment_type != VALUE_TWO && $payment_type != VALUE_THREE) {
+                echo json_encode(get_error_array(ONE_PAYMENT_OPTION_MESSAGE));
+                return false;
+            }
             $subletting_data = array();
             if ($_FILES['challan_for_subletting_upload_challan']['name'] != '') {
                 $main_path = 'documents/subletting';
@@ -758,9 +793,25 @@ class Subletting extends CI_Controller {
                 $subletting_data['challan_updated_date'] = date('Y-m-d H:i:s');
             }
             $subletting_data['status'] = VALUE_THREE;
+            if ($payment_type == VALUE_THREE) {
+                $subletting_data['status'] = VALUE_NINE;
+            }
+            $subletting_data['payment_type'] = $payment_type;
             $subletting_data['updated_by'] = $user_id;
             $subletting_data['updated_time'] = date('Y-m-d H:i:s');
             $this->db->trans_start();
+            
+            if ($payment_type == VALUE_ONE || $payment_type == VALUE_TWO) {
+                $error_message = $this->utility_lib->update_fees_bifurcation_details(VALUE_THIRTEEN, $subletting_id, $user_id, $subletting_data);
+                if ($error_message != '') {
+                    echo json_encode(get_error_array($error_message));
+                    return false;
+                }
+            } else {
+                $update_data = $this->utility_lib->get_basic_delete_array($user_id);
+                $this->utility_model->update_data('module_type', VALUE_THIRTEEN, 'fees_bifurcation', $update_data, 'module_id', $subletting_id);
+            }
+            
             $this->utility_model->update_data('subletting_id', $subletting_id, 'sub_letting', $subletting_data);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
@@ -812,6 +863,9 @@ class Subletting extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('subletting_id', $subletting_id, 'sub_letting', $update_data);
+           
+            $this->utility_lib->send_sms_and_email_for_app_approve($ex_data['user_id'], VALUE_SEVEN, VALUE_THIRTEEN, $subletting_id);
+            
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -858,6 +912,9 @@ class Subletting extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('subletting_id', $subletting_id, 'sub_letting', $update_data);
+           
+            $this->utility_lib->send_sms_and_email_for_app_reject($ex_data['user_id'], VALUE_EIGHT, VALUE_THIRTEEN, $subletting_id);
+            
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -907,9 +964,8 @@ class Subletting extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*
- * EOF: ./application/controller/BOCW.php
+ * EOF: ./application/controller/Subletting.php
  */

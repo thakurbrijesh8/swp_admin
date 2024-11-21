@@ -71,5 +71,5 @@ class Seller_model extends CI_Model {
 }
 
 /*
- * EOF: ./application/models/BOCW_model.php
+ * EOF: ./application/models/Seller_model.php
  */

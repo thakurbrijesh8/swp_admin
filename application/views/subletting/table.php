@@ -6,6 +6,7 @@
                     <tr class="bg-light-gray">
                         <th class="text-center" style="width: 30px;">No.</th>
                         <th class="text-center" style="width: 100px;">Application Number</th>
+                        <th class="text-center" style="width: 30px;">Entity / Establishment Type</th>
                         <th class="text-center" style="min-width: 120px;">Applicant Name</th>
                         <th class="text-center" style="min-width: 120px;">Name</th>
                         <th class="text-center" style="min-width: 120px;">Plot No</th>
@@ -16,7 +17,7 @@
                         <th class="text-center" style="width: 50px;">Action</th>
                     </tr>
                     <tr>
-                        <th colspan="7"></th>
+                        <th colspan="8"></th>
                         <th>
                             <select id="status_for_subletting_list" class="form-control"
                                     data-placeholder="Status !">

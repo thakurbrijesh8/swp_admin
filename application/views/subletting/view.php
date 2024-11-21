@@ -12,7 +12,7 @@
                 <input type="hidden" id="subletting_id" name="subletting_id" value="{{subletting_id}}">
                 <div class="card-body">
                     <div class="row">
-                         <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6">
                             To,<br>
                             The General Manager,<br>
                             District Industries Centre,<br>
@@ -21,7 +21,17 @@
 
                         </div>
                     </div>
-         <div class="row">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Entity / Establishment Type <span class="color-nic-red">*</span></label>
+                            <div class="input-group">
+                                <select id="entity_establishment_type" name="entity_establishment_type" class="form-control select2"
+                                        data-placeholder="Select Entity / Establishment Type" style="width: 100%;" disabled="">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-6">
                             <label>1. Name of Sub-letting Applicant<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -31,7 +41,7 @@
                             <span class="error-message error-message-subletting-name_of_applicant"></span>
                         </div>
                         <div class="form-group col-sm-6">
-                              <label>2. Date of Application<span style="color: red;">*</span></label>
+                            <label>2. Date of Application<span style="color: red;">*</span></label>
                             <div class="input-group">
                                 <input type="text" class= "form-control" placeholder="dd-mm-yyyy"
                                        value="{{application_date}}" readonly="">
@@ -40,60 +50,60 @@
                                 </div>
                             </div>
                             <span class="error-message error-message-subletting-application_date"></span>
-                            
+
                         </div>
                     </div>
-                         <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
                             <label>3. State / UT<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="state" name="state" class="form-control" placeholder="State. !"  value="{{state}}" disabled="" >
                             </div>
                             <span class="error-message error-message-subletting-state"></span>
-                           
+
                         </div>
-                    
+
                         <div class="form-group col-sm-6">
-                             <label>4. District <span class="color-nic-red">*</span></label>
+                            <label>4. District <span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="district" name="district" class="form-control" placeholder="District. !"  value="{{district}}" disabled="">
                             </div>
                             <span class="error-message error-message-subletting-district"></span>
-                           
+
                         </div>
                     </div>
-                         <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
-                             <label>5. Taluka<span class="color-nic-red">*</span></label>
+                            <label>5. Taluka<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="taluka" name="taluka" class="form-control" placeholder="Taluka !"
                                        value="{{taluka}}" disabled="">
                             </div>
                             <span class="error-message error-message-subletting-taluka"></span>
-                            
+
                         </div>
 
 
-                         <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label>6. Village<span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                           <select class="form-control" id="villages_for_noc_data" name="villages_for_noc_data"
-                                    data-placeholder="Status !" onblur="checkValidation('subletting', 'villages_for_noc_data', villageNameValidationMessage); getPlotData($(this), 'plot_no', 'subletting');" disabled="true">
+                                <select class="form-control" id="villages_for_noc_data" name="villages_for_noc_data"
+                                        data-placeholder="Status !" onblur="checkValidation('subletting', 'villages_for_noc_data', villageNameValidationMessage); getPlotData($(this), 'plot_no', 'subletting');" disabled="true">
                                     <option value="">Select Village</option>
                                 </select>
                             </div>
                             <span class="error-message error-message-noc-villages_for_noc_data"></span>
-                            </div>
                         </div>
-                   
-                    
-                      <div class="row">
-                    <div class="form-group col-sm-6">
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
                             <label>7. Plot No.<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <select class="form-control" id="plot_no_for_subletting_data" name="plot_no_for_subletting_data"
                                         data-placeholder="Status !" onchange="checkValidation('subletting', 'plot_no_for_subletting_data', plotnoValidationMessage);
-                                    getAreaData($(this));" disabled="">
+                                                getAreaData($(this));" disabled="">
                                     <option value="">Select Plot NO</option>
                                 </select>
                             </div>
@@ -106,19 +116,19 @@
                             </div>
                             <span class="error-message error-message-subletting-govt_industrial_estate_area"></span>
                         </div>
-                    
+
                     </div>
 
-      <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-6">
-                              <label>9. Survey No.<span class="color-nic-red">*</span></label>
+                            <label>9. Survey No.<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="survey_no" name="survey_no" class="form-control" readonly="" value="{{survey_no}}">
                             </div>
                             <span class="error-message error-message-subletting-survey_no"></span>
                         </div>
-                           
-                    
+
+
                         <div class="form-group col-sm-6">
                             <label>10. Government Industrial Estate<span class="color-nic-red">*</span></label>
                             <div class="input-group">
@@ -126,10 +136,10 @@
                             </div>
                             <span class="error-message error-message-subletting-admeasuring"></span>
                         </div>
-                        </div>
-                   
+                    </div>
+
                     <div class="row">
-                         <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label>11. Name of  Manufacturing/Servicing  Establish<span class="color-nic-red">*</span></label>
                             <div class="input-group">
                                 <input type="text" id="name_of_manufacturing" name="name_of_manufacturing" class="form-control" placeholder="Name of  Manufacturing/Servicing  Establish. ! !"  value="{{name_of_manufacturing}}" disabled="">
@@ -147,7 +157,7 @@
                         </div> -->
                     </div>
 
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>12. Request letter with reason to sub-let the premises. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="request_letter_yes" name="request_letter"  
@@ -157,16 +167,16 @@
                         </div>
                         <div class="col-12 m-b-5px" id="request_letter_premises_container_for_subletting">
                             <label>12.1 Request letter of sub-let premises.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="request_letter_premises_name_container_for_subletting" style="display: none;">
                             <label>12.1 Request letter of sub-let premises. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="request_letter_premises_download"><label id="request_letter_premises_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="request_letter_premises_download"><label id="request_letter_premises_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
 
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>13. Original 7 X 12 extract. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="original_extract_yes" name="original_extract"  
@@ -176,15 +186,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="original_extract_certificate_container_for_subletting">
                             <label>13.1 Original 7 X 12 extract.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="original_extract_certificate_name_container_for_subletting" style="display: none;">
                             <label>13.1 Original 7 X 12 extract. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="original_extract_certificate_download"><label id="original_extract_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="original_extract_certificate_download"><label id="original_extract_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>14. No Due Certificate from Mamlatdar/Patel Talati regarding land revenue. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="land_revenue_yes" name="land_revenue"  
@@ -194,15 +204,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="land_revenue_certificate_container_for_subletting">
                             <label>14.1 No Due Certificate regarding land revenue.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="land_revenue_certificate_name_container_for_subletting" style="display: none;">
                             <label>14.1 No Due Certificate regarding land revenue. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="land_revenue_certificate_download"><label id="land_revenue_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="land_revenue_certificate_download"><label id="land_revenue_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>15. No Due Certificate from Electricity Department/last bill paid copy. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="electricity_bill_yes" name="electricity_bill"  
@@ -212,15 +222,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="electricity_bill_certificate_container_for_subletting">
                             <label>15.1 No Due Certificate from Electricity Department.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="electricity_bill_certificate_name_container_for_subletting" style="display: none;">
                             <label>15.1 No Due Certificate from Electricity Department. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="electricity_bill_certificate_download"><label id="electricity_bill_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="electricity_bill_certificate_download"><label id="electricity_bill_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>16. No Dues Certificate from Banks/Financial Institution/Bank regarding loan. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="bank_loan_yes" name="bank_loan"  
@@ -230,15 +240,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="bank_loan_certificate_container_for_subletting">
                             <label>16.1 No Dues Certificate from Banks regarding loan.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="bank_loan_certificate_name_container_for_subletting" style="display: none;">
                             <label>16.1 No Dues Certificate from Banks regarding loan. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="bank_loan_certificate_download"><label id="bank_loan_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="bank_loan_certificate_download"><label id="bank_loan_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>17. Panchayat tax receipt/No Dues Certificate from group Gram Panchayat/Municipality   regarding panchayat tax. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="panchayat_tax_yes" name="panchayat_tax"  
@@ -248,15 +258,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="panchayat_tax_certificate_container_for_subletting">
                             <label>17.1 No Dues Certificate from group Gram Panchayat regarding panchayat tax.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="panchayat_tax_certificate_name_container_for_subletting" style="display: none;">
                             <label>17.1 No Dues Certificate from group Gram Panchayat regarding panchayat tax. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="panchayat_tax_certificate_download"><label id="panchayat_tax_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="panchayat_tax_certificate_download"><label id="panchayat_tax_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>18. Challan of lease rent from Lessee. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="challan_of_lease_yes" name="challan_of_lease"  
@@ -266,15 +276,15 @@
                         </div>
                         <div class="col-12 m-b-5px" id="challan_of_lease_rent_container_for_subletting">
                             <label>18.1 Challan of lease.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="challan_of_lease_rent_name_container_for_subletting" style="display: none;">
                             <label>18.1 Challan of lease. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="challan_of_lease_rent_download"><label id="challan_of_lease_rent_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="challan_of_lease_rent_download"><label id="challan_of_lease_rent_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
-                     <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>19. Occupancy Certificate, if there is factory building. <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="occupancy_yes" name="occupancy"  
@@ -284,12 +294,12 @@
                         </div>
                         <div class="col-12 m-b-5px" id="occupancy_certificate_container_for_subletting">
                             <label>19.1 Occupancy Certificate.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="occupancy_certificate_name_container_for_subletting" style="display: none;">
                             <label>19.1 Occupancy Certificate. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="occupancy_certificate_download"><label id="occupancy_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="occupancy_certificate_download"><label id="occupancy_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
                     <div class="row">
@@ -302,16 +312,16 @@
                         </div>
                         <div class="col-12 m-b-5px" id="central_excise_certificate_container_for_subletting">
                             <label>20.1 No Due Certificate from Central Excise.
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                            <div class="error-message error-message-subletting-application_form_for_subletting"></div>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                <div class="error-message error-message-subletting-application_form_for_subletting"></div>
                         </div>
                         <div class="form-group col-sm-12" id="central_excise_certificate_name_container_for_subletting" style="display: none;">
                             <label>20.1 No Due Certificate from Central Excise.<span style="color: red;">* </label><br>
-                            <a target="_blank" id="central_excise_certificate_download"><label id="central_excise_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
+                            <a target="_blank" id="central_excise_certificate_download"><label id="central_excise_certificate_name_image_for_subletting" style="border: 2px solid black;" class="btn btn-sm btn-nic-blue f-w-n">{{VIEW_UPLODED_DOCUMENT}}</label></a>
                         </div>
                     </div>
 
-                          <div class="row">
+                    <div class="row">
                         <div class="form-group col-sm-12">
                             <label>21. Valid authorization to sign on behalf of Lessee.  <span style="color: red;">* </span>&emsp;</label>
                             <input type="radio" id="authorization_sign_yes" name="authorization_sign"  
@@ -321,30 +331,30 @@
                         </div>
                         <div class="col-12 m-b-5px" id="authorization_sign_lessee_container_for_subletting">
                             <label>21.1  Sign on behalf of Lessee. 
-                            <label class="f-w-n">Document Not Uploaded</label><br>
+                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                </div>
+                                <div class="form-group col-sm-12" id="authorization_sign_lessee_name_container_for_subletting" style="display: none;">
+                                    <label>21.1  Sign on behalf of Lessee. <span style="color: red;">* </label><br>
+                                    <a target="_blank" id="authorization_sign_lessee_download">
+                                        <img id="authorization_sign_lessee_name_image_for_subletting" style="width: 250px; height: 250px; border: 2px solid blue;">
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 m-b-5px" id="seal_and_stamp_container_for_subletting_view">
+                                                <label>22. Signature <span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br>
+                                                <label class="f-w-n">Document Not Uploaded</label><br>
+                                            </div>
+                                            <div class="form-group col-sm-12" id="seal_and_stamp_name_container_for_subletting_view" style="display: none;">
+                                                <label>22. Signature <span style="color: red;">*</label><br>
+                                                <a id="seal_and_stamp_download" target="_blank"><img id="seal_and_stamp_name_image_for_subletting_view" style="width: 250px; height: 250px; border: 2px solid blue;"></a>
+                                            </div>
+                                        </div>
+                                        <hr class="m-b-1rem"> 
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="Subletting.listview.loadSublettingData();"><i class="fas fa-times"></i> Close</button>
+                                        </div>
+                                </div>
+                                </form>
                         </div>
-                        <div class="form-group col-sm-12" id="authorization_sign_lessee_name_container_for_subletting" style="display: none;">
-                            <label>21.1  Sign on behalf of Lessee. <span style="color: red;">* </label><br>
-                            <a target="_blank" id="authorization_sign_lessee_download">
-                                <img id="authorization_sign_lessee_name_image_for_subletting" style="width: 250px; height: 250px; border: 2px solid blue;">
-                        </div>
-                    </div>
-                   <div class="row">
-                        <div class="col-12 m-b-5px" id="seal_and_stamp_container_for_subletting_view">
-                            <label>22. Signature <span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br>
-                            <label class="f-w-n">Document Not Uploaded</label><br>
-                        </div>
-                        <div class="form-group col-sm-12" id="seal_and_stamp_name_container_for_subletting_view" style="display: none;">
-                            <label>22. Signature <span style="color: red;">*</label><br>
-                            <a id="seal_and_stamp_download" target="_blank"><img id="seal_and_stamp_name_image_for_subletting_view" style="width: 250px; height: 250px; border: 2px solid blue;"></a>
-                        </div>
-                    </div>
-                    <hr class="m-b-1rem"> 
-                    <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-danger" onclick="Subletting.listview.loadSublettingData();"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>

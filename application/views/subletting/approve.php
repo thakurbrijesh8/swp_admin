@@ -17,12 +17,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-sm-12">
-                <label>Complete Address of Registered Office <span style="color: red;">*</span></label>
-                <input type="text" class="form-control" placeholder="Complete Address of Registered Office !"
-                       value="{{location_of_factory}}" readonly="">
-            </div>
+        <div class="form-group col-sm-12">
+            <label>Name of Manufacturing/Servicing Establish  <span style="color: red;">*</span></label>
+            <input type="text" class="form-control" placeholder="Name of Manufacturing/Servicing Establish  !"
+                   value="{{name_of_manufacturing}}" readonly="">
         </div>
+    </div>
         <div class="row">
             <div class="form-group col-sm-6">
                 <label>Registration No. <span style="color: red;">*</span></label>

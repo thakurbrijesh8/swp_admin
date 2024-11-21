@@ -30,7 +30,7 @@ class Seller extends CI_Controller {
             $start = get_from_post('start');
             $length = get_from_post('length');
             $this->db->trans_start();
-            $success_array['seller_data'] = $this->seller_model->get_all_seller_list($start, $length, $search_applicant_name, $session_district, $search_status);
+            $success_array['seller_data'] = $this->seller_model->get_all_seller_list($start, $length, $session_district, $search_applicant_name, $search_status);
             $success_array['recordsTotal'] = $this->seller_model->get_total_count_of_records();
             if ($search_applicant_name != '' || $search_status != '') {
                 $success_array['recordsFiltered'] = $this->seller_model->get_filter_count_of_records($session_district, $search_applicant_name, $search_status);
@@ -170,6 +170,7 @@ class Seller extends CI_Controller {
 
     function _get_post_data_for_seller() {
         $seller_data = array();
+        $seller_data['entity_establishment_type'] = get_from_post('entity_establishment_type');
         $seller_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $seller_data['application_date'] = get_from_post('application_date');
         $seller_data['state'] = get_from_post('state');
@@ -279,12 +280,10 @@ class Seller extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'seller' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('seller_id', $seller_id, 'lease_seller', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -333,23 +332,49 @@ class Seller extends CI_Controller {
                 return false;
             }
             $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
-            if (!is_post() || $session_user_id == NULL || !$session_user_id) {
-                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-                return false;
-            }
             $seller_id = get_from_post('seller_id');
-            if (!$seller_id) {
+            if (!is_post() || $session_user_id == NULL || !$session_user_id || $seller_id == null || !$seller_id) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $is_fb_details = get_from_post('load_fb_details');
             $this->db->trans_start();
             $seller_data = $this->utility_model->get_by_id_with_applicant_name('seller_id', $seller_id, 'lease_seller');
             if (empty($seller_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_EIGHTEEN, 'fees_bifurcation', 'module_id', $seller_id);
+                if ($is_fb_details == VALUE_TWO) {
+                    $this->load->model('payment_model');
+                    $ph_data = $this->payment_model->get_payment_history(VALUE_EIGHTEEN, $seller_id);
+                }
+                if ($seller_data['status'] != VALUE_FOUR && $seller_data['status'] != VALUE_FIVE &&
+                        $seller_data['status'] != VALUE_SIX && $seller_data['status'] != VALUE_SEVEN &&
+                        $seller_data['status'] != VALUE_EIGHT) {
+                    if ($is_fb_details == VALUE_ONE) {
+                        if ($seller_data['status'] != VALUE_ELEVEN) {
+                            $seller_data['show_remove_upload_btn'] = true;
+                        }
+                        $seller_data['show_dropdown'] = true;
+                        $seller_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_EIGHTEEN, 'dept_fd');
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
             $success_array = get_success_array();
             $success_array['seller_data'] = $seller_data;
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $success_array['fb_data'] = $fb_data;
+                if ($is_fb_details == VALUE_TWO) {
+                    $success_array['ph_data'] = $ph_data;
+                }
+            }
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -406,6 +431,11 @@ class Seller extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $payment_type = get_from_post('payment_type_for_seller_upload_challan');
+            if ($payment_type != VALUE_ONE && $payment_type != VALUE_TWO && $payment_type != VALUE_THREE) {
+                echo json_encode(get_error_array(ONE_PAYMENT_OPTION_MESSAGE));
+                return false;
+            }
             $seller_data = array();
             if ($_FILES['challan_for_seller_upload_challan']['name'] != '') {
                 $main_path = 'documents/seller';
@@ -436,9 +466,25 @@ class Seller extends CI_Controller {
                 $seller_data['challan_updated_date'] = date('Y-m-d H:i:s');
             }
             $seller_data['status'] = VALUE_THREE;
+            if ($payment_type == VALUE_THREE) {
+                $seller_data['status'] = VALUE_NINE;
+            }
+            $seller_data['payment_type'] = $payment_type;
             $seller_data['updated_by'] = $user_id;
             $seller_data['updated_time'] = date('Y-m-d H:i:s');
             $this->db->trans_start();
+            
+            if ($payment_type == VALUE_ONE || $payment_type == VALUE_TWO) {
+                $error_message = $this->utility_lib->update_fees_bifurcation_details(VALUE_EIGHTEEN, $seller_id, $user_id, $seller_data);
+                if ($error_message != '') {
+                    echo json_encode(get_error_array($error_message));
+                    return false;
+                }
+            } else {
+                $update_data = $this->utility_lib->get_basic_delete_array($user_id);
+                $this->utility_model->update_data('module_type', VALUE_EIGHTEEN, 'fees_bifurcation', $update_data, 'module_id', $seller_id);
+            }
+            
             $this->utility_model->update_data('seller_id', $seller_id, 'lease_seller', $seller_data);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
@@ -596,7 +642,6 @@ class Seller extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*

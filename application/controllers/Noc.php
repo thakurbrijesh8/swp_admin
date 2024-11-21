@@ -31,7 +31,7 @@ class Noc extends CI_Controller {
             $start = get_from_post('start');
             $length = get_from_post('length');
             $this->db->trans_start();
-            $success_array['noc_data'] = $this->noc_model->get_all_noc_list($start, $length, $search_applicant_name, $session_district, $search_status);
+            $success_array['noc_data'] = $this->noc_model->get_all_noc_list($start, $length, $session_district, $search_applicant_name, $search_status);
             $success_array['recordsTotal'] = $this->noc_model->get_total_count_of_records();
             if ($search_applicant_name != '' || $search_status != '') {
                 $success_array['recordsFiltered'] = $this->noc_model->get_filter_count_of_records($session_district, $search_applicant_name, $search_status);
@@ -175,6 +175,7 @@ class Noc extends CI_Controller {
 
     function _get_post_data_for_noc() {
         $noc_data = array();
+        $noc_data['entity_establishment_type'] = get_from_post('entity_establishment_type');
         $noc_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $noc_data['application_date'] = get_from_post('application_date');
         $noc_data['state'] = get_from_post('state');
@@ -201,6 +202,9 @@ class Noc extends CI_Controller {
     }
 
     function _check_validation_for_noc($noc_data) {
+        if (!$noc_data['entity_establishment_type']) {
+            return ENTITY_ESTABLISHMENT_TYPE_MESSAGE;
+        }
         if (!$noc_data['name_of_applicant']) {
             return APPLICANT_NAME_MESSAGE;
         }
@@ -282,12 +286,10 @@ class Noc extends CI_Controller {
             }
             $file_path = 'documents' . DIRECTORY_SEPARATOR . 'noc' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $ex_est_data['signature'];
 
-
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
             $this->utility_model->update_data('noc_id', $noc_id, 'noc', array('signature' => '', 'updated_by' => $session_user_id, 'updated_time' => date('Y-m-d H:i:s')));
-
 
             $success_array = get_success_array();
             $success_array['message'] = DOCUMENT_REMOVED_MESSAGE;
@@ -336,23 +338,49 @@ class Noc extends CI_Controller {
                 return false;
             }
             $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
-            if (!is_post() || $session_user_id == NULL || !$session_user_id) {
-                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-                return false;
-            }
             $noc_id = get_from_post('noc_id');
-            if (!$noc_id) {
+            if (!is_post() || $session_user_id == NULL || !$session_user_id || $noc_id == null || !$noc_id) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $is_fb_details = get_from_post('load_fb_details');
             $this->db->trans_start();
             $noc_data = $this->utility_model->get_by_id_with_applicant_name('noc_id', $noc_id, 'noc');
             if (empty($noc_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_ELEVEN, 'fees_bifurcation', 'module_id', $noc_id);
+                if ($is_fb_details == VALUE_TWO) {
+                    $this->load->model('payment_model');
+                    $ph_data = $this->payment_model->get_payment_history(VALUE_ELEVEN, $noc_id);
+                }
+                if ($noc_data['status'] != VALUE_FOUR && $noc_data['status'] != VALUE_FIVE &&
+                        $noc_data['status'] != VALUE_SIX && $noc_data['status'] != VALUE_SEVEN &&
+                        $noc_data['status'] != VALUE_EIGHT) {
+                    if ($is_fb_details == VALUE_ONE) {
+                        if ($noc_data['status'] != VALUE_ELEVEN) {
+                            $noc_data['show_remove_upload_btn'] = true;
+                        }
+                        $noc_data['show_dropdown'] = true;
+                        $noc_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_ELEVEN, 'dept_fd');
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
             $success_array = get_success_array();
             $success_array['noc_data'] = $noc_data;
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $success_array['fb_data'] = $fb_data;
+                if ($is_fb_details == VALUE_TWO) {
+                    $success_array['ph_data'] = $ph_data;
+                }
+            }
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -409,6 +437,11 @@ class Noc extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $payment_type = get_from_post('payment_type_for_noc_upload_challan');
+            if ($payment_type != VALUE_ONE && $payment_type != VALUE_TWO && $payment_type != VALUE_THREE) {
+                echo json_encode(get_error_array(ONE_PAYMENT_OPTION_MESSAGE));
+                return false;
+            }
             $noc_data = array();
             if ($_FILES['challan_for_noc_upload_challan']['name'] != '') {
                 $main_path = 'documents/noc';
@@ -439,9 +472,25 @@ class Noc extends CI_Controller {
                 $noc_data['challan_updated_date'] = date('Y-m-d H:i:s');
             }
             $noc_data['status'] = VALUE_THREE;
+            if ($payment_type == VALUE_THREE) {
+                $noc_data['status'] = VALUE_NINE;
+            }
+            $noc_data['payment_type'] = $payment_type;
             $noc_data['updated_by'] = $user_id;
             $noc_data['updated_time'] = date('Y-m-d H:i:s');
             $this->db->trans_start();
+
+            if ($payment_type == VALUE_ONE || $payment_type == VALUE_TWO) {
+                $error_message = $this->utility_lib->update_fees_bifurcation_details(VALUE_ELEVEN, $noc_id, $user_id, $noc_data);
+                if ($error_message != '') {
+                    echo json_encode(get_error_array($error_message));
+                    return false;
+                }
+            } else {
+                $update_data = $this->utility_lib->get_basic_delete_array($user_id);
+                $this->utility_model->update_data('module_type', VALUE_ELEVEN, 'fees_bifurcation', $update_data, 'module_id', $noc_id);
+            }
+
             $this->utility_model->update_data('noc_id', $noc_id, 'noc', $noc_data);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
@@ -548,7 +597,6 @@ class Noc extends CI_Controller {
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('noc_id', $noc_id, 'noc', $update_data);
 
-
             $this->utility_lib->send_sms_and_email_for_app_reject($ex_data['user_id'], VALUE_EIGHT, VALUE_ELEVEN, $noc_id);
 
             $this->db->trans_complete();
@@ -600,9 +648,8 @@ class Noc extends CI_Controller {
             return false;
         }
     }
-
 }
 
 /*
- * EOF: ./application/controller/BOCW.php
+ * EOF: ./application/controller/NOC.php
  */

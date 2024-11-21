@@ -398,6 +398,7 @@ define('VALID_AUTHORIZATION_MESSAGE', 'Select appropriate option to upload !');
 
 //Sub_letting Form
 define('NAME_OF_MANUFACTRING_MESSAGE', 'Enter name of  manufacturing !');
+define('OCCUPANCY_MESSAGE', 'Select appropriate option to upload Occupancy Certificate, if there is factory building. !');
 
 //Repairer Renewal Form
 define('PROPOSE_CHANGE_MESSAGE', 'Enter any Changes !');
