@@ -25,3 +25,5 @@
 <form target="_blank" id="noc_certificate_pdf_form" action="noc/generate_certificate" method="post">
     <input type="hidden" id="noc_id_for_certificate" name="noc_id_for_certificate">
 </form>
+<form target="_blank" id="generate_excel_for_noc" action="noc/generate_excel" method="post">
+</form>

@@ -320,6 +320,13 @@
                                     <p>Sub-Letting for Lessee</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a id="textile" href="Javascript:void(0);"
+                                   onclick="Sublessee.listview.listPage();" class="nav-link menu-close-click">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>Sub-Letting for Sub-Lessee</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php } if (is_admin() || is_pda_dept_user() || is_view_all_district_user()) { ?>

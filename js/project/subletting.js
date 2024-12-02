@@ -136,7 +136,7 @@ Subletting.listView = Backbone.View.extend({
     //     }
     // },
 
-    listPage: function () {
+    listPage: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -150,7 +150,7 @@ Subletting.listView = Backbone.View.extend({
         Subletting.router.navigate('subletting');
         var templateData = {};
         this.$el.html(sublettingListTemplate(templateData));
-        this.loadSublettingData();
+        this.loadSublettingData(sDistrict, sStatus, sAppTimingStatus);
 
     },
     listPageSublettingForm: function () {
@@ -212,7 +212,7 @@ Subletting.listView = Backbone.View.extend({
         }
         return sublettingActionTemplate(rowData);
     },
-    loadSublettingData: function () {
+    loadSublettingData: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -221,20 +221,52 @@ Subletting.listView = Backbone.View.extend({
             Dashboard.router.navigate('dashboard', {trigger: true});
             return false;
         }
+        var logedUserDetailsRenderer = function (data, type, full, meta) {
+            return  '<b><i class="fas fa-user f-s-10px"></i></b> :- ' + full.applicant_name + '<br><b><i class="fas fa-phone-volume f-s-10px"></i></b> :- ' + full.applicant_mobile;
+        };
         var dateRendere = function (data, type, full, meta) {
             return dateTo_DD_MM_YYYY(full.created_time);
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
             return getAppNoWithRating(VALUE_THIRTEEN, data, full.district, full);
         };
+        var dateTimeDaysRenderer = function (data, type, full, meta) {
+            return dateTimeDays(data, full, VALUE_THIRTEEN);
+        };
+        var queryMovementString = function (json) {
+            var qmData = json.query_movements;
+            $.each(json['subletting_data'], function (index, objData) {
+                json['subletting_data'][index]['query_movement_string'] = qmData[objData.subletting_id] ? ('<table class="table table-bordered mb-0 bg-beige f-s-12px table-lh1">' + qmData[objData.subletting_id] + '</table>') : '-';
+            });
+            return json['subletting_data'];
+        };
         var that = this;
         showTableContainer('subletting');
         Subletting.router.navigate('subletting');
+        var searchData = dashboardNaviationToModule(sDistrict, sStatus, sAppTimingStatus, 'Subletting.listview.loadSublettingData();');
         $('#subletting_datatable_container').html(sublettingTableTemplate);
-
         renderOptionsForTwoDimensionalArray(appStatusTextArray, 'status_for_subletting_list', false);
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district_for_subletting_list', false);
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type_for_subletting_list', false);
+        renderOptionsForTwoDimensionalArray(queryStatuTextsArray, 'query_status_for_subletting_list', false);
+        renderOptionsForTwoDimensionalArray(appTimingArray, 'app_timing_for_subletting_list', false);
+        $('#district_for_subletting_list').val(searchData.search_district);
+        $('#status_for_subletting_list').val(searchData.search_status);
+        $('#app_timing_for_subletting_list').val(searchData.search_app_timing_status);
+        if (searchData.search_district != '') {
+            $('#district_for_subletting_list').attr('disabled', 'disabled');
+        }
+        if (searchData.search_status != '') {
+            $('#status_for_subletting_list').attr('disabled', 'disabled');
+            if (searchData.search_status == VALUE_TEN) {
+                $('#query_status_for_subletting_list').attr('disabled', 'disabled');
+            }
+        }
+        if (searchData.search_app_timing_status != '') {
+            $('#app_timing_for_subletting_list').attr('disabled', 'disabled');
+        }
         sublettingDataTable = $('#subletting_datatable').DataTable({
-            ajax: {url: 'subletting/get_subletting_data', dataSrc: "subletting_data", type: "post"},
+            ajax: {url: 'subletting/get_subletting_data', "dataSrc": queryMovementString, type: "post", data: searchData},
             bAutoWidth: false,
             ordering: false,
             processing: true,
@@ -244,11 +276,11 @@ Subletting.listView = Backbone.View.extend({
                 {data: '', 'render': serialNumberRenderer, 'class': 'text-center'},
                 {data: 'subletting_id', 'class': 'v-a-m text-center f-w-b', 'render': tempRegNoRenderer},
                 {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentRenderer},
-                {data: 'applicant_name', 'class': 'v-a-m'},
+                {data: '', 'class': '', 'render': logedUserDetailsRenderer},
                 {data: 'name_of_applicant', 'class': 'text-center'},
                 {data: 'plot_no', 'class': 'text-center'},
                 {data: 'name_of_manufacturing', 'class': 'text-center'},
-                {data: 'submitted_datetime', 'class': 'text-center', 'render': dateTimeRenderer},
+                {data: 'subletting_id', 'class': 'text-center', 'render': dateTimeDaysRenderer},
                 {data: 'subletting_id', 'class': 'v-a-m text-center', 'render': appStatusRenderer},
                 {data: 'subletting_id', 'class': 'v-a-m text-center', 'render': queryStatusRenderer},
                 {'class': 'details-control text-center', 'orderable': false, 'data': null, "defaultContent": ''}
@@ -301,6 +333,7 @@ Subletting.listView = Backbone.View.extend({
         }
         showFormContainer('subletting');
         $('#subletting_form_container').html(sublettingFormTemplate((templateData)));
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor(tempVillagesData, 'villages_for_noc_data', 'village_id', 'village_name', 'Village');
         renderOptionsForTwoDimensionalArrayWithKeyValueWithCombinationFor([], 'plot_no_for_subletting_data', 'plot_no', 'plot_no', 'Plot No');
@@ -537,6 +570,7 @@ Subletting.listView = Backbone.View.extend({
         showFormContainer('subletting');
         $('#subletting_form_container').html(sublettingViewTemplate(formData));
         formData.application_date = dateTo_DD_MM_YYYY(formData.application_date);
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
         $('#state').val(formData.state);
         $('#district').val(formData.district);
@@ -929,7 +963,7 @@ Subletting.listView = Backbone.View.extend({
             }
         }
         if (sublettingData.occupancy == isChecked) {
-            
+
             if ($('#occupancy_certificate_container_for_subletting').is(':visible')) {
                 var occupancyCertificate = $('#occupancy_certificate_for_subletting').val();
                 if (occupancyCertificate == '') {

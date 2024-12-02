@@ -25,3 +25,5 @@
 <form target="_blank" id="seller_certificate_pdf_form" action="seller/generate_certificate" method="post">
     <input type="hidden" id="seller_id_for_certificate" name="seller_id_for_certificate">
 </form>
+<form target="_blank" id="generate_excel_for_seller" action="seller/generate_excel" method="post">
+</form>

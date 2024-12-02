@@ -25,3 +25,5 @@
 <form target="_blank" id="sublessee_certificate_pdf_form" action="sublessee/generate_certificate" method="post">
     <input type="hidden" id="sublessee_id_for_certificate" name="sublessee_id_for_certificate">
 </form>
+<form target="_blank" id="generate_excel_for_sublessee" action="sublessee/generate_excel" method="post">
+</form>

@@ -66,10 +66,8 @@
                         <div class="form-group col-sm-6">
                             <label>4. District<span style="color: red;">*</span></label>
                             <div class="input-group">
-                                <select class="form-control" id="district" name="district"
-                                        data-placeholder="Status !" onblur="checkValidation('transfer', 'district', districtValidationMessage);">
-                                    <option value="">Select District</option>
-                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                <select id="district" name="district" class="form-control select2"
+                                        data-placeholder="Select District" style="width: 100%;">  
                                 </select>
                             </div>
                             <span class="error-message error-message-transfer-district"></span>
@@ -212,14 +210,14 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>19. Request letter with details of manufacture items.? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}" > Yes &emsp;
-                                <input type="radio" id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
-                                <br/><span class="error-message error-message-transfer-request_letter"></span>
+                            <input type="radio" id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}" > Yes &emsp;
+                            <input type="radio" id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
+                            <br/><span class="error-message error-message-transfer-request_letter"></span>
                         </div>
                         <div class="form-group col-sm-6 request_letter_upload_div" id="request_letter_upload_container_for_transfer" style="display: none;">
                             <label>19.1 Request letter<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br>
                             <input type="file" id="request_letter_upload_for_transfer" name="request_letter_upload_for_transfer"
-                                  accept="image/pdf">
+                                   accept="image/pdf">
                             <div class="error-message error-message-transfer-request_letter_upload_for_transfer"></div>
                         </div>
                         <div class="form-group col-sm-6" id="request_letter_upload_name_container_for_transfer" style="display: none;">
@@ -234,9 +232,9 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>20. Details of Project Report..? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}" > Yes &emsp;
-                                <input type="radio" id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}" > No
-                                <br/><span class="error-message error-message-transfer-project_report"></span>
+                            <input type="radio" id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}" > Yes &emsp;
+                            <input type="radio" id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}" > No
+                            <br/><span class="error-message error-message-transfer-project_report"></span>
                         </div>
                         <div class="form-group col-sm-6 project_report_upload_div" id="project_report_upload_container_for_transfer" style="display: none;">
                             <label>20.1 Project Report<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br>
@@ -256,9 +254,9 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>21. Constitution of the Project viz. Memorandum and Article of Association/Partnership Deed.? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}"> Yes &emsp;
-                                <input type="radio" id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
-                                <br/><span class="error-message error-message-transfer-constitution_project"></span>
+                            <input type="radio" id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                            <input type="radio" id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
+                            <br/><span class="error-message error-message-transfer-constitution_project"></span>
                         </div>
                         <div class="form-group col-sm-6 constitution_project_upload_div" id="constitution_project_upload_container_for_transfer" style="display: none;">
                             <label>21.1 Constitution of the Project<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br>

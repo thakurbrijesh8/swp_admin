@@ -61,7 +61,9 @@
                         <div class="form-group col-sm-6">
                             <label>4.District<span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                                <input type="text" id="district" name="district" class="form-control" readonly="" value="{{district}}">
+                                <select id="district" name="district" class="form-control select2" disabled=""
+                                        data-placeholder="Select District" style="width: 100%;">  
+                                </select>
                             </div>
                             <span class="error-message error-message-transfer-district"></span>
                         </div>
@@ -197,9 +199,9 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>19.Request letter with details of manufacture items. ? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" disabled id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}"> Yes &emsp;
-                                <input type="radio" disabled id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
-                                <br/><span class="error-message error-message-transfer-request_letter"></span>
+                            <input type="radio" disabled id="request_letter_yes" name="request_letter" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                            <input type="radio" disabled id="request_letter_no" name="request_letter" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
+                            <br/><span class="error-message error-message-transfer-request_letter"></span>
                         </div>
                         <div class="form-group col-sm-6 request_letter_upload_div" id="request_letter_upload_container_for_transfer" style="display: none;">
                             <!-- <label>19.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -216,9 +218,9 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>20.Details of Project Report. ? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" disabled id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}"> Yes &emsp;
-                                <input type="radio" disabled id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
-                                <br/><span class="error-message error-message-transfer-project_report"></span>
+                            <input type="radio" disabled id="project_report_yes" name="project_report" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                            <input type="radio" disabled id="project_report_no" name="project_report" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
+                            <br/><span class="error-message error-message-transfer-project_report"></span>
                         </div>
                         <div class="form-group col-sm-6 project_report_upload_div" id="project_report_upload_container_for_transfer" style="display: none;">
                             <!-- <label>20.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -235,9 +237,9 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>21.Constitution of the Project viz. Memorandum and Article of Association/Partnership Deed. ? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" disabled id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}" > Yes &emsp;
-                                <input type="radio" disabled id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}" > No
-                                <br/><span class="error-message error-message-transfer-constitution_project"></span>
+                            <input type="radio" disabled id="constitution_project_yes" name="constitution_project" class="" value="{{VALUE_ONE}}" > Yes &emsp;
+                            <input type="radio" disabled id="constitution_project_no" name="constitution_project" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}" > No
+                            <br/><span class="error-message error-message-transfer-constitution_project"></span>
                         </div>
                         <div class="form-group col-sm-6 constitution_project_upload_div" id="constitution_project_upload_container_for_transfer" style="display: none;">
                             <!-- <label>21.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->
@@ -254,9 +256,9 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>22.Valid authorization to sign on behalf of Purchaser/Buyer.. ? <span style="color: red;">* </span> &emsp;</label>
-                                <input type="radio" disabled id="valid_authorization_yes" name="valid_authorization" class="" value="{{VALUE_ONE}}"> Yes &emsp;
-                                <input type="radio" disabled id="valid_authorization_no" name="valid_authorization" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
-                                <br/><span class="error-message error-message-transfer-valid_authorization"></span>
+                            <input type="radio" disabled id="valid_authorization_yes" name="valid_authorization" class="" value="{{VALUE_ONE}}"> Yes &emsp;
+                            <input type="radio" disabled id="valid_authorization_no" name="valid_authorization" class="" style="margin-bottom: 0px;" value="{{VALUE_TWO}}"> No
+                            <br/><span class="error-message error-message-transfer-valid_authorization"></span>
                         </div>
                         <div class="form-group col-sm-6 valid_authorization_upload_div" id="valid_authorization_upload_container_for_transfer" style="display: none;">
                             <!-- <label>22.1 Please attach details document<span style="color: red;">* <br>(Maximum File Size: 1MB)&nbsp; (Upload PDF Only)</span></label><br> -->

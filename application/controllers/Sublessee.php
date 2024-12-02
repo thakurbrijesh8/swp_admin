@@ -23,19 +23,41 @@ class Sublessee extends CI_Controller {
                 echo json_encode($success_array);
                 return false;
             }
+            $session_district = get_from_session('temp_district_for_eodbsws_admin');
             $columns = $this->input->post('columns');
-            $search_applicant_name = trim($columns[1]['search']['value']);
-            $search_status = trim($columns[7]['search']['value']);
+            $search_district = '';
+            if (is_admin() || is_view_all_district_user()) {
+                $search_district = trim($columns[1]['search']['value']);
+                $new_s_district = get_from_post('search_district');
+                $search_district = $new_s_district != '' ? $new_s_district : $search_district;
+            } else {
+                $search_district = $session_district;
+            }
+            $search_entity_establishment_type = trim($columns[2]['search']['value']);
+            $search_logged_user_detail = trim($columns[3]['search']['value']);
+            $search_applicant_detail = trim($columns[4]['search']['value']);
+            $search_plot_no = trim($columns[5]['search']['value']);
+            $search_nom = trim($columns[6]['search']['value']);
+            $search_app_timing = trim($columns[7]['search']['value']);
+            $search_status = trim($columns[8]['search']['value']);
+            $search_query_status = trim($columns[9]['search']['value']);
+
+            $new_s_app_timing_status = get_from_post('search_app_timing_status');
+            $search_app_timing = $new_s_app_timing_status != '' ? $new_s_app_timing_status : $search_app_timing;
+            $new_s_status = get_from_post('search_status');
+            $search_status = $new_s_status != '' ? $new_s_status : $search_status;
+
             $start = get_from_post('start');
             $length = get_from_post('length');
             $this->db->trans_start();
-            $success_array['sublessee_data'] = $this->sublessee_model->get_all_sublessee_list($start, $length, $search_applicant_name, $search_status);
-            $success_array['recordsTotal'] = $this->sublessee_model->get_total_count_of_records();
-            if ($search_applicant_name != '' || $search_status != '') {
-                $success_array['recordsFiltered'] = $this->sublessee_model->get_filter_count_of_records($search_applicant_name, $search_status);
+            $success_array['sublessee_data'] = $this->sublessee_model->get_all_sublessee_list($start, $length, $search_district, $search_entity_establishment_type, $search_logged_user_detail, $search_applicant_detail, $search_plot_no, $search_nom, $search_app_timing, $search_status, $search_query_status);
+            $success_array['recordsTotal'] = $this->sublessee_model->get_total_count_of_records($search_district);
+            if (($search_district != '' && (is_admin() || is_view_all_district_user())) || $search_entity_establishment_type || $search_logged_user_detail != '' || $search_applicant_detail != '' || $search_plot_no != '' || $search_nom != '' || $search_app_timing != '' || $search_status != '' || $search_query_status != '') {
+                $success_array['recordsFiltered'] = $this->sublessee_model->get_filter_count_of_records($search_district, $search_entity_establishment_type, $search_logged_user_detail, $search_applicant_detail, $search_plot_no, $search_nom, $search_app_timing, $search_status, $search_query_status);
             } else {
                 $success_array['recordsFiltered'] = $success_array['recordsTotal'];
             }
+            $success_array['query_movements'] = $this->utility_lib->get_query_movement_string($success_array['sublessee_data'], VALUE_SEVENTEEN);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 $success_array['sublessee_data'] = array();
@@ -279,6 +301,7 @@ class Sublessee extends CI_Controller {
 
     function _get_post_data_for_sublessee() {
         $sublessee_data = array();
+        $sublessee_data['entity_establishment_type'] = get_from_post('entity_establishment_type');
         $sublessee_data['name_of_applicant'] = get_from_post('name_of_applicant');
         $sublessee_data['state'] = get_from_post('state');
         $sublessee_data['district'] = get_from_post('district');
@@ -298,6 +321,9 @@ class Sublessee extends CI_Controller {
     }
 
     function _check_validation_for_sublessee($sublessee_data) {
+        if (!$sublessee_data['entity_establishment_type']) {
+            return ENTITY_ESTABLISHMENT_TYPE_MESSAGE;
+        }
         if (!$sublessee_data['name_of_applicant']) {
             return APPLICANT_NAME_MESSAGE;
         }
@@ -313,9 +339,9 @@ class Sublessee extends CI_Controller {
         if (!$sublessee_data['village']) {
             return VILLAGE_NAME_MESSAGE;
         }
-        if (!$sublessee_data['date']) {
-            return DATE_MESSAGE;
-        }
+//        if (!$sublessee_data['date']) {
+//            return DATE_MESSAGE;
+//        }
         if (!$sublessee_data['plot_no']) {
             return PLOT_NO_MESSAGE;
         }
@@ -325,7 +351,7 @@ class Sublessee extends CI_Controller {
         if (!$sublessee_data['admeasuring']) {
             return ADMEASURING_MESSAGE;
         }
-        if (!$sublessee_data['estate_area']) {
+        if (!$sublessee_data['govt_industrial_estate_area']) {
             return GOVT_INDUSTRIAL_AR_MESSAGE;
         }
         if (!$sublessee_data['name_of_manufacturing']) {
@@ -442,23 +468,49 @@ class Sublessee extends CI_Controller {
                 return false;
             }
             $session_user_id = get_from_session('temp_id_for_eodbsws_admin');
-            if (!is_post() || $session_user_id == NULL || !$session_user_id) {
-                echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
-                return false;
-            }
             $sublessee_id = get_from_post('sublessee_id');
-            if (!$sublessee_id) {
+            if (!is_post() || $session_user_id == NULL || !$session_user_id || $sublessee_id == null || !$sublessee_id) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $is_fb_details = get_from_post('load_fb_details');
             $this->db->trans_start();
             $sublessee_data = $this->utility_model->get_by_id_with_applicant_name('sublessee_id', $sublessee_id, 'sub_lessee');
             if (empty($sublessee_data)) {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $fb_data = $this->utility_model->get_result_data_by_id('module_type', VALUE_SEVENTEEN, 'fees_bifurcation', 'module_id', $sublessee_id);
+                if ($is_fb_details == VALUE_TWO) {
+                    $this->load->model('payment_model');
+                    $ph_data = $this->payment_model->get_payment_history(VALUE_SEVENTEEN, $sublessee_id);
+                }
+                if ($sublessee_data['status'] != VALUE_FOUR && $sublessee_data['status'] != VALUE_FIVE &&
+                        $sublessee_data['status'] != VALUE_SIX && $sublessee_data['status'] != VALUE_SEVEN &&
+                        $sublessee_data['status'] != VALUE_EIGHT) {
+                    if ($is_fb_details == VALUE_ONE) {
+                        if ($sublessee_data['status'] != VALUE_ELEVEN) {
+                            $sublessee_data['show_remove_upload_btn'] = true;
+                        }
+                        $sublessee_data['show_dropdown'] = true;
+                        $sublessee_data['dropdown_data'] = $this->utility_model->get_result_data_by_id('module_type', VALUE_SEVENTEEN, 'dept_fd');
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
+                return;
+            }
             $success_array = get_success_array();
             $success_array['sublessee_data'] = $sublessee_data;
+            if ($is_fb_details == VALUE_ONE || $is_fb_details == VALUE_TWO) {
+                $success_array['fb_data'] = $fb_data;
+                if ($is_fb_details == VALUE_TWO) {
+                    $success_array['ph_data'] = $ph_data;
+                }
+            }
             echo json_encode($success_array);
         } catch (\Exception $e) {
             echo json_encode(get_error_array($e->getMessage()));
@@ -515,6 +567,11 @@ class Sublessee extends CI_Controller {
                 echo json_encode(get_error_array(INVALID_ACCESS_MESSAGE));
                 return false;
             }
+            $payment_type = get_from_post('payment_type_for_sublessee_upload_challan');
+            if ($payment_type != VALUE_ONE && $payment_type != VALUE_TWO && $payment_type != VALUE_THREE) {
+                echo json_encode(get_error_array(ONE_PAYMENT_OPTION_MESSAGE));
+                return false;
+            }
             $sublessee_data = array();
             if ($_FILES['challan_for_sublessee_upload_challan']['name'] != '') {
                 $main_path = 'documents/sublessee';
@@ -545,9 +602,25 @@ class Sublessee extends CI_Controller {
                 $sublessee_data['challan_updated_date'] = date('Y-m-d H:i:s');
             }
             $sublessee_data['status'] = VALUE_THREE;
+            if ($payment_type == VALUE_THREE) {
+                $sublessee_data['status'] = VALUE_NINE;
+            }
+            $sublessee_data['payment_type'] = $payment_type;
             $sublessee_data['updated_by'] = $user_id;
             $sublessee_data['updated_time'] = date('Y-m-d H:i:s');
             $this->db->trans_start();
+
+            if ($payment_type == VALUE_ONE || $payment_type == VALUE_TWO) {
+                $error_message = $this->utility_lib->update_fees_bifurcation_details(VALUE_SEVENTEEN, $sublessee_id, $user_id, $sublessee_data);
+                if ($error_message != '') {
+                    echo json_encode(get_error_array($error_message));
+                    return false;
+                }
+            } else {
+                $update_data = $this->utility_lib->get_basic_delete_array($user_id);
+                $this->utility_model->update_data('module_type', VALUE_SEVENTEEN, 'fees_bifurcation', $update_data, 'module_id', $sublessee_id);
+            }
+
             $this->utility_model->update_data('sublessee_id', $sublessee_id, 'sub_lessee', $sublessee_data);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
@@ -599,6 +672,9 @@ class Sublessee extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('sublessee_id', $sublessee_id, 'sub_lessee', $update_data);
+
+            $this->utility_lib->send_sms_and_email_for_app_approve($ex_data['user_id'], VALUE_SEVEN, VALUE_SEVENTEEN, $sublessee_id);
+
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -645,6 +721,9 @@ class Sublessee extends CI_Controller {
             $update_data['updated_by'] = $session_user_id;
             $update_data['updated_time'] = date('Y-m-d H:i:s');
             $this->utility_model->update_data('sublessee_id', $sublessee_id, 'sub_lessee', $update_data);
+
+            $this->utility_lib->send_sms_and_email_for_app_reject($ex_data['user_id'], VALUE_EIGHT, VALUE_SEVENTEEN, $sublessee_id);
+
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) {
                 echo json_encode(get_error_array(DATABASE_ERROR_MESSAGE));
@@ -695,8 +774,51 @@ class Sublessee extends CI_Controller {
         }
     }
 
+    function generate_excel() {
+        try {
+            $user_id = get_from_session('temp_id_for_eodbsws_admin');
+            if (!is_post() || $user_id == null || !$user_id) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return false;
+            }
+            $session_district = get_from_session('temp_district_for_eodbsws_admin');
+            $this->db->trans_start();
+            $excel_data = $this->sublessee_model->get_records_for_excel($session_district);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === false) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return;
+            }
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename=Sublessee_Report_' . date('Y-m-d H:i:s') . '.csv');
+            $output = fopen("php://output", "w");
+            fputcsv($output, array('Application Number', 'District', 'Entity / Establishment Type', 'Applicant Name', 'Mobile Number', 'Name of Applicant', 'Plot No',
+                'Name of Manufacturing', 'Submitted On', 'Status', 'Query Status', 'Appr./Rej. By', 'Appr./Rej. datetime', 'Remarks'));
+            if (!empty($excel_data)) {
+                $taluka_array = $this->config->item('taluka_array');
+                $app_status_text_array = $this->config->item('app_status_text_array');
+                $query_status_text_array = $this->config->item('query_status_text_array');
+                $prefix_module_array = $this->config->item('prefix_module_array');
+                $entity_establishment_type_array = $this->config->item('entity_establishment_type_array');
+                foreach ($excel_data as $list) {
+                    $prefix = isset($prefix_module_array[VALUE_SEVENTEEN]) ? $prefix_module_array[VALUE_SEVENTEEN] : '';
+                    $list['sublessee_id'] = generate_registration_number($prefix, $list['sublessee_id']);
+                    $list['district'] = isset($taluka_array[$list['district']]) ? $taluka_array[$list['district']] : '-';
+                    $list['entity_establishment_type'] = isset($entity_establishment_type_array[$list['entity_establishment_type']]) ? $entity_establishment_type_array[$list['entity_establishment_type']] : '-';
+                    $list['submitted_datetime'] = convert_to_new_datetime_format($list['submitted_datetime']);
+                    $list['status'] = isset($app_status_text_array[$list['status']]) ? $app_status_text_array[$list['status']] : '-';
+                    $list['query_status'] = isset($query_status_text_array[$list['query_status']]) ? $query_status_text_array[$list['query_status']] : '-';
+                    fputcsv($output, $list);
+                }
+            }
+            fclose($output);
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            return false;
+        }
+    }
 }
 
 /*
- * EOF: ./application/controller/BOCW.php
+ * EOF: ./application/controller/Sublessee.php
  */

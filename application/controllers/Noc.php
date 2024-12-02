@@ -26,15 +26,35 @@ class Noc extends CI_Controller {
             }
             $session_district = get_from_session('temp_district_for_eodbsws_admin');
             $columns = $this->input->post('columns');
-            $search_applicant_name = trim($columns[1]['search']['value']);
-            $search_status = trim($columns[7]['search']['value']);
+            $search_district = '';
+            if (is_admin() || is_view_all_district_user()) {
+                $search_district = trim($columns[1]['search']['value']);
+                $new_s_district = get_from_post('search_district');
+                $search_district = $new_s_district != '' ? $new_s_district : $search_district;
+            } else {
+                $search_district = $session_district;
+            }
+            $search_entity_establishment_type = trim($columns[2]['search']['value']);
+            $search_logged_user_detail = trim($columns[3]['search']['value']);
+            $search_applicant_detail = trim($columns[4]['search']['value']);
+            $search_survey_number = trim($columns[5]['search']['value']);
+            $search_gie = trim($columns[6]['search']['value']);
+            $search_app_timing = trim($columns[7]['search']['value']);
+            $search_status = trim($columns[8]['search']['value']);
+            $search_query_status = trim($columns[9]['search']['value']);
+
+            $new_s_app_timing_status = get_from_post('search_app_timing_status');
+            $search_app_timing = $new_s_app_timing_status != '' ? $new_s_app_timing_status : $search_app_timing;
+            $new_s_status = get_from_post('search_status');
+            $search_status = $new_s_status != '' ? $new_s_status : $search_status;
+
             $start = get_from_post('start');
             $length = get_from_post('length');
             $this->db->trans_start();
-            $success_array['noc_data'] = $this->noc_model->get_all_noc_list($start, $length, $session_district, $search_applicant_name, $search_status);
-            $success_array['recordsTotal'] = $this->noc_model->get_total_count_of_records();
-            if ($search_applicant_name != '' || $search_status != '') {
-                $success_array['recordsFiltered'] = $this->noc_model->get_filter_count_of_records($session_district, $search_applicant_name, $search_status);
+            $success_array['noc_data'] = $this->noc_model->get_all_noc_list($start, $length, $search_district, $search_entity_establishment_type, $search_logged_user_detail, $search_applicant_detail, $search_survey_number, $search_gie, $search_app_timing, $search_status, $search_query_status);
+            $success_array['recordsTotal'] = $this->noc_model->get_total_count_of_records($search_district);
+            if (($search_district != '' && (is_admin() || is_view_all_district_user())) || $search_entity_establishment_type || $search_logged_user_detail != '' || $search_applicant_detail != '' || $search_survey_number != '' || $search_gie != '' || $search_app_timing != '' || $search_status != '' || $search_query_status != '') {
+                $success_array['recordsFiltered'] = $this->noc_model->get_filter_count_of_records($search_district, $search_entity_establishment_type, $search_logged_user_detail, $search_applicant_detail, $search_survey_number, $search_gie, $search_app_timing, $search_status, $search_query_status);
             } else {
                 $success_array['recordsFiltered'] = $success_array['recordsTotal'];
             }
@@ -643,6 +663,50 @@ class Noc extends CI_Controller {
             $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
             $mpdf->WriteHTML($this->load->view('noc/certificate', $data, TRUE));
             $mpdf->Output('noc_certificate_' . time() . '.pdf', 'I');
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            return false;
+        }
+    }
+
+    function generate_excel() {
+        try {
+            $user_id = get_from_session('temp_id_for_eodbsws_admin');
+            if (!is_post() || $user_id == null || !$user_id) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return false;
+            }
+            $session_district = get_from_session('temp_district_for_eodbsws_admin');
+            $this->db->trans_start();
+            $excel_data = $this->noc_model->get_records_for_excel($session_district);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === false) {
+                print_r(INVALID_ACCESS_MESSAGE);
+                return;
+            }
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename=Noc_Report_' . date('Y-m-d H:i:s') . '.csv');
+            $output = fopen("php://output", "w");
+            fputcsv($output, array('Application Number', 'District', 'Entity / Establishment Type', 'Applicant Name', 'Mobile Number', 'Name of Applicant', 'Survey No',
+                'Government Industrial Estate', 'Submitted On', 'Status', 'Query Status', 'Appr./Rej. By', 'Appr./Rej. datetime', 'Remarks'));
+            if (!empty($excel_data)) {
+                $taluka_array = $this->config->item('taluka_array');
+                $app_status_text_array = $this->config->item('app_status_text_array');
+                $query_status_text_array = $this->config->item('query_status_text_array');
+                $prefix_module_array = $this->config->item('prefix_module_array');
+                $entity_establishment_type_array = $this->config->item('entity_establishment_type_array');
+                foreach ($excel_data as $list) {
+                    $prefix = isset($prefix_module_array[VALUE_ELEVEN]) ? $prefix_module_array[VALUE_ELEVEN] : '';
+                    $list['noc_id'] = generate_registration_number($prefix, $list['noc_id']);
+                    $list['district'] = isset($taluka_array[$list['district']]) ? $taluka_array[$list['district']] : '-';
+                    $list['entity_establishment_type'] = isset($entity_establishment_type_array[$list['entity_establishment_type']]) ? $entity_establishment_type_array[$list['entity_establishment_type']] : '-';
+                    $list['submitted_datetime'] = convert_to_new_datetime_format($list['submitted_datetime']);
+                    $list['status'] = isset($app_status_text_array[$list['status']]) ? $app_status_text_array[$list['status']] : '-';
+                    $list['query_status'] = isset($query_status_text_array[$list['query_status']]) ? $query_status_text_array[$list['query_status']] : '-';
+                    fputcsv($output, $list);
+                }
+            }
+            fclose($output);
         } catch (\Exception $e) {
             print_r($e->getMessage());
             return false;

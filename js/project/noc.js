@@ -33,7 +33,7 @@ Noc.Router = Backbone.Router.extend({
 Noc.listView = Backbone.View.extend({
     el: 'div#main_container',
 
-    listPage: function () {
+    listPage: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -47,7 +47,7 @@ Noc.listView = Backbone.View.extend({
         Noc.router.navigate('noc');
         var templateData = {};
         this.$el.html(nocListTemplate(templateData));
-        this.loadNocData();
+        this.loadNocData(sDistrict, sStatus, sAppTimingStatus);
 
     },
     listPageNocForm: function () {
@@ -109,7 +109,7 @@ Noc.listView = Backbone.View.extend({
         }
         return nocActionTemplate(rowData);
     },
-    loadNocData: function () {
+    loadNocData: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -118,20 +118,52 @@ Noc.listView = Backbone.View.extend({
             Dashboard.router.navigate('dashboard', {trigger: true});
             return false;
         }
+        var logedUserDetailsRenderer = function (data, type, full, meta) {
+            return  '<b><i class="fas fa-user f-s-10px"></i></b> :- ' + full.applicant_name + '<br><b><i class="fas fa-phone-volume f-s-10px"></i></b> :- ' + full.applicant_mobile;
+        };
         var dateRendere = function (data, type, full, meta) {
             return dateTo_DD_MM_YYYY(full.created_time);
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
             return getAppNoWithRating(VALUE_ELEVEN, data, full.district, full);
         };
+        var dateTimeDaysRenderer = function (data, type, full, meta) {
+            return dateTimeDays(data, full, VALUE_ELEVEN);
+        };
+        var queryMovementString = function (json) {
+            var qmData = json.query_movements;
+            $.each(json['noc_data'], function (index, objData) {
+                json['noc_data'][index]['query_movement_string'] = qmData[objData.noc_id] ? ('<table class="table table-bordered mb-0 bg-beige f-s-12px table-lh1">' + qmData[objData.noc_id] + '</table>') : '-';
+            });
+            return json['noc_data'];
+        };
         var that = this;
         showTableContainer('noc');
         Noc.router.navigate('noc');
+        var searchData = dashboardNaviationToModule(sDistrict, sStatus, sAppTimingStatus, 'Noc.listview.loadNocData();');
         $('#noc_datatable_container').html(nocTableTemplate);
-
         renderOptionsForTwoDimensionalArray(appStatusTextArray, 'status_for_noc_list', false);
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district_for_noc_list', false);
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type_for_noc_list', false);
+        renderOptionsForTwoDimensionalArray(queryStatuTextsArray, 'query_status_for_noc_list', false);
+        renderOptionsForTwoDimensionalArray(appTimingArray, 'app_timing_for_noc_list', false);
+        $('#district_for_noc_list').val(searchData.search_district);
+        $('#status_for_noc_list').val(searchData.search_status);
+        $('#app_timing_for_noc_list').val(searchData.search_app_timing_status);
+        if (searchData.search_district != '') {
+            $('#district_for_noc_list').attr('disabled', 'disabled');
+        }
+        if (searchData.search_status != '') {
+            $('#status_for_noc_list').attr('disabled', 'disabled');
+            if (searchData.search_status == VALUE_TEN) {
+                $('#query_status_for_noc_list').attr('disabled', 'disabled');
+            }
+        }
+        if (searchData.search_app_timing_status != '') {
+            $('#app_timing_for_noc_list').attr('disabled', 'disabled');
+        }
         nocDataTable = $('#noc_datatable').DataTable({
-            ajax: {url: 'noc/get_noc_data', dataSrc: "noc_data", type: "post"},
+            ajax: {url: 'noc/get_noc_data', "dataSrc": queryMovementString, type: "post", data: searchData},
             bAutoWidth: false,
             ordering: false,
             processing: true,
@@ -141,11 +173,11 @@ Noc.listView = Backbone.View.extend({
                 {data: '', 'render': serialNumberRenderer, 'class': 'text-center'},
                 {data: 'noc_id', 'class': 'v-a-m text-center f-w-b', 'render': tempRegNoRenderer},
                 {data: 'entity_establishment_type', 'class': 'text-center', 'render': entityEstablishmentRenderer},
-                {data: 'applicant_name', 'class': 'v-a-m'},
+                {data: '', 'class': '', 'render': logedUserDetailsRenderer},
                 {data: 'name_of_applicant', 'class': 'text-center'},
                 {data: 'survey_no', 'class': 'text-center'},
                 {data: 'govt_industrial_estate_area', 'class': 'text-center'},
-                {data: 'submitted_datetime', 'class': 'text-center', 'render': dateTimeRenderer},
+                {data: 'noc_id', 'class': 'text-center', 'render': dateTimeDaysRenderer},
                 {data: 'noc_id', 'class': 'v-a-m text-center', 'render': appStatusRenderer},
                 {data: 'noc_id', 'class': 'v-a-m text-center', 'render': queryStatusRenderer},
                 {'class': 'details-control text-center', 'orderable': false, 'data': null, "defaultContent": ''}
@@ -202,6 +234,7 @@ Noc.listView = Backbone.View.extend({
         }
         showFormContainer('noc');
         $('#noc_form_container').html(nocFormTemplate((templateData)));
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
         renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
@@ -373,6 +406,7 @@ Noc.listView = Backbone.View.extend({
         // formData.loan_to_date = dateTo_DD_MM_YYYY(formData.loan_to_date);
         showFormContainer('noc');
         $('#noc_form_container').html(nocViewTemplate(formData));
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
         $('#state').val(formData.state);
         $('#district').val(formData.district);

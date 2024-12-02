@@ -33,7 +33,7 @@ Seller.Router = Backbone.Router.extend({
 Seller.listView = Backbone.View.extend({
     el: 'div#main_container',
 
-    listPage: function () {
+    listPage: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -47,7 +47,7 @@ Seller.listView = Backbone.View.extend({
         Seller.router.navigate('seller');
         var templateData = {};
         this.$el.html(sellerListTemplate(templateData));
-        this.loadSellerData();
+        this.loadSellerData(sDistrict, sStatus, sAppTimingStatus);
 
     },
     listPageSellerForm: function () {
@@ -97,7 +97,7 @@ Seller.listView = Backbone.View.extend({
             rowData.show_approve_btn = 'display: none;';
         }
         rowData.module_type = VALUE_EIGHTEEN;
-         rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : (rowData.status == VALUE_EIGHT ? '' : (rowData.status == VALUE_NINE ? '' : 'display: none;'));
+        rowData.show_payment_confirm_btn = rowData.status == VALUE_FOUR ? '' : (rowData.status == VALUE_EIGHT ? '' : (rowData.status == VALUE_NINE ? '' : 'display: none;'));
         if (rowData.status == VALUE_FIVE) {
             rowData.show_download_certificate_btn = true;
         }
@@ -109,7 +109,7 @@ Seller.listView = Backbone.View.extend({
         }
         return sellerActionTemplate(rowData);
     },
-    loadSellerData: function () {
+    loadSellerData: function (sDistrict, sStatus, sAppTimingStatus) {
         if (!tempIdInSession || tempIdInSession == null) {
             loginPage();
             return false;
@@ -118,20 +118,52 @@ Seller.listView = Backbone.View.extend({
             Dashboard.router.navigate('dashboard', {trigger: true});
             return false;
         }
+        var logedUserDetailsRenderer = function (data, type, full, meta) {
+            return  '<b><i class="fas fa-user f-s-10px"></i></b> :- ' + full.applicant_name + '<br><b><i class="fas fa-phone-volume f-s-10px"></i></b> :- ' + full.applicant_mobile;
+        };
         var dateRendere = function (data, type, full, meta) {
             return dateTo_DD_MM_YYYY(full.created_time);
         };
         var tempRegNoRenderer = function (data, type, full, meta) {
-           return getAppNoWithRating(VALUE_EIGHTEEN, data, full.district, full);
+            return getAppNoWithRating(VALUE_EIGHTEEN, data, full.district, full);
+        };
+        var dateTimeDaysRenderer = function (data, type, full, meta) {
+            return dateTimeDays(data, full, VALUE_EIGHTEEN);
+        };
+        var queryMovementString = function (json) {
+            var qmData = json.query_movements;
+            $.each(json['seller_data'], function (index, objData) {
+                json['seller_data'][index]['query_movement_string'] = qmData[objData.seller_id] ? ('<table class="table table-bordered mb-0 bg-beige f-s-12px table-lh1">' + qmData[objData.seller_id] + '</table>') : '-';
+            });
+            return json['seller_data'];
         };
         var that = this;
         showTableContainer('seller');
         Seller.router.navigate('seller');
+        var searchData = dashboardNaviationToModule(sDistrict, sStatus, sAppTimingStatus, 'Seller.listview.loadSellerData();');
         $('#seller_datatable_container').html(sellerTableTemplate);
-
         renderOptionsForTwoDimensionalArray(appStatusTextArray, 'status_for_seller_list', false);
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district_for_seller_list', false);
+        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type_for_seller_list', false);
+        renderOptionsForTwoDimensionalArray(queryStatuTextsArray, 'query_status_for_seller_list', false);
+        renderOptionsForTwoDimensionalArray(appTimingArray, 'app_timing_for_seller_list', false);
+        $('#district_for_seller_list').val(searchData.search_district);
+        $('#status_for_seller_list').val(searchData.search_status);
+        $('#app_timing_for_seller_list').val(searchData.search_app_timing_status);
+        if (searchData.search_district != '') {
+            $('#district_for_seller_list').attr('disabled', 'disabled');
+        }
+        if (searchData.search_status != '') {
+            $('#status_for_seller_list').attr('disabled', 'disabled');
+            if (searchData.search_status == VALUE_TEN) {
+                $('#query_status_for_seller_list').attr('disabled', 'disabled');
+            }
+        }
+        if (searchData.search_app_timing_status != '') {
+            $('#app_timing_for_seller_list').attr('disabled', 'disabled');
+        }
         sellerDataTable = $('#seller_datatable').DataTable({
-            ajax: {url: 'seller/get_seller_data', dataSrc: "seller_data", type: "post"},
+            ajax: {url: 'seller/get_seller_data', "dataSrc": queryMovementString, type: "post", data: searchData},
             bAutoWidth: false,
             ordering: false,
             processing: true,
@@ -145,7 +177,7 @@ Seller.listView = Backbone.View.extend({
                 {data: 'name_of_applicant', 'class': 'text-center'},
                 {data: 'plot_no', 'class': 'text-center'},
                 {data: 'transferer_name', 'class': 'text-center'},
-                {data: 'submitted_datetime', 'class': 'text-center', 'render': dateTimeRenderer},
+                {data: 'seller_id', 'class': 'text-center', 'render': dateTimeDaysRenderer},
                 {data: 'seller_id', 'class': 'v-a-m text-center', 'render': appStatusRenderer},
                 {data: 'seller_id', 'class': 'v-a-m text-center', 'render': queryStatusRenderer},
                 {'class': 'details-control text-center', 'orderable': false, 'data': null, "defaultContent": ''}
@@ -200,6 +232,7 @@ Seller.listView = Backbone.View.extend({
         }
         showFormContainer('seller');
         $('#seller_form_container').html(sellerFormTemplate((templateData)));
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(premisesStatusArray, 'premises_status');
         renderOptionsForTwoDimensionalArray(identityChoiceArray, 'identity_choice');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
@@ -443,6 +476,7 @@ Seller.listView = Backbone.View.extend({
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
         showFormContainer('seller');
         $('#seller_form_container').html(sellerViewTemplate(formData));
+        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
         renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
         $('#state').val(formData.state);
         $('#district').val(formData.district);

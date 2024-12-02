@@ -74,10 +74,8 @@
                         <div class="form-group col-sm-6">
                             <label>4. District</label>
                             <div class="input-group">
-                                <select class="form-control" id="district" name="district"
-                                        data-placeholder="District !" onblur="checkValidation('subletting', 'district', districtValidationMessage);">
-                                    <option value="">Select District</option>
-                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli </option>
+                               <select id="district" name="district" class="form-control select2"
+                                        data-placeholder="Select District" style="width: 100%;">  
                                 </select>
                             </div>
                             <span class="error-message error-message-subletting-district"></span>   

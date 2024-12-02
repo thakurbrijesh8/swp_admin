@@ -66,7 +66,9 @@
                         <div class="form-group col-sm-6">
                             <label>4. District <span class="color-nic-red">*</span></label>
                             <div class="input-group">
-                                <input type="text" id="district" name="district" class="form-control" placeholder="District. !"  value="{{district}}" disabled="">
+                                <select id="district" name="district" class="form-control select2" disabled=""
+                                        data-placeholder="Select District" style="width: 100%;">  
+                                </select>
                             </div>
                             <span class="error-message error-message-subletting-district"></span>
 

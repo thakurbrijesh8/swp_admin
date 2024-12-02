@@ -25,3 +25,5 @@
 <form target="_blank" id="subletting_certificate_pdf_form" action="subletting/generate_certificate" method="post">
     <input type="hidden" id="subletting_id_for_certificate" name="subletting_id_for_certificate">
 </form>
+<form target="_blank" id="generate_excel_for_subletting" action="subletting/generate_excel" method="post">
+</form>

@@ -1,14 +1,23 @@
 <div class="card">
+    <div class="card-header">
+        {{{s_display_text}}}
+        <button type="button" class="btn btn-sm btn-success pull-right" style="padding: 2px 7px;"
+                onclick="$('#generate_excel_for_noc').submit();">
+            <i class="fas fa-file-excel" style="margin-right: 2px;"></i>&nbsp; Download Excel</button>
+    </div>
     <div class="card-body" id="noc_datatable_container">
         <div class="table-responsive">
             <table id="noc_datatable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="bg-light-gray">
                         <th class="text-center" style="width: 30px;">No.</th>
-                        <th class="text-center" style="width: 100px;">Application Number</th>
+                        <th class="text-center" style="width: 100px;">Application Number
+                            <?php if (is_admin() || is_view_all_district_user()) { ?>
+                                <hr>District
+                            <?php } ?></th>
                         <th class="text-center" style="width: 30px;">Entity / Establishment Type</th>
-                        <th class="text-center" style="min-width: 120px;">Applicant Name</th>
-                        <th class="text-center" style="min-width: 120px;">Name</th>
+                        <th class="text-center" style="min-width: 120px;">Registered User</th>
+                        <th class="text-center" style="min-width: 120px;">Applicant Details</th>
                         <th class="text-center" style="min-width: 120px;">Survey No</th>
                         <th class="text-center" style="min-width: 120px;">Government Industrial Estate</th>
                         <th class="text-center" style="min-width: 80px;">Submitted On</th>
@@ -17,14 +26,50 @@
                         <th class="text-center" style="width: 50px;">Action</th>
                     </tr>
                     <tr>
-                        <th colspan="8"></th>
+                        <th></th>
+                        <th>
+                            <?php if (is_admin() || is_view_all_district_user()) { ?>
+                                <select id="district_for_noc_list" class="form-control"
+                                        data-placeholder="District !">
+                                    <option value="">All</option>
+                                </select>
+                            <?php } ?>
+                        </th>
+                        <th>
+                            <select id="entity_establishment_type_for_noc_list" class="form-control"
+                                    data-placeholder="Entity / Establishment Type !">
+                                <option value="">All</option>
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" placeholder="User Name or Mobile Number" />
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" placeholder="Applicant Name" />
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" placeholder="Survey Number" />
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" placeholder="Government Industrial Estate" />
+                        </th>
+                        <th>
+                            <select id="app_timing_for_noc_list" class="form-control">
+                                <option value="">All</option>
+                            </select>
+                        </th>
                         <th>
                             <select id="status_for_noc_list" class="form-control"
                                     data-placeholder="Status !">
                                 <option value="">All</option>
                             </select>
                         </th>
-                        <th></th>
+                        <th>
+                            <select id="query_status_for_noc_list" class="form-control"
+                                    data-placeholder="Query Status!">
+                                <option value="">All</option>
+                            </select>
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
