@@ -337,7 +337,7 @@ FilmShooting.listView = Backbone.View.extend({
             }
         });
     },
-    viewFilmShootingForm: function (parseData) {
+    viewFilmShootingForm: function (parseData, isPrint) {
         var that = this;
         var templateData = {};
         if (!tempIdInSession || tempIdInSession == null) {
@@ -349,54 +349,78 @@ FilmShooting.listView = Backbone.View.extend({
             return false;
         }
         var formData = parseData.filmshooting_data;
-
         FilmShooting.router.navigate('view_filmshooting_form');
+        formData.application_number = regNoRenderer(VALUE_TWENTYTWO, formData.filmshooting_id);
+        formData.district_text = talukaArray[formData.district] ? talukaArray[formData.district] : '';
+        formData.entity_establishment_type = entityEstablishmentTypeArray[formData.entity_establishment_type] ? entityEstablishmentTypeArray[formData.entity_establishment_type] : '';
         formData.shooting_date_time = dateTo_DD_MM_YYYY(formData.shooting_date_time);
+        if (formData.dob == 'NaN-NaN-NaN') {
+            formData.dob = '';
+         }
+        formData.title = 'View'
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
-        $('#filmshooting_form_and_datatable_container').html(filmShootingViewTemplate(formData));
+        formData.FILMSHOOTING_DOC_PATH = FILMSHOOTING_DOC_PATH;  
+        formData.VALUE_TWO = VALUE_TWO;
+        formData.VALUE_THREE = VALUE_THREE;
+        formData.VALUE_FOUR = VALUE_FOUR;  
+        formData.show_declaration = formData.declaration != '' ? true : false;
+        formData.show_producer_signature = formData.producer_signature != '' ? true : false;
+        formData.show_authorized_representative_sign = formData.authorized_representative_sign != '' ? true : false;
+        formData.show_seal_of_company = formData.seal_of_company != '' ? true : false;
+        formData.show_witness_one_sign = formData.witness_one_sign != '' ? true : false;
+        formData.show_witness_two_sign = formData.witness_two_sign != '' ? true : false;
+        //$('#filmshooting_form_and_datatable_container').html(filmShootingViewTemplate(formData));
+        showPopup();
+        $('.swal2-popup').css('width', '45em');
+        $('#popup_container').html(filmShootingViewTemplate(formData));
 
-        showFormContainer('filmshooting');
-        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
-        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
-        $('#district').val(formData.district);
-        $('#entity_establishment_type').val(formData.entity_establishment_type);
+        //showFormContainer('filmshooting');
+        // renderOptionsForTwoDimensionalArray(talukaArray, 'district');
+        // renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
+        // $('#district').val(formData.district);
+        // $('#entity_establishment_type').val(formData.entity_establishment_type);
 
-        if (formData.declaration != '') {
-            $('#declaration_container_for_filmshooting').hide();
-            $('#declaration_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.declaration);
-            $('#declaration_name_container_for_filmshooting').show();
+        // if (formData.declaration != '') {
+        //     $('#declaration_container_for_filmshooting').hide();
+        //     $('#declaration_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.declaration);
+        //     $('#declaration_name_container_for_filmshooting').show();
 
-            $('#declaration_name_image_for_filmshooting_download').attr("href", FILMSHOOTING_DOC_PATH + formData.declaration);
-        }
-        if (formData.producer_signature != '') {
-            $('#producer_signature_container_for_filmshooting').hide();
-            $('#producer_signature_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.producer_signature);
-            $('#producer_signature_name_container_for_filmshooting').show();
-            $('#producer_signature_download').attr("href", FILMSHOOTING_DOC_PATH + formData.producer_signature);
-        }
-        if (formData.authorized_representative_sign != '') {
-            $('#authorized_representative_sign_container_for_filmshooting').hide();
-            $('#authorized_representative_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.authorized_representative_sign);
-            $('#authorized_representative_sign_name_container_for_filmshooting').show();
-            $('#authorized_representative_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.authorized_representative_sign);
-        }
-        if (formData.seal_of_company != '') {
-            $('#seal_of_company_container_for_filmshooting').hide();
-            $('#seal_of_company_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.seal_of_company);
-            $('#seal_of_company_name_container_for_filmshooting').show();
-            $('#seal_of_company_download').attr("href", FILMSHOOTING_DOC_PATH + formData.seal_of_company);
-        }
-        if (formData.witness_one_sign != '') {
-            $('#witness_one_sign_container_for_filmshooting').hide();
-            $('#witness_one_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.witness_one_sign);
-            $('#witness_one_sign_name_container_for_filmshooting').show();
-            $('#witness_one_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.witness_one_sign);
-        }
-        if (formData.witness_two_sign != '') {
-            $('#witness_two_sign_container_for_filmshooting').hide();
-            $('#witness_two_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.witness_two_sign);
-            $('#witness_two_sign_name_container_for_filmshooting').show();
-            $('#witness_two_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.witness_two_sign);
+        //     $('#declaration_name_image_for_filmshooting_download').attr("href", FILMSHOOTING_DOC_PATH + formData.declaration);
+        // }
+        // if (formData.producer_signature != '') {
+        //     $('#producer_signature_container_for_filmshooting').hide();
+        //     $('#producer_signature_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.producer_signature);
+        //     $('#producer_signature_name_container_for_filmshooting').show();
+        //     $('#producer_signature_download').attr("href", FILMSHOOTING_DOC_PATH + formData.producer_signature);
+        // }
+        // if (formData.authorized_representative_sign != '') {
+        //     $('#authorized_representative_sign_container_for_filmshooting').hide();
+        //     $('#authorized_representative_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.authorized_representative_sign);
+        //     $('#authorized_representative_sign_name_container_for_filmshooting').show();
+        //     $('#authorized_representative_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.authorized_representative_sign);
+        // }
+        // if (formData.seal_of_company != '') {
+        //     $('#seal_of_company_container_for_filmshooting').hide();
+        //     $('#seal_of_company_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.seal_of_company);
+        //     $('#seal_of_company_name_container_for_filmshooting').show();
+        //     $('#seal_of_company_download').attr("href", FILMSHOOTING_DOC_PATH + formData.seal_of_company);
+        // }
+        // if (formData.witness_one_sign != '') {
+        //     $('#witness_one_sign_container_for_filmshooting').hide();
+        //     $('#witness_one_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.witness_one_sign);
+        //     $('#witness_one_sign_name_container_for_filmshooting').show();
+        //     $('#witness_one_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.witness_one_sign);
+        // }
+        // if (formData.witness_two_sign != '') {
+        //     $('#witness_two_sign_container_for_filmshooting').hide();
+        //     $('#witness_two_sign_name_image_for_filmshooting').attr('src', FILMSHOOTING_DOC_PATH + formData.witness_two_sign);
+        //     $('#witness_two_sign_name_container_for_filmshooting').show();
+        //     $('#witness_two_sign_download').attr("href", FILMSHOOTING_DOC_PATH + formData.witness_two_sign);
+        // }
+        if (isPrint) {
+            setTimeout(function () {
+                $('#pa_btn_for_icview').click();
+            }, 500);
         }
 
     },

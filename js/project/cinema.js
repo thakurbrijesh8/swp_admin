@@ -380,60 +380,58 @@ Cinema.listView = Backbone.View.extend({
         }
         var formData = parseData.cinema_data;
         Cinema.router.navigate('view_cinema_form');
-        formData.dob = dateTo_DD_MM_YYYY(formData.dob);
+        formData.title = 'View'
         formData.VIEW_UPLODED_DOCUMENT = VIEW_UPLODED_DOCUMENT;
-        showFormContainer('cinema');
-        $('#cinema_form_container').html(cinemaViewTemplate(formData));
-        renderOptionsForTwoDimensionalArray(talukaArray, 'district');
-        renderOptionsForTwoDimensionalArray(entityEstablishmentTypeArray, 'entity_establishment_type');
+        formData.CINEMA_DOC_PATH = CINEMA_DOC_PATH;  
+        formData.VALUE_TWO = VALUE_TWO;
+        formData.VALUE_THREE = VALUE_THREE;
+        formData.VALUE_FOUR = VALUE_FOUR;
+        formData.VALUE_FIVE = VALUE_FIVE;
+        formData.VALUE_SEVEN = VALUE_SEVEN;
+        formData.VALUE_SIX = VALUE_SIX;
+        formData.VALUE_EIGHT = VALUE_EIGHT;      
+        formData.district_text = talukaArray[formData.district] ? talukaArray[formData.district] : '';
+        formData.entity_establishment_type = entityEstablishmentTypeArray[formData.entity_establishment_type] ? entityEstablishmentTypeArray[formData.entity_establishment_type] : '';
+        formData.dob = dateTo_DD_MM_YYYY(formData.dob);
+        if (formData.dob == 'NaN-NaN-NaN') {
+           formData.dob = '';
+        }
         $('#district').val(formData.district);
-        $('#entity_establishment_type').val(formData.entity_establishment_type);
-        if (formData.is_case_of_building == isChecked) {
-            $('#is_case_of_building').attr('checked', 'checked');
-            $('.building_details_div').show();
-            if (formData.plan_of_building_document != '') {
-                $('#plan_of_building_document_container').hide();
-                $('#plan_of_building_document_name_image').attr('src', CINEMA_DOC_PATH + formData.plan_of_building_document);
-                $('#plan_of_building_document_name_container').show();
-                $('#plan_of_building_document_download').attr("href", CINEMA_DOC_PATH + formData.plan_of_building_document);
+       $('#entity_establishment_type').val(formData.entity_establishment_type);
+       if (formData.is_case_of_building == isChecked) {
+           formData.show_bd_div = true;
+       }
+       formData.application_number = regNoRenderer(VALUE_EIGHT, formData.cinema_id);
+       formData.show_plan_of_building_document = formData.plan_of_building_document != '' ? true : false;
+       formData.show_character_licence_certificate = formData.character_licence_certificate != '' ? true : false;
+       formData.show_photo_state_copy = formData.photo_state_copy != '' ? true : false;
+       formData.show_ownership_document = formData.ownership_document != '' ? true : false;   
+       formData.show_motor_vehicles_document = formData.motor_vehicles_document != '' ? true : false;   
+       formData.show_business_trade_authority_license = formData.business_trade_authority_license != '' ? true : false;
+       formData.show_signature = formData.signature != '' ? true : false;          
+       
+        showPopup();
+       $('.swal2-popup').css('width', '45em');
+       $('#popup_container').html(cinemaViewTemplate(formData));
+
+       if (formData.is_case_of_building == isChecked) {
+        $('#is_case_of_building').attr('checked', 'checked');
+        $('.building_details_div').show();
+        } 
+
+        // if (formData.signature != '') {
+        // $('#seal_and_stamp_container_for_cinema').hide();
+        // $('#seal_and_stamp_name_image_for_cinema').attr('src', CINEMA_DOC_PATH + formData.signature);
+        // $('#seal_and_stamp_name_container_for_cinema').show();
+        // $('#seal_and_stamp_download').attr("href", CINEMA_DOC_PATH + formData.signature);
+        // }        
+        generateSelect2();
+        datePicker();
+        $('#cinema_form').find('input').keypress(function (e) {
+            if (e.which == 13) {
+                that.submitCinema($('#submit_btn_for_cinema'));
             }
-            if (formData.character_licence_certificate != '') {
-                $('#character_licence_certificate_container').hide();
-                $('#character_licence_certificate_name_image').attr('src', CINEMA_DOC_PATH + formData.character_licence_certificate);
-                $('#character_licence_certificate_name_container').show();
-                $('#character_licence_certificate_download').attr("href", CINEMA_DOC_PATH + formData.character_licence_certificate);
-            }
-            if (formData.photo_state_copy != '') {
-                $('#photo_state_copy_container').hide();
-                $('#photo_state_copy_name_image').attr('src', CINEMA_DOC_PATH + formData.photo_state_copy);
-                $('#photo_state_copy_name_container').show();
-                $('#photo_state_copy_download').attr("href", CINEMA_DOC_PATH + formData.photo_state_copy);
-            }
-            if (formData.ownership_document != '') {
-                $('#ownership_document_container').hide();
-                $('#ownership_document_name_image').attr('src', CINEMA_DOC_PATH + formData.ownership_document);
-                $('#ownership_document_name_container').show();
-                $('#ownership_document_download').attr("href", CINEMA_DOC_PATH + formData.ownership_document);
-            }
-            if (formData.motor_vehicles_document != '') {
-                $('#motor_vehicles_document_container').hide();
-                $('#motor_vehicles_document_name_image').attr('src', CINEMA_DOC_PATH + formData.motor_vehicles_document);
-                $('#motor_vehicles_document_name_container').show();
-                $('#motor_vehicles_document_download').attr("href", CINEMA_DOC_PATH + formData.motor_vehicles_document);
-            }
-        }
-        if (formData.signature != '') {
-            $('#seal_and_stamp_container_for_cinema').hide();
-            $('#seal_and_stamp_name_image_for_cinema').attr('src', CINEMA_DOC_PATH + formData.signature);
-            $('#seal_and_stamp_name_container_for_cinema').show();
-            $('#seal_and_stamp_download').attr("href", CINEMA_DOC_PATH + formData.signature);
-        }
-        if (formData.business_trade_authority_license != '') {
-            $('#business_trade_authority_license_container').hide();
-            $('#business_trade_authority_license_name_image').attr('src', CINEMA_DOC_PATH + formData.business_trade_authority_license);
-            $('#business_trade_authority_license_name_container').show();
-            $('#business_trade_authority_license_download').attr("href", CINEMA_DOC_PATH + formData.business_trade_authority_license);
-        }
+        });
     },
     checkValidationForCinema: function (cinemaData) {
         if (!tempIdInSession || tempIdInSession == null) {
@@ -1275,4 +1273,12 @@ Cinema.listView = Backbone.View.extend({
             }
         });
     },
+    showDocument: function (containerHideId, documentSrcPathId, containerShowId, documenthrefPathId, removeDocumentBtnId, dbDocumentFieldName, dbDocumentFieldId, VALUE) {
+        $('#' + containerHideId).hide();
+        $('#' + documentSrcPathId).attr('src', baseUrl + 'documents/cinema/' + dbDocumentFieldName);
+        $('#' + containerShowId).show();
+        $('#' + documenthrefPathId).attr("href", baseUrl + 'documents/cinema/' + dbDocumentFieldName);
+        $('#' + removeDocumentBtnId).attr('onclick', 'Cinema.listview.askForRemove("' + dbDocumentFieldId + '","' + VALUE + '")');
+    },
+    
 });

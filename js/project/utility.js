@@ -469,6 +469,17 @@ function datePicker() {
     });
     dateChangeEvent();
 }
+function datetimePicker() {
+    $('.datetimepicker').datetimepicker({
+        format: 'DD-MM-YYYY HH:mm'
+    });
+    // $('.datetimepicker').datetimepicker();
+}
+function timePicker() {
+    $('.timepicker').datetimepicker({
+        format: 'LT'
+    })
+}
 
 function startDateEndDateFunctionality(startDateId, endDateId) {
     $('#' + startDateId).datetimepicker();
@@ -2764,3 +2775,4 @@ function showUpladForWcReject(reasonRejectionId, id, moduleName) {
         $('#' + id + '_for_' + moduleName).hide();
     }
 }
+

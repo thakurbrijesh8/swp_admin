@@ -73,8 +73,8 @@ define('VERSION', 'v=1.1.84');
 
 //define('GS_PATH', "C:\Program Files\gs\gs9.55.0\bin\gswin64c");
 define('GS_PATH', "gs");
-define('PROJECT_PATH', 'https://swp.dddgov.in/');
-//define('PROJECT_PATH', 'http://localhost:90/swp/');
+//define('PROJECT_PATH', 'https://swp.dddgov.in/');
+define('PROJECT_PATH', 'http://localhost:90/swp/');
 
 define('DOC_PATH', PROJECT_PATH . 'documents/');
 define('REPAIRER_DOC_PATH', DOC_PATH . 'repairer/');

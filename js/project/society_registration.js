@@ -549,9 +549,6 @@ SocietyRegistration.listView = Backbone.View.extend({
                     $('#letter_name_for_society_registration_upload_letter').html(societyRegistrationData.letter);
                     $('#letter_remove_btn_for_society_registration_upload_letter').attr('onclick', 'SocietyRegistration.listview.removeLetter("' + societyRegistrationData.society_registration_id + '")');
                 } else {
-//                      console.log('tets');
-//                    societyRegistrationData.show_submit_upload_btn = true;
-//                    $('#ul_container_for_society_registration_upload_letter').show();
                 }
             }
         });

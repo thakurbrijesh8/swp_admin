@@ -59,8 +59,10 @@
     <div id="m_doc_container_for_{{module_type}}_view"></div>
     <div id="m_other_doc_container_for_{{module_type}}_view"></div>
 </div>
-<div class="card-footer text-right">
-    <button type="button" class="btn btn-sm btn-danger" onclick="Swal.close();">
-        <i class="fas fa-times"></i> &nbsp; Close
+<hr class="m-b-1rem">
+<div class="form-group button-right text-right">
+    <button type="button" class="btn btn-sm btn-danger " onclick="window.print();" id="pa_btn_for_icview">
+        <i class="fas fa-file-pdf mr-1"></i> Print Application
     </button>
+    <button type="button" class="btn btn-sm btn-danger " onclick="Swal.close();"><i class="fas fa-times"></i>&nbsp; Close</button>
 </div>
